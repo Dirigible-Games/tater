@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>tater bottles all day</title>
+  <title>Barrel Roll — Bourbon Gacha</title>
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#1a0f00" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -709,7 +709,7 @@
 <body>
 
 <header>
-  <div class="logo">TATER'S <span>TREASURES</span></div>
+  <div class="logo">Barrel <span>Roll</span></div>
   <div class="hud">
     <div class="ticket-counter">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -830,7 +830,7 @@
       <div class="item-stat"><span class="stat-label">Est. MSRP</span><span class="stat-val" id="item-msrp">—</span></div>
     </div>
     <div class="legendary-text">✦ wow, what an onion ✦</div>
-    <button class="btn-next" onclick="closeReveal()">Next ›</button>
+    <button class="btn-next" id="card-close-btn" onclick="closeReveal()">Next ›</button>
   </div>
 </div>
 
@@ -1073,6 +1073,10 @@ function closeReveal() {
   stopParticles();
   resetBarrelAnim();
   isAnimating = false;
+  // Always restore default button state
+  const btn = document.getElementById('card-close-btn');
+  btn.textContent = 'Next ›';
+  btn.onclick = closeReveal;
   refreshHUD();
 }
 
@@ -1168,6 +1172,7 @@ function renderInventory() {
   sorted.forEach(item => {
     const div = document.createElement('div');
     div.className = 'inv-item ' + item.rarity;
+    div.style.cursor = 'pointer';
     div.innerHTML = `
       ${item.count > 1 ? `<div class="inv-count">×${item.count}</div>` : ''}
       <div class="i-icon">${makeBottleSVG(item, 80)}</div>
@@ -1175,11 +1180,54 @@ function renderInventory() {
       <div class="i-proof">${item.proof} pf</div>
       <div class="i-msrp">~$${item.msrp.toLocaleString()}</div>
     `;
+    div.addEventListener('click', () => {
+      closeInventory();
+      inspectItem(item);
+    });
     grid.appendChild(div);
   });
 }
 
-function confirmReset() {
+// ── Inspect item from inventory ────────────────────────
+function inspectItem(item) {
+  const overlay = document.getElementById('overlay');
+  const card    = document.getElementById('item-card');
+
+  const rarityLabel = item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1);
+  document.getElementById('rarity-badge').textContent = rarityLabel;
+  document.getElementById('item-icon').innerHTML      = makeBottleSVG(item, 120);
+  document.getElementById('item-name').textContent    = item.name;
+  document.getElementById('item-proof').textContent   = item.proof + ' pf';
+  document.getElementById('item-msrp').textContent    = '~$' + item.msrp.toLocaleString();
+  document.getElementById('card-close-btn').textContent = '‹ Back to Cellar';
+
+  card.className = 'item-card ' + item.rarity;
+
+  overlay.classList.add('active');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      card.style.display   = 'flex';
+      card.style.transform = 'scale(0.7)';
+      card.style.opacity   = '0';
+      setTimeout(() => {
+        card.style.transform = 'scale(1)';
+        card.style.opacity   = '1';
+      }, 30);
+      card.classList.add('show');
+    });
+  });
+
+  if (item.rarity === 'legendary') spawnParticles();
+
+  // Override close to return to inventory instead of resuming game
+  document.getElementById('card-close-btn').onclick = () => {
+    closeReveal();
+    openInventory();
+    // Restore close button for roll reveals
+    document.getElementById('card-close-btn').textContent = 'Next ›';
+    document.getElementById('card-close-btn').onclick = closeReveal;
+  };
+}
   if (confirm('Reset your entire account? This will clear your cellar and restore 5,000 tickets.')) {
     state = JSON.parse(JSON.stringify(DEFAULT_STATE));
     saveState();
