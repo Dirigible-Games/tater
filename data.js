@@ -1112,32 +1112,109 @@ window.DB = (function () {
     const tFinish = pick(tone.finish);
     const closer  = pick(tone.closers);
 
-    const good = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
-    const bad  = toneKey === 'terrible' || toneKey === 'poor';
+    const good    = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
+    const bad     = toneKey === 'terrible' || toneKey === 'poor';
+    const mediocre = toneKey === 'below' || toneKey === 'average';
 
-    // Modifier notes — tone-aware
+    // Modifier notes — full tone spectrum
     let modNote = '';
     if (processMod) {
       const k = processMod.key;
-      if (k === 'Single Barrel')   modNote = good ? 'Single barrel character shines through with real distinction here. '         : bad ? 'The single barrel variance exposes flaws rather than flattering them. ' : 'Single barrel character gives this a distinctive edge. ';
-      if (k === 'Small Batch')     modNote = good ? 'Small batch blending achieves an impressive and cohesive harmony. '           : bad ? 'The small batch blend never finds its footing. ' : 'Small batch blending adds a layer of consistency. ';
-      if (k === 'Bottled-in-Bond') modNote = good ? 'The bonded bottling lends this honest, well-structured authority. '           : bad ? 'Even the bonded bottling standard cannot rescue the base distillate. ' : 'Bottled-in-bond discipline is evident throughout. ';
-      if (k === 'Full Proof')      modNote = good ? 'Bottled at full barrel proof, this rewards with undiluted authority and honesty. ' : bad ? 'The uncut proof amplifies every flaw rather than hiding them. ' : 'Bottled at full barrel proof — nothing held back. ';
-      if (k === 'Double Oaked')    modNote = good ? 'The double oaking has contributed remarkable structural depth and complexity. ' : bad ? 'The second barrel has over-extracted badly, leaving bitterness in place of depth. ' : 'A second barrel maturation doubles the oak influence throughout. ';
-      if (k === 'French Oaked')    modNote = good ? 'French oak finishing has introduced a quietly sophisticated, exotic elegance. ' : bad ? 'The French oak influence feels mismatched and out of place here. ' : 'French oak finishing contributes a subtle and distinct elegance. ';
+      if (k === 'Single Barrel') {
+        modNote = good    ? 'Single barrel character shines through with real distinction here. '
+                : bad     ? 'The single barrel variance exposes flaws rather than flattering them. '
+                : mediocre ? pick([
+                    'Single barrel variation is present, though it doesn\'t work in this bottle\'s favor. ',
+                    'The single barrel character is detectable but unremarkable. ',
+                    'Single barrel bottling adds individuality — not necessarily quality here. ',
+                  ])
+                : 'Single barrel character gives this a distinctive edge. ';
+      }
+      if (k === 'Small Batch') {
+        modNote = good    ? 'Small batch blending achieves an impressive and cohesive harmony. '
+                : bad     ? 'The small batch blend never finds its footing. '
+                : mediocre ? pick([
+                    'The small batch blend is consistent, for whatever that\'s worth here. ',
+                    'Small batch blending evens things out without elevating them. ',
+                    'The blending is tidy, but tidiness is about the best that can be said. ',
+                  ])
+                : 'Small batch blending adds a layer of consistency. ';
+      }
+      if (k === 'Bottled-in-Bond') {
+        modNote = good    ? 'The bonded bottling lends this honest, well-structured authority. '
+                : bad     ? 'Even the bonded bottling standard cannot rescue the base distillate. '
+                : mediocre ? pick([
+                    'Bottled-in-bond discipline is evident, though the base spirit doesn\'t reward the standard. ',
+                    'The bonded standard is met, though meeting it is all this achieves. ',
+                    'Bonded credentials on paper, middling results in the glass. ',
+                  ])
+                : 'Bottled-in-bond discipline is evident throughout. ';
+      }
+      if (k === 'Full Proof') {
+        modNote = good    ? 'Bottled at full barrel proof, this rewards with undiluted authority and honesty. '
+                : bad     ? 'The uncut proof amplifies every flaw rather than hiding them. '
+                : mediocre ? pick([
+                    'Full proof bottling means nothing is hidden — including the shortcomings. ',
+                    'Barrel strength without dilution, though what\'s revealed isn\'t particularly flattering. ',
+                    'At full proof, there\'s nowhere to hide, and this doesn\'t quite have enough to show. ',
+                  ])
+                : 'Bottled at full barrel proof — nothing held back. ';
+      }
+      if (k === 'Double Oaked') {
+        modNote = good    ? 'The double oaking has contributed remarkable structural depth and complexity. '
+                : bad     ? 'The second barrel has over-extracted badly, leaving bitterness in place of depth. '
+                : mediocre ? pick([
+                    'Double oaking doesn\'t seem to add much that the base spirit couldn\'t have done without. ',
+                    'A second barrel maturation, though the added oak influence is underwhelming. ',
+                    'The double oak treatment is detectable but doesn\'t lift this meaningfully. ',
+                  ])
+                : 'A second barrel maturation doubles the oak influence throughout. ';
+      }
+      if (k === 'French Oaked') {
+        modNote = good    ? 'French oak finishing has introduced a quietly sophisticated, exotic elegance. '
+                : bad     ? 'The French oak influence feels mismatched and out of place here. '
+                : mediocre ? pick([
+                    'French oak finishing is present on paper, though it contributes little of note. ',
+                    'The French oak influence is subtle to the point of being nearly undetectable. ',
+                    'An interesting finishing choice that doesn\'t quite justify itself in the glass. ',
+                  ])
+                : 'French oak finishing contributes a subtle and distinct elegance. ';
+      }
     }
 
-    // Age notes — tone-aware, more elaborate at high tones
+    // Age notes — full tone spectrum
     let ageNote = '';
     if (ageMod) {
       const y = ageMod.years;
-      ageNote = toneKey === 'perfect' || toneKey === 'excellent'
-        ? (y >= 12 ? `${y} years of patient maturation have rewarded this spirit with extraordinary depth. ` : `${y} years has given this spirit a genuine and admirable polish. `)
-        : toneKey === 'good'
-        ? (y >= 12 ? `${y} years of careful aging have clearly paid off. ` : `${y} years of oak integration have rounded this out nicely. `)
-        : bad
-        ? (y >= 12 ? `Despite ${y} years in barrel, time has not tamed its considerable rough edges. ` : `${y} years was not enough to bring this into proper shape. `)
-        : (y >= 12 ? `${y} years of patience are evident in every sip. ` : `${y} years of oak integration have mellowed the spirit. `);
+      if (toneKey === 'perfect' || toneKey === 'excellent') {
+        ageNote = y >= 12
+          ? `${y} years of patient maturation have rewarded this spirit with extraordinary depth. `
+          : `${y} years has given this spirit a genuine and admirable polish. `;
+      } else if (toneKey === 'good') {
+        ageNote = y >= 12
+          ? `${y} years of careful aging have clearly paid off. `
+          : `${y} years of oak integration have rounded this out nicely. `;
+      } else if (bad) {
+        ageNote = y >= 12
+          ? `Despite ${y} years in barrel, time has not tamed its considerable rough edges. `
+          : `${y} years was not enough to bring this into proper shape. `;
+      } else if (mediocre) {
+        // below / average — aging is present but unremarkable or wasted
+        ageNote = pick(y >= 12 ? [
+          `${y} years of aging are largely invisible here. `,
+          `${y} years in barrel and the results are surprisingly modest. `,
+          `Time has been spent — ${y} years of it — without much to show for it in the glass. `,
+          `${y} years of maturation that neither elevates nor defines this spirit. `,
+        ] : [
+          `${y} years of aging doesn't seem to have done this any particular favors. `,
+          `${y} years in wood, though the oak influence is unremarkable at best. `,
+          `${y} years that mellowed things without adding much of interest. `,
+        ]);
+      } else {
+        ageNote = y >= 12
+          ? `${y} years of patience are evident in every sip. `
+          : `${y} years of oak integration have mellowed the spirit. `;
+      }
     }
 
     // Value commentary

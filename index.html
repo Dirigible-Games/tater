@@ -1114,7 +1114,7 @@
 <!-- Toast -->
 <div id="toast"></div>
 
-<script src="data.js?v=5"></script>
+<script src="data.js?v=6"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 //  BARREL ROLL — MAIN GAME LOGIC
@@ -1555,7 +1555,7 @@ function showToast(msg) {
 // ── PWA Service Worker ─────────────────────────────────
 if ('serviceWorker' in navigator) {
   const swCode = `
-    const CACHE = 'barrelroll-v5';
+    const CACHE = 'barrelroll-v6';
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html', './data.js'])));
     });
