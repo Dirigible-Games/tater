@@ -768,6 +768,8 @@ function saveState() {
 // ═══════════════════════════════════════
 //  UI init
 // ═══════════════════════════════════════
+let isAnimating = false;
+
 function refreshHUD() {
   document.getElementById('ticket-display').textContent = state.tickets.toLocaleString();
   document.getElementById('roll-btn').disabled = (state.tickets < 1 || isAnimating);
@@ -777,7 +779,6 @@ refreshHUD();
 // ═══════════════════════════════════════
 //  ROLL logic
 // ═══════════════════════════════════════
-let isAnimating = false;
 
 function pickRarity() {
   const total = Object.values(WEIGHTS).reduce((a,b)=>a+b,0);
