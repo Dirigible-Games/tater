@@ -156,25 +156,25 @@
       height: 100%;
     }
 
-    /* Left and right door panels — each clips to half the doorway */
+    /* Left and right door panels — overlay SVGs that slide off sideways */
     .door-left, .door-right {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       pointer-events: none;
-      overflow: visible;
+      overflow: hidden;
     }
 
-    @keyframes door-open-left {
-      0%   { transform: scaleX(1);   transform-origin: left center; }
-      100% { transform: scaleX(0.08); transform-origin: left center; }
+    @keyframes door-slide-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-26%); }
     }
-    @keyframes door-open-right {
-      0%   { transform: scaleX(1);   transform-origin: right center; }
-      100% { transform: scaleX(0.08); transform-origin: right center; }
+    @keyframes door-slide-right {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(26%); }
     }
-    .door-left.opening  { animation: door-open-left  .55s cubic-bezier(.4,0,.2,1) forwards; }
-    .door-right.opening { animation: door-open-right .55s cubic-bezier(.4,0,.2,1) forwards; }
+    .door-left.opening  { animation: door-slide-left  .6s cubic-bezier(.4,0,.2,1) forwards; }
+    .door-right.opening { animation: door-slide-right .6s cubic-bezier(.4,0,.2,1) forwards; }
 
     /* Bottle emerging from store — scales up and moves down toward viewer */
     .bottle-emerge {
@@ -932,27 +932,77 @@
         <rect x="240" y="178" width="80" height="5" rx="1" fill="#5a3818"/>
         <line x1="246" y1="95" x2="246" y2="175" stroke="rgba(255,255,255,.08)" stroke-width="3"/>
 
-        <!-- ── DOOR FRAME ── -->
-        <rect x="122" y="96" width="96" height="122" rx="3" fill="#3a2410"/>
-        <!-- Door interior (warm glow behind the doors) -->
-        <rect id="door-interior-rect" x="126" y="100" width="88" height="115" fill="url(#door-interior)" opacity="0"/>
+        <!-- ── DOOR INTERIOR: SHELF SCENE (always visible, doors slide over it) ── -->
+        <!-- Deep store background -->
+        <rect x="126" y="100" width="88" height="115" fill="#1a0e06"/>
+        <!-- Back wall warm light wash -->
+        <rect x="126" y="100" width="88" height="115" fill="url(#door-interior)" opacity="1"/>
 
-        <!-- ── NEON SIGN above door ── -->
-        <rect x="136" y="82" width="68" height="14" rx="3" fill="#1a0808" stroke="#8b1a1a" stroke-width="1"/>
-        <text x="170" y="93" font-family="'Libre Baskerville',Georgia,serif" font-size="8.5"
-              fill="#ff6060" text-anchor="middle" letter-spacing="1.5"
-              filter="url(#neon-blur)" opacity=".9">OPEN</text>
+        <!-- Floor perspective lines receding to center -->
+        <line x1="126" y1="215" x2="170" y2="190" stroke="#3a2008" stroke-width=".8" opacity=".4"/>
+        <line x1="214" y1="215" x2="170" y2="190" stroke="#3a2008" stroke-width=".8" opacity=".4"/>
 
-        <!-- ── DOOR PANELS (drawn last so they overlap frame) ── -->
-        <!-- Left door panel (solid, will scale-close left) -->
-        <rect id="door-l" x="126" y="100" width="44" height="115" fill="#5c3818" stroke="#3a2008" stroke-width="1"/>
-        <line x1="148" y1="105" x2="148" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
-        <circle cx="164" cy="157" r="4" fill="#c8a040"/><!-- left door handle -->
+        <!-- BACK SHELF (top) -->
+        <rect x="130" y="110" width="80" height="4" rx="1" fill="#4a2e10"/>
+        <!-- Bottles on back shelf -->
+        <rect x="133" y="100" width="5"  height="10" rx="1" fill="#c87020" opacity=".9"/>
+        <rect x="140" y="102" width="6"  height="8"  rx="1" fill="#8b4010" opacity=".85"/>
+        <rect x="148" y="100" width="5"  height="10" rx="1" fill="#d49020" opacity=".9"/>
+        <rect x="155" y="101" width="7"  height="9"  rx="1" fill="#a05018" opacity=".85"/>
+        <rect x="164" y="100" width="5"  height="10" rx="1" fill="#c87020" opacity=".9"/>
+        <rect x="171" y="102" width="6"  height="8"  rx="1" fill="#804010" opacity=".8"/>
+        <rect x="179" y="100" width="5"  height="10" rx="1" fill="#d4901c" opacity=".9"/>
+        <rect x="186" y="101" width="6"  height="9"  rx="1" fill="#c06018" opacity=".85"/>
+        <rect x="194" y="100" width="5"  height="10" rx="1" fill="#a84818" opacity=".9"/>
+        <!-- Shelf shadow -->
+        <rect x="130" y="114" width="80" height="2" fill="#0d0700" opacity=".4"/>
 
-        <!-- Right door panel -->
-        <rect id="door-r" x="170" y="100" width="44" height="115" fill="#5c3818" stroke="#3a2008" stroke-width="1"/>
-        <line x1="192" y1="105" x2="192" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
-        <circle cx="176" cy="157" r="4" fill="#c8a040"/><!-- right door handle -->
+        <!-- MIDDLE SHELF -->
+        <rect x="128" y="142" width="84" height="5" rx="1" fill="#4a2e10"/>
+        <!-- Bottles on middle shelf — slightly larger, more variety -->
+        <rect x="131" y="126" width="7"  height="16" rx="2" fill="#d4901c" opacity=".9"/>
+        <rect x="131" y="124" width="4"  height="4"  rx="1" fill="#b07020" opacity=".8"/><!-- cap -->
+        <rect x="140" y="124" width="8"  height="18" rx="2" fill="#8b3c10" opacity=".9"/>
+        <rect x="140" y="122" width="5"  height="4"  rx="1" fill="#6b2808" opacity=".8"/>
+        <rect x="150" y="126" width="6"  height="16" rx="2" fill="#c87020" opacity=".85"/>
+        <rect x="150" y="124" width="4"  height="4"  rx="1" fill="#a05010" opacity=".8"/>
+        <rect x="158" y="123" width="9"  height="19" rx="2" fill="#a04818" opacity=".9"/>
+        <rect x="158" y="121" width="5"  height="4"  rx="1" fill="#803810" opacity=".8"/>
+        <rect x="169" y="125" width="7"  height="17" rx="2" fill="#d4901c" opacity=".85"/>
+        <rect x="169" y="123" width="4"  height="4"  rx="1" fill="#b07018" opacity=".8"/>
+        <rect x="178" y="126" width="6"  height="16" rx="2" fill="#b06018" opacity=".9"/>
+        <rect x="178" y="124" width="4"  height="4"  rx="1" fill="#8b4010" opacity=".8"/>
+        <rect x="186" y="124" width="8"  height="18" rx="2" fill="#c87020" opacity=".85"/>
+        <rect x="186" y="122" width="5"  height="4"  rx="1" fill="#a05018" opacity=".8"/>
+        <rect x="196" y="126" width="6"  height="16" rx="2" fill="#a04010" opacity=".9"/>
+        <rect x="196" y="124" width="4"  height="4"  rx="1" fill="#7a2e08" opacity=".8"/>
+        <!-- Shelf shadow -->
+        <rect x="128" y="147" width="84" height="2" fill="#0d0700" opacity=".4"/>
+
+        <!-- BOTTOM SHELF -->
+        <rect x="126" y="182" width="88" height="5" rx="1" fill="#4a2e10"/>
+        <!-- Bottles on bottom shelf — tallest, closest to viewer -->
+        <rect x="129" y="158" width="9"  height="24" rx="2" fill="#c87020" opacity=".9"/>
+        <rect x="129" y="155" width="6"  height="5"  rx="1" fill="#a05018" opacity=".85"/>
+        <rect x="140" y="156" width="10" height="26" rx="2" fill="#8b3a0e" opacity=".9"/>
+        <rect x="140" y="153" width="6"  height="5"  rx="1" fill="#6b2808" opacity=".8"/>
+        <rect x="152" y="158" width="8"  height="24" rx="2" fill="#d4901c" opacity=".9"/>
+        <rect x="152" y="155" width="5"  height="5"  rx="1" fill="#b07018" opacity=".85"/>
+        <rect x="162" y="155" width="11" height="27" rx="2" fill="#a04010" opacity=".9"/>
+        <rect x="162" y="152" width="7"  height="5"  rx="1" fill="#803010" opacity=".85"/>
+        <rect x="175" y="157" width="9"  height="25" rx="2" fill="#c87020" opacity=".9"/>
+        <rect x="175" y="154" width="6"  height="5"  rx="1" fill="#a05018" opacity=".85"/>
+        <rect x="186" y="156" width="10" height="26" rx="2" fill="#b06018" opacity=".9"/>
+        <rect x="186" y="153" width="6"  height="5"  rx="1" fill="#8b4010" opacity=".8"/>
+        <rect x="198" y="158" width="8"  height="24" rx="2" fill="#d4901c" opacity=".85"/>
+        <rect x="198" y="155" width="5"  height="5"  rx="1" fill="#b07018" opacity=".8"/>
+        <!-- Shelf shadow -->
+        <rect x="126" y="187" width="88" height="3" fill="#0d0700" opacity=".5"/>
+
+        <!-- Ceiling light fixture inside store -->
+        <rect x="156" y="100" width="28" height="3" rx="1" fill="#c8a040" opacity=".4"/>
+        <rect x="162" y="100" width="16" height="2" rx="1" fill="#ffe090" opacity=".5"/>
+
 
         <!-- ── STEP / THRESHOLD ── -->
         <rect x="118" y="214" width="104" height="8" rx="2" fill="#4a3018"/>
@@ -975,17 +1025,32 @@
               opacity=".9">Fine Bourbons &amp; Rare Spirits</text>
       </svg>
 
-      <!-- Door overlay: two absolutely-positioned rects animated via JS class -->
-      <!-- We draw them as SVGs to match the exact door coordinates in the scene -->
-      <svg class="door-left" id="door-anim-left" viewBox="0 0 340 260">
-        <rect x="126" y="100" width="44" height="115" fill="#5c3818"/>
-        <line x1="148" y1="105" x2="148" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
-        <circle cx="164" cy="157" r="4" fill="#c8a040"/>
+      <!-- Left door overlay — clipped to left half of doorway, slides left -->
+      <svg class="door-left" id="door-anim-left" viewBox="0 0 340 260" style="overflow:hidden">
+        <defs>
+          <clipPath id="clip-door-l">
+            <rect x="126" y="100" width="44" height="115"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#clip-door-l)">
+          <rect x="126" y="100" width="44" height="115" fill="#5c3818" stroke="#3a2008" stroke-width="1"/>
+          <line x1="148" y1="105" x2="148" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
+          <circle cx="164" cy="157" r="4" fill="#c8a040"/>
+        </g>
       </svg>
-      <svg class="door-right" id="door-anim-right" viewBox="0 0 340 260">
-        <rect x="170" y="100" width="44" height="115" fill="#5c3818"/>
-        <line x1="192" y1="105" x2="192" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
-        <circle cx="176" cy="157" r="4" fill="#c8a040"/>
+
+      <!-- Right door overlay — clipped to right half of doorway, slides right -->
+      <svg class="door-right" id="door-anim-right" viewBox="0 0 340 260" style="overflow:hidden">
+        <defs>
+          <clipPath id="clip-door-r">
+            <rect x="170" y="100" width="44" height="115"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#clip-door-r)">
+          <rect x="170" y="100" width="44" height="115" fill="#5c3818" stroke="#3a2008" stroke-width="1"/>
+          <line x1="192" y1="105" x2="192" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
+          <circle cx="176" cy="157" r="4" fill="#c8a040"/>
+        </g>
       </svg>
 
       <!-- Bottle that emerges from the doorway -->
@@ -1191,7 +1256,6 @@ async function doRoll() {
   const doorL  = document.getElementById('door-anim-left');
   const doorR  = document.getElementById('door-anim-right');
   const emerge = document.getElementById('bottle-emerge');
-  const interior = document.getElementById('door-interior-rect');
 
   // Reset state
   doorL.classList.remove('opening');
@@ -1199,16 +1263,11 @@ async function doRoll() {
   emerge.classList.remove('emerging');
   emerge.style.opacity = '0';
   emerge.innerHTML = '';
-  if (interior) interior.style.opacity = '0';
 
   // 1. Doors slide open
   doorL.classList.add('opening');
   doorR.classList.add('opening');
-  if (interior) {
-    interior.style.transition = 'opacity .3s';
-    interior.style.opacity = '1';
-  }
-  await sleep(600);
+  await sleep(650);
 
   // 2. Bottle emerges — inject the real generated bottle SVG
   emerge.innerHTML = makeBottleSVG(item, 120);
@@ -1229,13 +1288,11 @@ function resetStoreAnim() {
   const doorL  = document.getElementById('door-anim-left');
   const doorR  = document.getElementById('door-anim-right');
   const emerge = document.getElementById('bottle-emerge');
-  const interior = document.getElementById('door-interior-rect');
   doorL.classList.remove('opening');
   doorR.classList.remove('opening');
   emerge.classList.remove('emerging');
   emerge.style.opacity = '0';
   emerge.innerHTML = '';
-  if (interior) interior.style.opacity = '0';
 }
 
 // ── Star rating renderer ───────────────────────────────
