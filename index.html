@@ -1103,6 +1103,7 @@
     <button class="sort-btn active" id="sort-rarity"   onclick="setSort('rarity')">Rarity</button>
     <button class="sort-btn"        id="sort-value"    onclick="setSort('value')">Value</button>
     <button class="sort-btn"        id="sort-proof"    onclick="setSort('proof')">Proof</button>
+    <button class="sort-btn"        id="sort-rating"   onclick="setSort('rating')">Rating</button>
     <button class="sort-btn"        id="sort-alpha"    onclick="setSort('alpha')">A–Z</button>
   </div>
   <div class="inv-grid" id="inv-grid"></div>
@@ -1471,8 +1472,9 @@ function renderInventory() {
   const rarityOrder = ['legendary','epic','rare','uncommon','common'];
   const sorted = [...state.inventory].sort((a, b) => {
     switch (currentSort) {
-      case 'value':  return b.msrp  - a.msrp;
-      case 'proof':  return b.proof - a.proof;
+      case 'value':  return b.msrp   - a.msrp;
+      case 'proof':  return b.proof  - a.proof;
+      case 'rating': return b.rating - a.rating;
       case 'alpha':  return a.name.localeCompare(b.name);
       default:       return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
     }
