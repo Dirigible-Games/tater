@@ -204,7 +204,7 @@ window.DB = (function () {
   // ── RARITY CONFIG ─────────────────────────────────────────────
   const RARITY_CONFIG = {
     common: {
-      baseMsrp:     [12, 40],
+      baseMsrp:     [12, 26],
       modPool:      ['Single Barrel','Small Batch','Bottled-in-Bond','Full Proof'],
       modChance:    0.50,
       ageChance:    0,
@@ -214,7 +214,7 @@ window.DB = (function () {
       patterns:     ['place','name','place+noun','descriptor+noun','name+noun'],
     },
     uncommon: {
-      baseMsrp:     [38, 70],
+      baseMsrp:     [24, 62],
       modPool:      ['Single Barrel','Small Batch','Bottled-in-Bond','Full Proof',
                      'Double Oaked','French Oaked'],
       modChance:    0.60,
@@ -248,7 +248,7 @@ window.DB = (function () {
                      'place+place+noun','name+noun','place+noun'],
     },
     legendary: {
-      baseMsrp:     [110, 185],
+      baseMsrp:     [110, 600],
       modPool:      ['Single Barrel','Small Batch','Bottled-in-Bond','Full Proof',
                      'Double Oaked','French Oaked'],
       modChance:    0.72,
