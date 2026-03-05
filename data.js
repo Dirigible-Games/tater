@@ -834,14 +834,35 @@ window.DB = (function () {
       'The price overstates what is actually in the glass.',
       'Competent, but the price promises more than it delivers.',
     ],
+    // Overperforming — price-tiered so the language matches the actual price context
+    // Budget: under ~$25 — tempered praise, acknowledges the ceiling
+    overperform_budget: [
+      `For $\${msrp}, this is genuinely good — just don't expect it to move mountains.`,
+      `At $\${msrp}, it earns its place. More than you'd reasonably hope for at this price.`,
+      `A legitimate overachiever for $\${msrp}. The quality ceiling is still there, but it's pushing it.`,
+      `For the money, this is hard to beat. It's not going to change your life, but it will surprise you.`,
+      `$\${msrp} doesn't buy greatness, but this comes closer than most things at this price.`,
+      `Punches above its weight for $\${msrp}. Good for what it is, and it knows what it is.`,
+      `At $\${msrp}, you're not expecting much — which makes how good this is a genuine surprise.`,
+    ],
+    // Mid-range: $25–$70 — genuine enthusiasm, value-forward
     overperform_value: [
-      'At this price, it is a serious find — do not hesitate.',
-      'Remarkable value. This drinks well above anything near this price.',
-      'An outstanding discovery for what it costs. Buy multiples.',
-      'Defies its price point entirely. One of the best values in the category.',
-      'This makes you genuinely question why you would spend more.',
-      'A hidden gem at this price. Tell your friends, or don\'t.',
-      `At $\${msrp}, this might be the most whiskey per dollar on the market right now.`,
+      `At $\${msrp}, this is a serious find.`,
+      `Remarkable value at $\${msrp}. Drinks well above its price class.`,
+      `One of the better values in the category at $\${msrp}. Don't overlook it.`,
+      `Defies its $\${msrp} price point. More whiskey here than the shelf tag suggests.`,
+      `At $\${msrp}, this makes you question why you'd spend more for incremental gains.`,
+      `A hidden gem at $\${msrp}. Worth stocking up on.`,
+      `$\${msrp} for this is genuinely good value — it drinks like it costs more.`,
+    ],
+    // Premium overperformer: $70+ — framed around category excellence and investment
+    overperform_premium: [
+      `At $\${msrp}, this delivers the kind of quality that justifies every dollar.`,
+      `$\${msrp} is a fair price for something this good. Possibly even generous.`,
+      `Among the strongest values at this price point. This earns its $\${msrp} without apology.`,
+      `For $\${msrp}, this is exactly what it should be and then some.`,
+      `At $\${msrp}, this stands up to bottles that cost considerably more. A smart buy.`,
+      `Well worth the $\${msrp} ask. This rewards careful attention in a way that most bottles at this price do not.`,
     ],
     overperform_mild: [
       'Modestly overperforms its price point.',
@@ -871,10 +892,13 @@ window.DB = (function () {
       return { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp), sentiment: 'negative' };
     }
     if (rating >= seg.overThresh) {
-      const text = seg.priceTag
-        ? pick(VALUE_PHRASES.overperform_value).replace('${msrp}', msrp)
-        : pick(VALUE_PHRASES.overperform_mild);
-      return { text, sentiment: 'positive' };
+      if (!seg.priceTag) {
+        return { text: pick(VALUE_PHRASES.overperform_mild), sentiment: 'positive' };
+      }
+      const pool = msrp < 25  ? VALUE_PHRASES.overperform_budget
+                 : msrp < 70  ? VALUE_PHRASES.overperform_value
+                 :               VALUE_PHRASES.overperform_premium;
+      return { text: pick(pool).replace('${msrp}', msrp), sentiment: 'positive' };
     }
     if (rating < seg.lo) {
       return { text: pick(VALUE_PHRASES.underperform_strong), sentiment: 'negative' };
