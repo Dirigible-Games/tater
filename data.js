@@ -204,7 +204,7 @@ window.DB = (function () {
   // ── RARITY CONFIG ─────────────────────────────────────────────
   const RARITY_CONFIG = {
     common: {
-      baseMsrp:     [12, 26],
+      baseMsrp:     [12, 40],
       modPool:      ['Single Barrel','Small Batch','Bottled-in-Bond','Full Proof'],
       modChance:    0.50,
       ageChance:    0,
@@ -214,7 +214,7 @@ window.DB = (function () {
       patterns:     ['place','name','place+noun','descriptor+noun','name+noun'],
     },
     uncommon: {
-      baseMsrp:     [24, 62],
+      baseMsrp:     [38, 70],
       modPool:      ['Single Barrel','Small Batch','Bottled-in-Bond','Full Proof',
                      'Double Oaked','French Oaked'],
       modChance:    0.60,
@@ -248,7 +248,7 @@ window.DB = (function () {
                      'place+place+noun','name+noun','place+noun'],
     },
     legendary: {
-      baseMsrp:     [110, 600],
+      baseMsrp:     [110, 185],
       modPool:      ['Single Barrel','Small Batch','Bottled-in-Bond','Full Proof',
                      'Double Oaked','French Oaked'],
       modChance:    0.72,
@@ -452,6 +452,189 @@ window.DB = (function () {
       proof,
       processMod,
       ageMod,
+      // merged style object so makeBottleSVG gets what it needs
+      svgStyle: { ...style, short, tag },
+    };
+  }
+
+  // ── TASTING NOTE DESCRIPTORS ─────────────────────────────────
+
+  const NOSE = {
+    light:  ['light vanilla', 'fresh grain', 'mild caramel', 'young oak', 'soft corn', 'faint honey', 'light citrus peel', 'dried hay', 'mild biscuit'],
+    mid:    ['caramel apple', 'toasted oak', 'brown sugar', 'butterscotch', 'cinnamon spice', 'dried cherry', 'baked bread', 'clove', 'orange zest', 'roasted corn', 'leather', 'toffee', 'peach preserve'],
+    rich:   ['dark chocolate', 'tobacco leaf', 'charred oak', 'molasses', 'dried fig', 'espresso', 'black walnut', 'cedar', 'licorice root', 'prune', 'aged leather', 'toasted coconut', 'dark cherry'],
+    exotic: ['Oloroso sherry', 'candied violet', 'sandalwood', 'smoked plum', 'truffle', 'saffron', 'aged balsamic', 'burnt caramel', 'marzipan', 'wet slate', 'ancient oak resin', 'rum-soaked raisin'],
+  };
+
+  const PALATE = {
+    light:  ['gentle sweetness', 'light grain', 'mild vanilla cream', 'soft caramel', 'clean corn finish', 'thin body', 'biscuit and honey', 'mild warmth'],
+    mid:    ['caramel and spice', 'toasted oak tannins', 'ripe stone fruit', 'peppery rye bite', 'butterscotch richness', 'warm honey', 'baking spice', 'roasted nuts', 'mild citrus', 'chewy caramel'],
+    rich:   ['full-bodied oak', 'dark fruit complexity', 'deep molasses', 'bold cinnamon heat', 'leather and tobacco', 'rich chocolate', 'long spice build', 'dense caramel', 'dried fruit layers', 'cracked black pepper'],
+    exotic: ['extraordinary depth', 'multi-layered complexity', 'rare tropical fruit', 'ancient oak structure', 'waves of dark spice', 'opulent fruit preserve', 'lingering floral notes', 'profound sweetness balanced by oak', 'silky texture with explosive finish'],
+  };
+
+  const FINISH = {
+    light:  ['short and clean', 'quick and mild', 'brief sweetness', 'light and easy', 'thin but pleasant', 'fades quickly'],
+    mid:    ['medium-length warmth', 'lingering caramel', 'pleasant spice fade', 'dry oak close', 'moderate heat', 'sweet with a dry close', 'warming finish'],
+    rich:   ['long spiced finish', 'persistent oak tannins', 'extended dark fruit', 'slow fade with heat', 'rich and lasting', 'complex fade', 'deep warming close', 'finish builds over minutes'],
+    exotic: ['exceptionally long finish', 'finish that evolves for minutes', 'extraordinary persistence', 'waves that return long after the sip', 'near-infinite fade', 'a finish that redefines patience'],
+  };
+
+  const BODY_WORDS = {
+    light:  ['light-bodied', 'thin', 'delicate', 'lean'],
+    mid:    ['medium-bodied', 'approachable', 'balanced', 'rounded'],
+    rich:   ['full-bodied', 'rich', 'dense', 'robust', 'weighty'],
+    exotic: ['opulent', 'majestic', 'profoundly structured', 'extraordinarily full'],
+  };
+
+  // Map rarity + proof to descriptor tier
+  function getTier(rarity, proof) {
+    const rarityScore = { common:0, uncommon:1, rare:2, epic:3, legendary:4 }[rarity];
+    const proofScore  = proof >= 120 ? 2 : proof >= 100 ? 1 : 0;
+    const total = rarityScore + proofScore;
+    if (total <= 1) return 'light';
+    if (total <= 3) return 'mid';
+    if (total <= 5) return 'rich';
+    return 'exotic';
+  }
+
+  // How many detail clauses to include based on rarity
+  const DETAIL_DEPTH = { common:1, uncommon:2, rare:2, epic:3, legendary:3 };
+
+  function generateDescription(rarity, proof, processMod, ageMod) {
+    const tier  = getTier(rarity, proof);
+    const depth = DETAIL_DEPTH[rarity];
+
+    // Sometimes step up tier slightly for higher-proof within a rarity
+    const nTier  = (proof >= 110 && tier === 'mid') ? 'rich' : tier;
+    const pTier  = tier;
+    const fTier  = tier;
+
+    const nose    = pick(NOSE[nTier]);
+    const palate  = pick(PALATE[pTier]);
+    const finish  = pick(FINISH[fTier]);
+    const body    = pick(BODY_WORDS[tier]);
+
+    // Pick a second palate note (different from first)
+    let palate2 = pick(PALATE[pTier]);
+    let attempts = 0;
+    while (palate2 === palate && attempts++ < 6) palate2 = pick(PALATE[pTier]);
+
+    // Second nose note for deeper tiers
+    let nose2 = pick(NOSE[nTier]);
+    attempts = 0;
+    while (nose2 === nose && attempts++ < 6) nose2 = pick(NOSE[nTier]);
+
+    // Modifier-aware phrases
+    let modNote = '';
+    if (processMod) {
+      const k = processMod.key;
+      if (k === 'Single Barrel')   modNote = 'Single barrel character lends a unique edge. ';
+      if (k === 'Small Batch')     modNote = 'Small batch blending adds consistency and depth. ';
+      if (k === 'Bottled-in-Bond') modNote = 'Bottled-in-bond integrity gives the proof a trustworthy honesty. ';
+      if (k === 'Full Proof')      modNote = 'Bottled at full barrel proof — nothing held back. ';
+      if (k === 'Double Oaked')    modNote = 'A second barrel maturation doubles the oak influence. ';
+      if (k === 'French Oaked')    modNote = 'French oak finishing lends subtle elegance. ';
+    }
+    let ageNote = '';
+    if (ageMod) {
+      ageNote = ageMod.years >= 12
+        ? `${ageMod.years} years of patience show in every sip. `
+        : `${ageMod.years} years of oak integration have mellowed the spirit considerably. `;
+    }
+
+    // Assemble sentence based on depth
+    if (depth === 1) {
+      return `A ${body} pour with ${nose} on the nose and ${finish}.`;
+    }
+    if (depth === 2) {
+      return `${modNote}${ageNote}Opens with ${nose}, leading to ${palate} on the palate. ${finish[0].toUpperCase() + finish.slice(1)}.`;
+    }
+    // depth 3
+    return `${modNote}${ageNote}On the nose: ${nose} and ${nose2}. The palate offers ${palate}, with ${palate2} emerging mid-sip. ${finish[0].toUpperCase() + finish.slice(1)}.`;
+  }
+
+  // ── STAR RATING GENERATOR ─────────────────────────────────────
+  // Base score from rarity (0–5 scale center points)
+  const RARITY_BASE = { common:1.8, uncommon:2.6, rare:3.4, epic:4.1, legendary:4.6 };
+
+  function generateRating(rarity, proof, msrp) {
+    let base = RARITY_BASE[rarity];
+
+    // Proof bonus: higher proof nudges score up slightly
+    if (proof >= 120) base += 0.25;
+    else if (proof >= 100) base += 0.12;
+    else if (proof < 86)   base -= 0.12;
+
+    // MSRP bonus within rarity (more expensive → slightly higher)
+    const cfg = RARITY_CONFIG[rarity];
+    const msrpRange = cfg.baseMsrp[1] - cfg.baseMsrp[0];
+    const msrpPos   = Math.min(1, Math.max(0, (msrp - cfg.baseMsrp[0]) / (msrpRange || 1)));
+    base += msrpPos * 0.3;
+
+    // Random variance — different widths per rarity
+    const variance = { common:0.6, uncommon:0.5, rare:0.5, epic:0.45, legendary:0.4 }[rarity];
+    base += (Math.random() * 2 - 1) * variance;
+
+    // Small chance of a "sleeper" common scoring surprisingly high
+    if (rarity === 'common' && pct(0.07)) base += randF(0.8, 1.4);
+
+    // Small chance of a disappointment at rare+ (overhyped, off barrel, etc.)
+    if ((rarity === 'rare' || rarity === 'epic' || rarity === 'legendary') && pct(0.08)) {
+      base -= randF(0.8, 1.6);
+    }
+
+    // Clamp to 0.5–5.0 and round to nearest 0.05
+    base = Math.max(0.5, Math.min(5.0, base));
+    return Math.round(base * 20) / 20;
+  }
+
+  // ── PRIMARY EXPORT: generateBottle ──────────────────────────
+  function generateBottle(rarity) {
+    const cfg     = RARITY_CONFIG[rarity];
+    const pattern = pick(cfg.patterns);
+    const baseName = applyPattern(pattern);
+
+    const { processMod, ageMod } = selectModifiers(rarity);
+
+    const proof = generateProof(processMod);
+
+    // Build display name
+    let displayName = baseName;
+    if (processMod) displayName += ' ' + processMod.key;
+    if (ageMod)     displayName += ' ' + ageMod.years + ' Year';
+
+    // MSRP
+    let msrp = rand(cfg.baseMsrp[0], cfg.baseMsrp[1]);
+    if (processMod) msrp += processMod.bonus;
+    if (ageMod)     msrp += ageMod.bonus;
+
+    // Description and rating (generated after msrp/proof are final)
+    const description = generateDescription(rarity, proof, processMod, ageMod);
+    const rating      = generateRating(rarity, proof, msrp);
+
+    // Visual style
+    const style = pick(BOTTLE_STYLES[rarity]);
+
+    // Short label text (for SVG)
+    const short = makeShort(baseName);
+    // Tag line: first ~16 chars of base name
+    const tag = baseName.length > 16 ? baseName.slice(0, 15) + '…' : baseName;
+
+    // Unique ID for this pull (not for deduplication)
+    const id = rarity[0] + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+
+    return {
+      id,
+      name: displayName,
+      baseName,
+      rarity,
+      msrp,
+      proof,
+      processMod,
+      ageMod,
+      description,
+      rating,
       // merged style object so makeBottleSVG gets what it needs
       svgStyle: { ...style, short, tag },
     };
