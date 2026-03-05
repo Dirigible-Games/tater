@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barrel Roll — Bourbon Gacha</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0f00" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0e0800;
+      --surface:   #1c1008;
+      --wood:      #5c3010;
+      --wood-lt:   #8b4c1e;
+      --amber:     #c8720a;
+      --amber-lt:  #f0a830;
+      --cream:     #f5e8c8;
+      --grey-b:    #9aa0a6;
+      --green-b:   #34a853;
+      --blue-b:    #4285f4;
+      --purple-b:  #9c27b0;
+      --gold-b:    #ffd700;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* ── Scanline texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,.08) 3px,
+        rgba(0,0,0,.08) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: linear-gradient(180deg, #2a1505 0%, var(--bg) 100%);
+      border-bottom: 2px solid var(--wood);
+      position: relative;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+      color: var(--amber-lt);
+      text-shadow: 0 0 20px rgba(240,168,48,.4);
+    }
+    .logo span { color: var(--cream); font-style: italic; }
+
+    .hud {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .ticket-counter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--wood-lt);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--amber-lt);
+    }
+    .ticket-counter svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .btn-inv {
+      background: none;
+      border: 2px solid var(--wood-lt);
+      color: var(--cream);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .85rem;
+      transition: all .2s;
+    }
+    .btn-inv:hover { background: var(--wood); border-color: var(--amber); color: var(--amber-lt); }
+
+    /* ── Main stage ── */
+    #stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 68px);
+      padding: 20px;
+      position: relative;
+    }
+
+    /* ── Ground ── */
+    .ground {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(180deg, transparent 0%, #1a0a00 40%, #0d0500 100%);
+    }
+    .ground::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--wood-lt), var(--amber), var(--wood-lt), transparent);
+      opacity: .5;
+    }
+
+    /* ── Barrel ── */
+    .barrel-wrap {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .barrel-scene {
+      position: relative;
+      width: 180px;
+      height: 210px;
+    }
+
+    /* SVG barrel shakes on click */
+    @keyframes barrel-shake {
+      0%   { transform: rotate(0deg); }
+      15%  { transform: rotate(-4deg) translateX(-4px); }
+      30%  { transform: rotate(4deg) translateX(4px); }
+      45%  { transform: rotate(-3deg) translateX(-3px); }
+      60%  { transform: rotate(3deg) translateX(3px); }
+      75%  { transform: rotate(-1deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes barrel-open {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      40%  { transform: translateY(-30px) rotate(-8deg); opacity: 1; }
+      100% { transform: translateY(-50px) rotate(-15deg); opacity: 0; }
+    }
+    @keyframes bottle-roll {
+      0%   { transform: translateX(-100px) translateY(0px) rotate(-90deg); opacity: 0; }
+      20%  { opacity: 1; }
+      70%  { transform: translateX(60px) translateY(0px) rotate(20deg); }
+      85%  { transform: translateX(50px) translateY(0px) rotate(15deg); }
+      92%  { transform: translateX(56px) translateY(0px) rotate(18deg); }
+      100% { transform: translateX(52px) translateY(0px) rotate(16deg); }
+    }
+
+    .barrel-svg { width: 180px; height: 210px; }
+    .barrel-svg.shaking { animation: barrel-shake .5s ease-in-out; }
+    .barrel-svg.opening { animation: barrel-open .6s ease-in forwards; }
+
+    /* Lid piece that flies off */
+    .lid-pop {
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 24px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @keyframes lid-fly {
+      0%   { transform: translateX(-50%) rotate(0deg) translateY(0); opacity: 1; }
+      100% { transform: translateX(calc(-50% + 80px)) rotate(40deg) translateY(-120px); opacity: 0; }
+    }
+    .lid-pop.flying { animation: lid-fly .7s ease-out forwards; }
+
+    /* Bottle rolling out */
+    .bottle-out {
+      position: absolute;
+      bottom: -40px; left: 0;
+      width: 70px;
+      height: 140px;
+      opacity: 0;
+      transform-origin: center bottom;
+      pointer-events: none;
+    }
+    .bottle-out.rolling { animation: bottle-roll 1.2s cubic-bezier(.25,.46,.45,.94) forwards; }
+
+    /* ── Roll button ── */
+    .roll-btn {
+      position: relative;
+      background: linear-gradient(135deg, #8b3a0a 0%, #c8520a 40%, #e07010 60%, #8b3a0a 100%);
+      border: none;
+      border-radius: 12px;
+      color: var(--cream);
+      cursor: pointer;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      padding: 16px 48px;
+      text-transform: uppercase;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 24px rgba(200,114,10,.4), inset 0 1px 0 rgba(255,255,255,.15);
+    }
+    .roll-btn::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.1);
+      pointer-events: none;
+    }
+    .roll-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(200,114,10,.6), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    .roll-btn:active:not(:disabled) { transform: translateY(1px); }
+    .roll-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    .roll-btn .cost-tag {
+      display: block;
+      font-family: 'Libre Baskerville', serif;
+      font-size: .72rem;
+      font-weight: 400;
+      opacity: .8;
+      letter-spacing: .05em;
+      margin-top: 2px;
+    }
+
+    /* ── Dim overlay for item reveal ── */
+    #overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      pointer-events: none;
+      transition: background .5s;
+    }
+    #overlay.active {
+      background: rgba(0,0,0,.82);
+      pointer-events: all;
+    }
+
+    /* ── Item reveal card ── */
+    .item-card {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 36px 40px;
+      border-radius: 16px;
+      max-width: 380px;
+      width: 90%;
+      position: relative;
+      transform: scale(.7);
+      opacity: 0;
+      transition: transform .45s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      text-align: center;
+    }
+    .item-card.show {
+      display: flex;
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* Rarity borders */
+    .item-card.common   { border: 3px solid var(--grey-b);   background: rgba(154,160,166,.08); }
+    .item-card.uncommon { border: 3px solid var(--green-b);  background: rgba(52,168,83,.08); }
+    .item-card.rare     { border: 3px solid var(--blue-b);   background: rgba(66,133,244,.08); }
+    .item-card.epic     { border: 3px solid var(--purple-b); background: rgba(156,39,176,.08); }
+    .item-card.legendary {
+      border: 3px solid var(--gold-b);
+      background: rgba(255,215,0,.06);
+      box-shadow: 0 0 60px rgba(255,215,0,.25), 0 0 120px rgba(255,215,0,.1);
+    }
+
+    /* Rarity shimmer for legendary */
+    @keyframes gold-pulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(255,215,0,.2), 0 0 80px rgba(255,215,0,.1); }
+      50%       { box-shadow: 0 0 80px rgba(255,215,0,.5), 0 0 160px rgba(255,215,0,.2); }
+    }
+    .item-card.legendary.show { animation: gold-pulse 2s ease-in-out infinite; }
+
+    .rarity-badge {
+      font-family: 'Playfair Display', serif;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+    }
+    .common   .rarity-badge { color: var(--grey-b);   border: 1px solid var(--grey-b); }
+    .uncommon .rarity-badge { color: var(--green-b);  border: 1px solid var(--green-b); }
+    .rare     .rarity-badge { color: var(--blue-b);   border: 1px solid var(--blue-b); }
+    .epic     .rarity-badge { color: var(--purple-b); border: 1px solid var(--purple-b); }
+    .legendary .rarity-badge { color: var(--gold-b); border: 1px solid var(--gold-b); }
+
+    .item-icon { font-size: 5rem; line-height: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); }
+
+    .item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+
+    .item-msrp {
+      font-size: .85rem;
+      opacity: .7;
+      font-style: italic;
+    }
+
+    .item-desc {
+      font-size: .82rem;
+      opacity: .65;
+      line-height: 1.6;
+    }
+
+    .legendary-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--gold-b);
+      letter-spacing: .05em;
+      text-shadow: 0 0 20px rgba(255,215,0,.6);
+      display: none;
+    }
+    .legendary .legendary-text { display: block; }
+
+    .btn-next {
+      margin-top: 8px;
+      background: linear-gradient(135deg, #2a1505, #5c3010);
+      border: 2px solid var(--amber);
+      color: var(--amber-lt);
+      border-radius: 8px;
+      padding: 12px 36px;
+      cursor: pointer;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: all .2s;
+    }
+    .btn-next:hover { background: var(--wood); box-shadow: 0 4px 16px rgba(200,114,10,.3); }
+
+    /* ── Floating particles for legendary ── */
+    .particles { position: fixed; inset: 0; pointer-events: none; z-index: 101; display: none; }
+    .particles.active { display: block; }
+    .particle {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold-b);
+      pointer-events: none;
+    }
+    @keyframes particle-fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── Inventory Panel ── */
+    #inv-panel {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.9);
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #inv-panel.open { display: flex; }
+
+    .inv-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 2px solid var(--wood);
+      background: linear-gradient(180deg, #2a1505, var(--bg));
+      flex-shrink: 0;
+    }
+    .inv-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--amber-lt);
+    }
+    .inv-actions { display: flex; gap: 10px; }
+    .btn-close, .btn-reset {
+      border: 2px solid;
+      border-radius: 8px;
+      padding: 6px 16px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .85rem;
+      transition: all .2s;
+      background: none;
+    }
+    .btn-close { border-color: var(--wood-lt); color: var(--cream); }
+    .btn-close:hover { background: var(--wood); }
+    .btn-reset { border-color: #c0392b; color: #e74c3c; }
+    .btn-reset:hover { background: rgba(192,57,43,.2); }
+
+    .inv-stats {
+      display: flex;
+      gap: 20px;
+      padding: 12px 24px;
+      background: rgba(255,255,255,.03);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      font-size: .8rem;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid;
+      font-weight: 700;
+    }
+    .stat-chip.c  { border-color: var(--grey-b);   color: var(--grey-b); }
+    .stat-chip.u  { border-color: var(--green-b);  color: var(--green-b); }
+    .stat-chip.r  { border-color: var(--blue-b);   color: var(--blue-b); }
+    .stat-chip.e  { border-color: var(--purple-b); color: var(--purple-b); }
+    .stat-chip.l  { border-color: var(--gold-b);   color: var(--gold-b); }
+
+    .inv-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+      align-content: start;
+    }
+    .inv-grid::-webkit-scrollbar { width: 6px; }
+    .inv-grid::-webkit-scrollbar-track { background: transparent; }
+    .inv-grid::-webkit-scrollbar-thumb { background: var(--wood); border-radius: 3px; }
+
+    .inv-item {
+      background: rgba(255,255,255,.04);
+      border-radius: 10px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      position: relative;
+      transition: transform .2s;
+    }
+    .inv-item:hover { transform: translateY(-3px); }
+    .inv-item.common   { border: 2px solid var(--grey-b); }
+    .inv-item.uncommon { border: 2px solid var(--green-b); }
+    .inv-item.rare     { border: 2px solid var(--blue-b); }
+    .inv-item.epic     { border: 2px solid var(--purple-b); }
+    .inv-item.legendary{ border: 2px solid var(--gold-b); box-shadow: 0 0 20px rgba(255,215,0,.15); }
+
+    .inv-item .i-icon { font-size: 2.4rem; }
+    .inv-item .i-name { font-size: .72rem; font-weight: 700; color: var(--cream); line-height: 1.3; }
+    .inv-item .i-msrp { font-size: .65rem; opacity: .6; }
+    .inv-count {
+      position: absolute;
+      top: 6px; right: 6px;
+      background: var(--amber);
+      color: #000;
+      font-size: .65rem;
+      font-weight: 900;
+      border-radius: 999px;
+      min-width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+    }
+
+    .inv-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      opacity: .4;
+      padding: 60px 20px;
+      font-style: italic;
+    }
+
+    /* ── Toast message ── */
+    #toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(30,15,0,.95);
+      border: 1px solid var(--amber);
+      color: var(--cream);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: .85rem;
+      opacity: 0;
+      transition: all .3s;
+      z-index: 500;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .logo { font-size: 1.2rem; }
+      .inv-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Barrel <span>Roll</span></div>
+  <div class="hud">
+    <div class="ticket-counter">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+      </svg>
+      <span id="ticket-display">5000</span>
+    </div>
+    <button class="btn-inv" onclick="openInventory()">Cellar 🥃</button>
+  </div>
+</header>
+
+<main id="stage">
+  <div class="ground"></div>
+
+  <div class="barrel-wrap">
+    <div class="barrel-scene">
+      <!-- Barrel SVG -->
+      <svg class="barrel-svg" id="barrel-svg" viewBox="0 0 180 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Barrel body -->
+        <ellipse cx="90" cy="196" rx="72" ry="14" fill="#3d1f08" opacity=".6"/>
+        <!-- Staves -->
+        <rect x="30" y="20" width="120" height="170" rx="12" fill="url(#wood-grad)"/>
+        <!-- Barrel bulge shape -->
+        <path d="M30 105 Q18 105 18 105 Q10 80 18 55 Q30 30 30 30 L150 30 Q162 55 162 80 Q162 105 150 105 Q162 130 162 155 Q150 180 150 180 L30 180 Q18 155 18 130 Q18 105 30 105Z" fill="url(#wood-grad)"/>
+        <!-- Hoops -->
+        <path d="M22 60 Q90 50 158 60" stroke="#1a0f00" stroke-width="7" fill="none" opacity=".6"/>
+        <path d="M18 100 Q90 88 162 100" stroke="#1a0f00" stroke-width="8" fill="none" opacity=".7"/>
+        <path d="M22 140 Q90 130 158 140" stroke="#1a0f00" stroke-width="7" fill="none" opacity=".6"/>
+
+        <path d="M22 60 Q90 50 158 60" stroke="#8b4c1e" stroke-width="5" fill="none" opacity=".5"/>
+        <path d="M18 100 Q90 88 162 100" stroke="#8b4c1e" stroke-width="6" fill="none" opacity=".6"/>
+        <path d="M22 140 Q90 130 158 140" stroke="#8b4c1e" stroke-width="5" fill="none" opacity=".5"/>
+
+        <!-- Stave lines -->
+        <line x1="60" y1="30" x2="52" y2="180" stroke="#3a1a06" stroke-width="1.5" opacity=".4"/>
+        <line x1="90" y1="28" x2="90" y2="182" stroke="#3a1a06" stroke-width="1.5" opacity=".4"/>
+        <line x1="120" y1="30" x2="128" y2="180" stroke="#3a1a06" stroke-width="1.5" opacity=".4"/>
+
+        <!-- Lid / top ellipse -->
+        <ellipse id="barrel-lid" cx="90" cy="30" rx="60" ry="14" fill="url(#lid-grad)" stroke="#5c3010" stroke-width="2"/>
+        <!-- Tap hole -->
+        <circle cx="90" cy="100" r="6" fill="#1a0f00" opacity=".8"/>
+        <circle cx="90" cy="100" r="3" fill="#c87814" opacity=".6"/>
+
+        <defs>
+          <linearGradient id="wood-grad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#3d1f08"/>
+            <stop offset="20%"  stop-color="#7a3a14"/>
+            <stop offset="50%"  stop-color="#9a4e20"/>
+            <stop offset="80%"  stop-color="#7a3a14"/>
+            <stop offset="100%" stop-color="#3d1f08"/>
+          </linearGradient>
+          <linearGradient id="lid-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"  stop-color="#b06030"/>
+            <stop offset="100%" stop-color="#5c2c0a"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Lid that flies off -->
+      <div class="lid-pop" id="lid-pop">
+        <svg viewBox="0 0 120 24" width="120" height="24" fill="none">
+          <ellipse cx="60" cy="12" rx="60" ry="12" fill="url(#lid2)"/>
+          <defs>
+            <linearGradient id="lid2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b06030"/>
+              <stop offset="100%" stop-color="#5c2c0a"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Bottle that rolls out -->
+      <div class="bottle-out" id="bottle-out">
+        <svg viewBox="0 0 70 140" width="70" height="140" fill="none" xmlns="http://www.w3.org/2000/svg" id="bottle-svg">
+          <!-- Generic amber bottle shape -->
+          <path d="M28 8 L28 30 Q14 40 14 55 L14 120 Q14 132 22 132 L48 132 Q56 132 56 120 L56 55 Q56 40 42 30 L42 8 Z" fill="url(#bottle-grad)" stroke="#2a1000" stroke-width="1.5"/>
+          <!-- Label -->
+          <rect x="18" y="65" width="34" height="45" rx="3" fill="rgba(245,232,200,.15)" stroke="rgba(245,232,200,.3)" stroke-width="1"/>
+          <!-- Neck -->
+          <rect x="27" y="6" width="16" height="25" rx="4" fill="url(#neck-grad)" stroke="#2a1000" stroke-width="1.5"/>
+          <!-- Cap -->
+          <rect x="26" y="2" width="18" height="10" rx="3" fill="#c8720a"/>
+          <!-- Highlight -->
+          <path d="M20 55 Q18 80 18 105" stroke="rgba(255,255,255,.15)" stroke-width="4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="bottle-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#4a2000"/>
+              <stop offset="40%" stop-color="#c87814"/>
+              <stop offset="70%" stop-color="#a06010"/>
+              <stop offset="100%" stop-color="#3a1500"/>
+            </linearGradient>
+            <linearGradient id="neck-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#3a1500"/>
+              <stop offset="50%" stop-color="#c87814"/>
+              <stop offset="100%" stop-color="#3a1500"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <button class="roll-btn" id="roll-btn" onclick="doRoll()">
+      Open the Barrel
+      <span class="cost-tag">— 1 ticket —</span>
+    </button>
+  </div>
+</main>
+
+<!-- Dim overlay + item card -->
+<div id="overlay">
+  <div class="item-card" id="item-card">
+    <div class="rarity-badge" id="rarity-badge">Common</div>
+    <div class="item-icon" id="item-icon">🥃</div>
+    <div class="item-name" id="item-name">Buffalo Trace</div>
+    <div class="item-msrp" id="item-msrp">MSRP: $25</div>
+    <div class="item-desc" id="item-desc">Kentucky Straight Bourbon</div>
+    <div class="legendary-text">✦ wow, what an onion ✦</div>
+    <button class="btn-next" onclick="closeReveal()">Next ›</button>
+  </div>
+</div>
+
+<!-- Confetti particles container -->
+<div class="particles" id="particles"></div>
+
+<!-- Inventory panel -->
+<div id="inv-panel">
+  <div class="inv-header">
+    <div class="inv-title">🏺 The Cellar</div>
+    <div class="inv-actions">
+      <button class="btn-reset" onclick="confirmReset()">Reset Account</button>
+      <button class="btn-close" onclick="closeInventory()">✕ Close</button>
+    </div>
+  </div>
+  <div class="inv-stats" id="inv-stats"></div>
+  <div class="inv-grid" id="inv-grid"></div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+//  BOURBON DATABASE  (50 items)
+// ═══════════════════════════════════════
+const BOURBONS = [
+  // ── COMMON ($0–40) ────────────────────
+  { id:'c01', name:'Evan Williams Black',          msrp:15,  rarity:'common',    icon:'🥃', desc:'Heaven Hill\'s flagship value bourbon — caramel, light oak, vanilla sweetness.' },
+  { id:'c02', name:'Jim Beam White Label',          msrp:18,  rarity:'common',    icon:'🍶', desc:'Classic 4-year Kentucky straight bourbon; easy-drinking grain and vanilla.' },
+  { id:'c03', name:'Old Forester 86 Proof',         msrp:22,  rarity:'common',    icon:'🥃', desc:'Brown-Forman\'s flagship entry. Spicy rye character, caramel-forward finish.' },
+  { id:'c04', name:'Buffalo Trace',                 msrp:28,  rarity:'common',    icon:'🐃', desc:'One of America\'s most beloved everyday bourbons — toffee, spice, dried fruit.' },
+  { id:'c05', name:'Wild Turkey 101',               msrp:25,  rarity:'common',    icon:'🦃', desc:'High-proof, high-rye classic. Bold spice, vanilla cream, and long heat.' },
+  { id:'c06', name:'Maker\'s Mark',                 msrp:30,  rarity:'common',    icon:'🥃', desc:'Wheated mash bill for a softer, sweeter character. The red-wax icon.' },
+  { id:'c07', name:'Bulleit Bourbon',               msrp:32,  rarity:'common',    icon:'🔫', desc:'High-rye frontier recipe. Orange peel, black pepper, dry finish.' },
+  { id:'c08', name:'Four Roses Yellow Label',       msrp:25,  rarity:'common',    icon:'🌹', desc:'Blends 10 recipes for balance. Pear, light oak, gentle spice.' },
+  { id:'c09', name:'Knob Creek Small Batch',        msrp:35,  rarity:'common',    icon:'🌿', desc:'9-year, 100-proof workhorse. Rich caramel, full body, toasted oak.' },
+  { id:'c10', name:'Old Grand-Dad Bonded',          msrp:22,  rarity:'common',    icon:'👴', desc:'100-proof bottled in bond. Spicy, feisty, and absolutely underrated.' },
+
+  // ── UNCOMMON ($41–70) ─────────────────
+  { id:'u01', name:'Woodford Reserve Distiller\'s Select', msrp:45, rarity:'uncommon', icon:'🏡', desc:'Triple-distilled in pot stills. Chocolate-covered cherry, dried fruit, spice.' },
+  { id:'u02', name:'Elijah Craig Small Batch',      msrp:40,  rarity:'uncommon',  icon:'⛪', desc:'Heaven Hill\'s 12-year classic. Rich caramel, toasted oak, dark chocolate.' },
+  { id:'u03', name:'Four Roses Small Batch',        msrp:45,  rarity:'uncommon',  icon:'🌹', desc:'Four mash bills, 5 yeast strains. Complex fruit, honey, light spice.' },
+  { id:'u04', name:'Larceny Small Batch',           msrp:28,  rarity:'uncommon',  icon:'🔓', desc:'Wheated Heaven Hill bourbon. Honey, buttery caramel, light pepper finish.' },
+  { id:'u05', name:'Basil Hayden\'s',               msrp:50,  rarity:'uncommon',  icon:'🎩', desc:'High-rye, low-proof sipping bourbon. Peppery bite, light amber sweetness.' },
+  { id:'u06', name:'Evan Williams Single Barrel',   msrp:45,  rarity:'uncommon',  icon:'🏅', desc:'Vintage-dated single barrel. Caramel richness, subtle dried fruit notes.' },
+  { id:'u07', name:'Green River Full Proof',        msrp:50,  rarity:'uncommon',  icon:'🌿', desc:'Kentucky straight at full barrel proof — bold fruit, grain, and oak.' },
+  { id:'u08', name:'Larceny Barrel Proof',          msrp:60,  rarity:'uncommon',  icon:'🔓', desc:'Cask-strength wheated bourbon. Intensely sweet, creamy, with rising heat.' },
+  { id:'u09', name:'Nashtucky Small Batch',         msrp:70,  rarity:'uncommon',  icon:'🎸', desc:'Nashville-produced barrel proof. Sweet fruit, roasted grain, warm finish.' },
+  { id:'u10', name:'Nashville Barrel Co. 7 Year',   msrp:65,  rarity:'uncommon',  icon:'🎵', desc:'Independent bottler showcase — spicy, sweet, seven years of patience.' },
+
+  // ── RARE ($71–90) ─────────────────────
+  { id:'r01', name:'Maker\'s Mark Cask Strength',   msrp:75,  rarity:'rare',      icon:'🥃', desc:'Red-wax classic at full proof. Magnified wheat sweetness, brown sugar, vanilla.' },
+  { id:'r02', name:'Old Forester 1920 Prohibition', msrp:80,  rarity:'rare',      icon:'🚂', desc:'Modeled on post-Prohibition recipe. Rich, dark, powerful — chocolate and mint.' },
+  { id:'r03', name:'Wild Turkey Rare Breed',        msrp:80,  rarity:'rare',      icon:'🦃', desc:'Barrel-proof blend of 6, 8 & 12-year. Deep caramel, baking spice, long finish.' },
+  { id:'r04', name:'Knob Creek Single Barrel Reserve',msrp:80, rarity:'rare',     icon:'🌿', desc:'Single barrel selection at 120 proof. Intensely oaky, vanilla-rich, and bold.' },
+  { id:'r05', name:'Four Roses Single Barrel',      msrp:75,  rarity:'rare',      icon:'🌹', desc:'Single barrel at 100 proof. Elegant, floral, layers of fruit and spice.' },
+  { id:'r06', name:'Blanton\'s Original',           msrp:75,  rarity:'rare',      icon:'🏇', desc:'The original single barrel bourbon. Earthy citrus, vanilla, and bold pepper.' },
+  { id:'r07', name:'Woodford Reserve Double Oaked', msrp:80,  rarity:'rare',      icon:'🌲', desc:'Finished in toasted new oak. Intensified vanilla, caramel, and dark berry.' },
+  { id:'r08', name:'Tumblin\' Dice 8 Year Barrel Proof',msrp:80,rarity:'rare',    icon:'🎲', desc:'Independent small-batch cask strength. Rich fruit, grain, toasted oak.' },
+  { id:'r09', name:'OH Ingram River Aged',          msrp:84,  rarity:'rare',      icon:'⛵', desc:'Aged on a barge in the Tennessee River — unique temperature cycling creates bold spice.' },
+  { id:'r10', name:'Pacific Coast Spirits 6 Year',  msrp:90,  rarity:'rare',      icon:'🌊', desc:'California wheated bourbon at barrel proof. Fruit-forward, creamy, coastal character.' },
+
+  // ── EPIC ($91–110) ────────────────────
+  { id:'e01', name:'Booker\'s Bourbon',             msrp:100, rarity:'epic',      icon:'📖', desc:'Jim Beam\'s uncut, unfiltered gift. Huge heat, cinnamon, nutty oak — barrel strength.' },
+  { id:'e02', name:'Barrell Mizunara',              msrp:97,  rarity:'epic',      icon:'🎋', desc:'Finished in Japanese Mizunara oak — exotic sandalwood, coconut, bold American grain.' },
+  { id:'e03', name:'Pinhook Vertical Series',       msrp:100, rarity:'epic',      icon:'📐', desc:'9-year straight bourbon unfiltered. Complex grain, dried fruit, lingering warmth.' },
+  { id:'e04', name:'Brothers of the Leaf Batch 2',  msrp:96,  rarity:'epic',      icon:'🍃', desc:'Toasted French oak finish. Refined, structured oak-spice meets American sweetness.' },
+  { id:'e05', name:'Michter\'s US-1 Small Batch',   msrp:100, rarity:'epic',      icon:'🦅', desc:'Heat-cycled warehouse aging. Caramel richness, butterscotch, gentle pepper note.' },
+  { id:'e06', name:'Colonel E.H. Taylor Small Batch',msrp:95, rarity:'epic',      icon:'⭐', desc:'Bottled in bond from Buffalo Trace. Grassy sweetness, classic oak, lasting finish.' },
+  { id:'e07', name:'Eagle Rare 10 Year',            msrp:35,  rarity:'epic',      icon:'🦅', desc:'Allocated single barrel from Buffalo Trace. Dried herb, toffee, and black pepper.' },
+  { id:'e08', name:'Weller Special Reserve',        msrp:40,  rarity:'epic',      icon:'🎯', desc:'The allocated wheated classic. Soft caramel, wheat sweetness, and easy drinkability.' },
+  { id:'e09', name:'Barrell Craft Spirits Bourbon', msrp:100, rarity:'epic',      icon:'🛢️', desc:'Independently bottled cask strength blend. Consistently excellent layered complexity.' },
+  { id:'e10', name:'Lawrenceburg 10 Year Rye Mash', msrp:100, rarity:'epic',      icon:'🌾', desc:'High-rye bottling from Kentucky\'s historic Larrikin. Spice-forward, fruit-backed.' },
+
+  // ── LEGENDARY ($110+) ─────────────────
+  { id:'l01', name:'Pappy Van Winkle 15 Year',      msrp:500, rarity:'legendary', icon:'👴', desc:'The white whale of bourbon. Aged 15 years wheated — silky leather, dark fruit, impossible to find.' },
+  { id:'l02', name:'George T. Stagg',               msrp:150, rarity:'legendary', icon:'🦬', desc:'Antique Collection powerhouse. 136+ proof, massive caramel and oak, generational complexity.' },
+  { id:'l03', name:'William Larue Weller',          msrp:200, rarity:'legendary', icon:'⚜️', desc:'Wheated BTAC titan at full proof. The pinnacle of soft wheat power — beyond rare.' },
+  { id:'l04', name:'Little Book "The Infinite"',    msrp:250, rarity:'legendary', icon:'♾️', desc:'Booker Noe\'s grandson\'s masterwork — ultra-rare blend of Beam whiskies at barrel strength.' },
+  { id:'l05', name:'Knob Creek 18 Year',            msrp:160, rarity:'legendary', icon:'🌿', desc:'Extraordinarily aged Kentucky bourbon. Deep oak, leather, dark chocolate profundity.' },
+  { id:'l06', name:'Old Rip Van Winkle 10 Year',    msrp:200, rarity:'legendary', icon:'😴', desc:'MSRP is deceptively low — impossible to find. Silky and elegant with pure wheat charm.' },
+  { id:'l07', name:'Woodford Reserve Batch Proof',  msrp:165, rarity:'legendary', icon:'🏡', desc:'Annual batched barrel-proof Woodford. Concentrated chocolate, dried fruit, toasted spice.' },
+  { id:'l08', name:'Booker\'s The Reserve',         msrp:130, rarity:'legendary', icon:'📚', desc:'Freddie Noe\'s hand-selected 8–14 year barrels. A rare, refined evolution of Booker\'s DNA.' },
+  { id:'l09', name:'Bluegrass Elkwood Reserve 9 Yr',msrp:150, rarity:'legendary', icon:'🌿', desc:'120 proof Kentucky straight from a celebrated craft producer. Deep, barrel-forward complexity.' },
+  { id:'l10', name:'Weller Millennium',             msrp:7500,rarity:'legendary', icon:'🌕', desc:'The rarest Weller — a true unicorn. Estimated $7,500 MSRP. You may never see this again.' },
+];
+
+// Rarity weights: common 50%, uncommon 30%, rare 12%, epic 6%, legendary 2%
+const WEIGHTS = { common: 50, uncommon: 30, rare: 12, epic: 6, legendary: 2 };
+
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+const DEFAULT_STATE = { tickets: 5000, inventory: [] };
+let state = loadState();
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem('barrelroll_v1'));
+    if (s && typeof s.tickets === 'number') return s;
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_STATE));
+}
+function saveState() {
+  localStorage.setItem('barrelroll_v1', JSON.stringify(state));
+}
+
+// ═══════════════════════════════════════
+//  UI init
+// ═══════════════════════════════════════
+function refreshHUD() {
+  document.getElementById('ticket-display').textContent = state.tickets.toLocaleString();
+  document.getElementById('roll-btn').disabled = (state.tickets < 1 || isAnimating);
+}
+refreshHUD();
+
+// ═══════════════════════════════════════
+//  ROLL logic
+// ═══════════════════════════════════════
+let isAnimating = false;
+
+function pickRarity() {
+  const total = Object.values(WEIGHTS).reduce((a,b)=>a+b,0);
+  let r = Math.random() * total;
+  for (const [rarity, w] of Object.entries(WEIGHTS)) {
+    r -= w;
+    if (r <= 0) return rarity;
+  }
+  return 'common';
+}
+
+function pickItem(rarity) {
+  const pool = BOURBONS.filter(b => b.rarity === rarity);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+async function doRoll() {
+  if (isAnimating || state.tickets < 1) return;
+  isAnimating = true;
+  state.tickets -= 1;
+  saveState();
+  refreshHUD();
+
+  const barrel = document.getElementById('barrel-svg');
+  const lid    = document.getElementById('lid-pop');
+  const bottle = document.getElementById('bottle-out');
+
+  // 1. Shake
+  barrel.classList.add('shaking');
+  await sleep(550);
+  barrel.classList.remove('shaking');
+
+  // 2. Lid flies off
+  lid.classList.add('flying');
+  await sleep(200);
+
+  // 3. Barrel opens (fades)
+  barrel.classList.add('opening');
+  await sleep(400);
+
+  // 4. Bottle rolls out
+  bottle.classList.add('rolling');
+  await sleep(1300);
+
+  // 5. Determine result
+  const rarity = pickRarity();
+  const item   = pickItem(rarity);
+  addToInventory(item);
+  saveState();
+
+  // 6. Dim + show reveal
+  await sleep(300);
+  showReveal(item);
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function resetBarrelAnim() {
+  const barrel = document.getElementById('barrel-svg');
+  const lid    = document.getElementById('lid-pop');
+  const bottle = document.getElementById('bottle-out');
+  barrel.classList.remove('shaking','opening');
+  lid.classList.remove('flying');
+  bottle.classList.remove('rolling');
+}
+
+// ═══════════════════════════════════════
+//  ITEM REVEAL
+// ═══════════════════════════════════════
+function showReveal(item) {
+  const overlay = document.getElementById('overlay');
+  const card    = document.getElementById('item-card');
+
+  // Set content
+  document.getElementById('rarity-badge').textContent = item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1);
+  document.getElementById('item-icon').textContent    = item.icon;
+  document.getElementById('item-name').textContent    = item.name;
+  document.getElementById('item-msrp').textContent    = `MSRP: $${item.msrp.toLocaleString()}`;
+  document.getElementById('item-desc').textContent    = item.desc;
+
+  // Apply rarity class
+  card.className = 'item-card ' + item.rarity;
+
+  overlay.classList.add('active');
+  // Force reflow for transition
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      card.style.display = 'flex';
+      setTimeout(() => {
+        card.style.transform = 'scale(1)';
+        card.style.opacity   = '1';
+      }, 30);
+      card.classList.add('show');
+    });
+  });
+
+  // Legendary particles
+  if (item.rarity === 'legendary') {
+    spawnParticles();
+  }
+}
+
+function closeReveal() {
+  const overlay = document.getElementById('overlay');
+  const card    = document.getElementById('item-card');
+  overlay.classList.remove('active');
+  card.classList.remove('show');
+  card.style.transform = 'scale(0.7)';
+  card.style.opacity   = '0';
+  setTimeout(() => { card.style.display = 'none'; }, 350);
+  stopParticles();
+  resetBarrelAnim();
+  isAnimating = false;
+  refreshHUD();
+}
+
+// ═══════════════════════════════════════
+//  PARTICLES
+// ═══════════════════════════════════════
+let particleInterval = null;
+function spawnParticles() {
+  const container = document.getElementById('particles');
+  container.classList.add('active');
+  let count = 0;
+  particleInterval = setInterval(() => {
+    if (count++ > 80) return;
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.top  = '-10px';
+    p.style.animationDuration = (2 + Math.random() * 3) + 's';
+    p.style.animationDelay    = (Math.random() * .5) + 's';
+    p.style.animation = `particle-fall ${2 + Math.random()*3}s linear ${Math.random()*.5}s forwards`;
+    const colors = ['#ffd700','#ffec6e','#f0a830','#fff8e1','#c8720a'];
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.width  = (4 + Math.random()*8) + 'px';
+    p.style.height = p.style.width;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 6000);
+  }, 60);
+}
+function stopParticles() {
+  clearInterval(particleInterval);
+  const container = document.getElementById('particles');
+  container.classList.remove('active');
+  container.innerHTML = '';
+}
+
+// ═══════════════════════════════════════
+//  INVENTORY
+// ═══════════════════════════════════════
+function addToInventory(item) {
+  const existing = state.inventory.find(e => e.id === item.id);
+  if (existing) {
+    existing.count++;
+  } else {
+    state.inventory.push({ ...item, count: 1 });
+  }
+}
+
+function openInventory() {
+  renderInventory();
+  document.getElementById('inv-panel').classList.add('open');
+}
+function closeInventory() {
+  document.getElementById('inv-panel').classList.remove('open');
+}
+
+function renderInventory() {
+  const grid  = document.getElementById('inv-grid');
+  const stats = document.getElementById('inv-stats');
+  grid.innerHTML  = '';
+  stats.innerHTML = '';
+
+  // Stats
+  const counts = { common:0, uncommon:0, rare:0, epic:0, legendary:0 };
+  state.inventory.forEach(it => { counts[it.rarity] += it.count; });
+  const labels = [
+    ['c','Common', counts.common],
+    ['u','Uncommon', counts.uncommon],
+    ['r','Rare', counts.rare],
+    ['e','Epic', counts.epic],
+    ['l','Legendary', counts.legendary],
+  ];
+  labels.forEach(([cls, label, n]) => {
+    if (n === 0) return;
+    stats.innerHTML += `<div class="stat-chip ${cls}">${label}: ${n}</div>`;
+  });
+  const total = Object.values(counts).reduce((a,b)=>a+b,0);
+  if (total > 0) stats.innerHTML += `<div class="stat-chip" style="border-color:var(--amber);color:var(--amber-lt)">Total: ${total}</div>`;
+
+  // Items — sorted by rarity
+  const order = ['legendary','epic','rare','uncommon','common'];
+  const sorted = [...state.inventory].sort((a,b) => order.indexOf(a.rarity) - order.indexOf(b.rarity));
+
+  if (sorted.length === 0) {
+    grid.innerHTML = '<div class="inv-empty">Your cellar is empty.<br>Open some barrels!</div>';
+    return;
+  }
+
+  sorted.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'inv-item ' + item.rarity;
+    div.innerHTML = `
+      ${item.count > 1 ? `<div class="inv-count">×${item.count}</div>` : ''}
+      <div class="i-icon">${item.icon}</div>
+      <div class="i-name">${item.name}</div>
+      <div class="i-msrp">~$${item.msrp.toLocaleString()}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function confirmReset() {
+  if (confirm('Reset your entire account? This will clear your cellar and restore 5,000 tickets.')) {
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    saveState();
+    renderInventory();
+    refreshHUD();
+    showToast('Account reset. 5,000 tickets restored.');
+  }
+}
+
+// ═══════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════
+//  PWA SERVICE WORKER (inline)
+// ═══════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  // Register inline SW via blob URL
+  const swCode = `
+    const CACHE = 'barrelroll-v1';
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html'])));
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+    });
+  `;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+</script>
+</body>
+</html>
