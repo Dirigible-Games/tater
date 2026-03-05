@@ -316,7 +316,32 @@
     .epic     .rarity-badge { color: var(--purple-b); border: 1px solid var(--purple-b); }
     .legendary .rarity-badge { color: var(--gold-b); border: 1px solid var(--gold-b); }
 
-    .item-icon { font-size: 5rem; line-height: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); }
+    .item-icon {
+      font-size: 5rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.5));
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .item-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,.6));
+      border-radius: 4px;
+    }
+    .item-icon .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,.15);
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .item-name {
       font-family: 'Playfair Display', serif;
@@ -481,7 +506,20 @@
     .inv-item.epic     { border: 2px solid var(--purple-b); }
     .inv-item.legendary{ border: 2px solid var(--gold-b); box-shadow: 0 0 20px rgba(255,215,0,.15); }
 
-    .inv-item .i-icon { font-size: 2.4rem; }
+    .inv-item .i-icon {
+      font-size: 2.4rem;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .inv-item .i-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+    }
     .inv-item .i-name { font-size: .72rem; font-weight: 700; color: var(--cream); line-height: 1.3; }
     .inv-item .i-msrp { font-size: .65rem; opacity: .6; }
     .inv-count {
@@ -685,72 +723,101 @@
 // ═══════════════════════════════════════
 const BOURBONS = [
   // ── COMMON ($0–40) ────────────────────
-  { id:'c01', name:'Evan Williams Black',          msrp:15,  rarity:'common',    icon:'🥃', desc:'Heaven Hill\'s flagship value bourbon — caramel, light oak, vanilla sweetness.' },
-  { id:'c02', name:'Jim Beam White Label',          msrp:18,  rarity:'common',    icon:'🍶', desc:'Classic 4-year Kentucky straight bourbon; easy-drinking grain and vanilla.' },
-  { id:'c03', name:'Old Forester 86 Proof',         msrp:22,  rarity:'common',    icon:'🥃', desc:'Brown-Forman\'s flagship entry. Spicy rye character, caramel-forward finish.' },
-  { id:'c04', name:'Buffalo Trace',                 msrp:28,  rarity:'common',    icon:'🐃', desc:'One of America\'s most beloved everyday bourbons — toffee, spice, dried fruit.' },
-  { id:'c05', name:'Wild Turkey 101',               msrp:25,  rarity:'common',    icon:'🦃', desc:'High-proof, high-rye classic. Bold spice, vanilla cream, and long heat.' },
-  { id:'c06', name:'Maker\'s Mark',                 msrp:30,  rarity:'common',    icon:'🥃', desc:'Wheated mash bill for a softer, sweeter character. The red-wax icon.' },
-  { id:'c07', name:'Bulleit Bourbon',               msrp:32,  rarity:'common',    icon:'🔫', desc:'High-rye frontier recipe. Orange peel, black pepper, dry finish.' },
-  { id:'c08', name:'Four Roses Yellow Label',       msrp:25,  rarity:'common',    icon:'🌹', desc:'Blends 10 recipes for balance. Pear, light oak, gentle spice.' },
-  { id:'c09', name:'Knob Creek Small Batch',        msrp:35,  rarity:'common',    icon:'🌿', desc:'9-year, 100-proof workhorse. Rich caramel, full body, toasted oak.' },
-  { id:'c10', name:'Old Grand-Dad Bonded',          msrp:22,  rarity:'common',    icon:'👴', desc:'100-proof bottled in bond. Spicy, feisty, and absolutely underrated.' },
+  { id:'c01', name:'Evan Williams Black',          msrp:15,  rarity:'common',    icon:'🥃', wiki:'Evan Williams (bourbon)', desc:'Heaven Hill\'s flagship value bourbon — caramel, light oak, vanilla sweetness.' },
+  { id:'c02', name:'Jim Beam White Label',          msrp:18,  rarity:'common',    icon:'🍶', wiki:'Jim Beam', desc:'Classic 4-year Kentucky straight bourbon; easy-drinking grain and vanilla.' },
+  { id:'c03', name:'Old Forester 86 Proof',         msrp:22,  rarity:'common',    icon:'🥃', wiki:'Old Forester', desc:'Brown-Forman\'s flagship entry. Spicy rye character, caramel-forward finish.' },
+  { id:'c04', name:'Buffalo Trace',                 msrp:28,  rarity:'common',    icon:'🐃', wiki:'Buffalo Trace (bourbon)', desc:'One of America\'s most beloved everyday bourbons — toffee, spice, dried fruit.' },
+  { id:'c05', name:'Wild Turkey 101',               msrp:25,  rarity:'common',    icon:'🦃', wiki:'Wild Turkey (bourbon)', desc:'High-proof, high-rye classic. Bold spice, vanilla cream, and long heat.' },
+  { id:'c06', name:'Maker\'s Mark',                 msrp:30,  rarity:'common',    icon:'🥃', wiki:"Maker's Mark", desc:'Wheated mash bill for a softer, sweeter character. The red-wax icon.' },
+  { id:'c07', name:'Bulleit Bourbon',               msrp:32,  rarity:'common',    icon:'🔫', wiki:'Bulleit Bourbon', desc:'High-rye frontier recipe. Orange peel, black pepper, dry finish.' },
+  { id:'c08', name:'Four Roses Yellow Label',       msrp:25,  rarity:'common',    icon:'🌹', wiki:'Four Roses (bourbon)', desc:'Blends 10 recipes for balance. Pear, light oak, gentle spice.' },
+  { id:'c09', name:'Knob Creek Small Batch',        msrp:35,  rarity:'common',    icon:'🌿', wiki:'Knob Creek (bourbon)', desc:'9-year, 100-proof workhorse. Rich caramel, full body, toasted oak.' },
+  { id:'c10', name:'Old Grand-Dad Bonded',          msrp:22,  rarity:'common',    icon:'👴', wiki:'Old Grand-Dad', desc:'100-proof bottled in bond. Spicy, feisty, and absolutely underrated.' },
 
   // ── UNCOMMON ($41–70) ─────────────────
-  { id:'u01', name:'Woodford Reserve Distiller\'s Select', msrp:45, rarity:'uncommon', icon:'🏡', desc:'Triple-distilled in pot stills. Chocolate-covered cherry, dried fruit, spice.' },
-  { id:'u02', name:'Elijah Craig Small Batch',      msrp:40,  rarity:'uncommon',  icon:'⛪', desc:'Heaven Hill\'s 12-year classic. Rich caramel, toasted oak, dark chocolate.' },
-  { id:'u03', name:'Four Roses Small Batch',        msrp:45,  rarity:'uncommon',  icon:'🌹', desc:'Four mash bills, 5 yeast strains. Complex fruit, honey, light spice.' },
-  { id:'u04', name:'Larceny Small Batch',           msrp:28,  rarity:'uncommon',  icon:'🔓', desc:'Wheated Heaven Hill bourbon. Honey, buttery caramel, light pepper finish.' },
-  { id:'u05', name:'Basil Hayden\'s',               msrp:50,  rarity:'uncommon',  icon:'🎩', desc:'High-rye, low-proof sipping bourbon. Peppery bite, light amber sweetness.' },
-  { id:'u06', name:'Evan Williams Single Barrel',   msrp:45,  rarity:'uncommon',  icon:'🏅', desc:'Vintage-dated single barrel. Caramel richness, subtle dried fruit notes.' },
-  { id:'u07', name:'Green River Full Proof',        msrp:50,  rarity:'uncommon',  icon:'🌿', desc:'Kentucky straight at full barrel proof — bold fruit, grain, and oak.' },
-  { id:'u08', name:'Larceny Barrel Proof',          msrp:60,  rarity:'uncommon',  icon:'🔓', desc:'Cask-strength wheated bourbon. Intensely sweet, creamy, with rising heat.' },
-  { id:'u09', name:'Nashtucky Small Batch',         msrp:70,  rarity:'uncommon',  icon:'🎸', desc:'Nashville-produced barrel proof. Sweet fruit, roasted grain, warm finish.' },
-  { id:'u10', name:'Nashville Barrel Co. 7 Year',   msrp:65,  rarity:'uncommon',  icon:'🎵', desc:'Independent bottler showcase — spicy, sweet, seven years of patience.' },
+  { id:'u01', name:'Woodford Reserve Distiller\'s Select', msrp:45, rarity:'uncommon', icon:'🏡', wiki:'Woodford Reserve', desc:'Triple-distilled in pot stills. Chocolate-covered cherry, dried fruit, spice.' },
+  { id:'u02', name:'Elijah Craig Small Batch',      msrp:40,  rarity:'uncommon',  icon:'⛪', wiki:'Elijah Craig (bourbon)', desc:'Heaven Hill\'s 12-year classic. Rich caramel, toasted oak, dark chocolate.' },
+  { id:'u03', name:'Four Roses Small Batch',        msrp:45,  rarity:'uncommon',  icon:'🌹', wiki:'Four Roses (bourbon)', desc:'Four mash bills, 5 yeast strains. Complex fruit, honey, light spice.' },
+  { id:'u04', name:'Larceny Small Batch',           msrp:28,  rarity:'uncommon',  icon:'🔓', wiki:'Larceny (bourbon)', desc:'Wheated Heaven Hill bourbon. Honey, buttery caramel, light pepper finish.' },
+  { id:'u05', name:'Basil Hayden\'s',               msrp:50,  rarity:'uncommon',  icon:'🎩', wiki:"Basil Hayden's", desc:'High-rye, low-proof sipping bourbon. Peppery bite, light amber sweetness.' },
+  { id:'u06', name:'Evan Williams Single Barrel',   msrp:45,  rarity:'uncommon',  icon:'🏅', wiki:'Evan Williams (bourbon)', desc:'Vintage-dated single barrel. Caramel richness, subtle dried fruit notes.' },
+  { id:'u07', name:'Green River Full Proof',        msrp:50,  rarity:'uncommon',  icon:'🌿', wiki:null, desc:'Kentucky straight at full barrel proof — bold fruit, grain, and oak.' },
+  { id:'u08', name:'Larceny Barrel Proof',          msrp:60,  rarity:'uncommon',  icon:'🔓', wiki:'Larceny (bourbon)', desc:'Cask-strength wheated bourbon. Intensely sweet, creamy, with rising heat.' },
+  { id:'u09', name:'Nashtucky Small Batch',         msrp:70,  rarity:'uncommon',  icon:'🎸', wiki:null, desc:'Nashville-produced barrel proof. Sweet fruit, roasted grain, warm finish.' },
+  { id:'u10', name:'Nashville Barrel Co. 7 Year',   msrp:65,  rarity:'uncommon',  icon:'🎵', wiki:null, desc:'Independent bottler showcase — spicy, sweet, seven years of patience.' },
 
   // ── RARE ($71–90) ─────────────────────
-  { id:'r01', name:'Maker\'s Mark Cask Strength',   msrp:75,  rarity:'rare',      icon:'🥃', desc:'Red-wax classic at full proof. Magnified wheat sweetness, brown sugar, vanilla.' },
-  { id:'r02', name:'Old Forester 1920 Prohibition', msrp:80,  rarity:'rare',      icon:'🚂', desc:'Modeled on post-Prohibition recipe. Rich, dark, powerful — chocolate and mint.' },
-  { id:'r03', name:'Wild Turkey Rare Breed',        msrp:80,  rarity:'rare',      icon:'🦃', desc:'Barrel-proof blend of 6, 8 & 12-year. Deep caramel, baking spice, long finish.' },
-  { id:'r04', name:'Knob Creek Single Barrel Reserve',msrp:80, rarity:'rare',     icon:'🌿', desc:'Single barrel selection at 120 proof. Intensely oaky, vanilla-rich, and bold.' },
-  { id:'r05', name:'Four Roses Single Barrel',      msrp:75,  rarity:'rare',      icon:'🌹', desc:'Single barrel at 100 proof. Elegant, floral, layers of fruit and spice.' },
-  { id:'r06', name:'Blanton\'s Original',           msrp:75,  rarity:'rare',      icon:'🏇', desc:'The original single barrel bourbon. Earthy citrus, vanilla, and bold pepper.' },
-  { id:'r07', name:'Woodford Reserve Double Oaked', msrp:80,  rarity:'rare',      icon:'🌲', desc:'Finished in toasted new oak. Intensified vanilla, caramel, and dark berry.' },
-  { id:'r08', name:'Tumblin\' Dice 8 Year Barrel Proof',msrp:80,rarity:'rare',    icon:'🎲', desc:'Independent small-batch cask strength. Rich fruit, grain, toasted oak.' },
-  { id:'r09', name:'OH Ingram River Aged',          msrp:84,  rarity:'rare',      icon:'⛵', desc:'Aged on a barge in the Tennessee River — unique temperature cycling creates bold spice.' },
-  { id:'r10', name:'Pacific Coast Spirits 6 Year',  msrp:90,  rarity:'rare',      icon:'🌊', desc:'California wheated bourbon at barrel proof. Fruit-forward, creamy, coastal character.' },
+  { id:'r01', name:'Maker\'s Mark Cask Strength',   msrp:75,  rarity:'rare',      icon:'🥃', wiki:"Maker's Mark", desc:'Red-wax classic at full proof. Magnified wheat sweetness, brown sugar, vanilla.' },
+  { id:'r02', name:'Old Forester 1920 Prohibition', msrp:80,  rarity:'rare',      icon:'🚂', wiki:'Old Forester', desc:'Modeled on post-Prohibition recipe. Rich, dark, powerful — chocolate and mint.' },
+  { id:'r03', name:'Wild Turkey Rare Breed',        msrp:80,  rarity:'rare',      icon:'🦃', wiki:'Wild Turkey (bourbon)', desc:'Barrel-proof blend of 6, 8 & 12-year. Deep caramel, baking spice, long finish.' },
+  { id:'r04', name:'Knob Creek Single Barrel Reserve',msrp:80, rarity:'rare',     icon:'🌿', wiki:'Knob Creek (bourbon)', desc:'Single barrel selection at 120 proof. Intensely oaky, vanilla-rich, and bold.' },
+  { id:'r05', name:'Four Roses Single Barrel',      msrp:75,  rarity:'rare',      icon:'🌹', wiki:'Four Roses (bourbon)', desc:'Single barrel at 100 proof. Elegant, floral, layers of fruit and spice.' },
+  { id:'r06', name:'Blanton\'s Original',           msrp:75,  rarity:'rare',      icon:'🏇', wiki:"Blanton's", desc:'The original single barrel bourbon. Earthy citrus, vanilla, and bold pepper.' },
+  { id:'r07', name:'Woodford Reserve Double Oaked', msrp:80,  rarity:'rare',      icon:'🌲', wiki:'Woodford Reserve', desc:'Finished in toasted new oak. Intensified vanilla, caramel, and dark berry.' },
+  { id:'r08', name:'Tumblin\' Dice 8 Year Barrel Proof',msrp:80,rarity:'rare',    icon:'🎲', wiki:null, desc:'Independent small-batch cask strength. Rich fruit, grain, toasted oak.' },
+  { id:'r09', name:'OH Ingram River Aged',          msrp:84,  rarity:'rare',      icon:'⛵', wiki:null, desc:'Aged on a barge in the Tennessee River — unique temperature cycling creates bold spice.' },
+  { id:'r10', name:'Pacific Coast Spirits 6 Year',  msrp:90,  rarity:'rare',      icon:'🌊', wiki:null, desc:'California wheated bourbon at barrel proof. Fruit-forward, creamy, coastal character.' },
 
   // ── EPIC ($91–110) ────────────────────
-  { id:'e01', name:'Booker\'s Bourbon',             msrp:100, rarity:'epic',      icon:'📖', desc:'Jim Beam\'s uncut, unfiltered gift. Huge heat, cinnamon, nutty oak — barrel strength.' },
-  { id:'e02', name:'Barrell Mizunara',              msrp:97,  rarity:'epic',      icon:'🎋', desc:'Finished in Japanese Mizunara oak — exotic sandalwood, coconut, bold American grain.' },
-  { id:'e03', name:'Pinhook Vertical Series',       msrp:100, rarity:'epic',      icon:'📐', desc:'9-year straight bourbon unfiltered. Complex grain, dried fruit, lingering warmth.' },
-  { id:'e04', name:'Brothers of the Leaf Batch 2',  msrp:96,  rarity:'epic',      icon:'🍃', desc:'Toasted French oak finish. Refined, structured oak-spice meets American sweetness.' },
-  { id:'e05', name:'Michter\'s US-1 Small Batch',   msrp:100, rarity:'epic',      icon:'🦅', desc:'Heat-cycled warehouse aging. Caramel richness, butterscotch, gentle pepper note.' },
-  { id:'e06', name:'Colonel E.H. Taylor Small Batch',msrp:95, rarity:'epic',      icon:'⭐', desc:'Bottled in bond from Buffalo Trace. Grassy sweetness, classic oak, lasting finish.' },
-  { id:'e07', name:'Eagle Rare 10 Year',            msrp:35,  rarity:'epic',      icon:'🦅', desc:'Allocated single barrel from Buffalo Trace. Dried herb, toffee, and black pepper.' },
-  { id:'e08', name:'Weller Special Reserve',        msrp:40,  rarity:'epic',      icon:'🎯', desc:'The allocated wheated classic. Soft caramel, wheat sweetness, and easy drinkability.' },
-  { id:'e09', name:'Barrell Craft Spirits Bourbon', msrp:100, rarity:'epic',      icon:'🛢️', desc:'Independently bottled cask strength blend. Consistently excellent layered complexity.' },
-  { id:'e10', name:'Lawrenceburg 10 Year Rye Mash', msrp:100, rarity:'epic',      icon:'🌾', desc:'High-rye bottling from Kentucky\'s historic Larrikin. Spice-forward, fruit-backed.' },
+  { id:'e01', name:'Booker\'s Bourbon',             msrp:100, rarity:'epic',      icon:'📖', wiki:"Booker's Bourbon", desc:'Jim Beam\'s uncut, unfiltered gift. Huge heat, cinnamon, nutty oak — barrel strength.' },
+  { id:'e02', name:'Barrell Mizunara',              msrp:97,  rarity:'epic',      icon:'🎋', wiki:null, desc:'Finished in Japanese Mizunara oak — exotic sandalwood, coconut, bold American grain.' },
+  { id:'e03', name:'Pinhook Vertical Series',       msrp:100, rarity:'epic',      icon:'📐', wiki:null, desc:'9-year straight bourbon unfiltered. Complex grain, dried fruit, lingering warmth.' },
+  { id:'e04', name:'Brothers of the Leaf Batch 2',  msrp:96,  rarity:'epic',      icon:'🍃', wiki:null, desc:'Toasted French oak finish. Refined, structured oak-spice meets American sweetness.' },
+  { id:'e05', name:'Michter\'s US-1 Small Batch',   msrp:100, rarity:'epic',      icon:'🦅', wiki:"Michter's", desc:'Heat-cycled warehouse aging. Caramel richness, butterscotch, gentle pepper note.' },
+  { id:'e06', name:'Colonel E.H. Taylor Small Batch',msrp:95, rarity:'epic',      icon:'⭐', wiki:'Colonel E.H. Taylor', desc:'Bottled in bond from Buffalo Trace. Grassy sweetness, classic oak, lasting finish.' },
+  { id:'e07', name:'Eagle Rare 10 Year',            msrp:35,  rarity:'epic',      icon:'🦅', wiki:'Eagle Rare', desc:'Allocated single barrel from Buffalo Trace. Dried herb, toffee, and black pepper.' },
+  { id:'e08', name:'Weller Special Reserve',        msrp:40,  rarity:'epic',      icon:'🎯', wiki:'W.L. Weller', desc:'The allocated wheated classic. Soft caramel, wheat sweetness, and easy drinkability.' },
+  { id:'e09', name:'Barrell Craft Spirits Bourbon', msrp:100, rarity:'epic',      icon:'🛢️', wiki:null, desc:'Independently bottled cask strength blend. Consistently excellent layered complexity.' },
+  { id:'e10', name:'Lawrenceburg 10 Year Rye Mash', msrp:100, rarity:'epic',      icon:'🌾', wiki:null, desc:'High-rye bottling from Kentucky\'s historic Larrikin. Spice-forward, fruit-backed.' },
 
   // ── LEGENDARY ($110+) ─────────────────
-  { id:'l01', name:'Pappy Van Winkle 15 Year',      msrp:500, rarity:'legendary', icon:'👴', desc:'The white whale of bourbon. Aged 15 years wheated — silky leather, dark fruit, impossible to find.' },
-  { id:'l02', name:'George T. Stagg',               msrp:150, rarity:'legendary', icon:'🦬', desc:'Antique Collection powerhouse. 136+ proof, massive caramel and oak, generational complexity.' },
-  { id:'l03', name:'William Larue Weller',          msrp:200, rarity:'legendary', icon:'⚜️', desc:'Wheated BTAC titan at full proof. The pinnacle of soft wheat power — beyond rare.' },
-  { id:'l04', name:'Little Book "The Infinite"',    msrp:250, rarity:'legendary', icon:'♾️', desc:'Booker Noe\'s grandson\'s masterwork — ultra-rare blend of Beam whiskies at barrel strength.' },
-  { id:'l05', name:'Knob Creek 18 Year',            msrp:160, rarity:'legendary', icon:'🌿', desc:'Extraordinarily aged Kentucky bourbon. Deep oak, leather, dark chocolate profundity.' },
-  { id:'l06', name:'Old Rip Van Winkle 10 Year',    msrp:200, rarity:'legendary', icon:'😴', desc:'MSRP is deceptively low — impossible to find. Silky and elegant with pure wheat charm.' },
-  { id:'l07', name:'Woodford Reserve Batch Proof',  msrp:165, rarity:'legendary', icon:'🏡', desc:'Annual batched barrel-proof Woodford. Concentrated chocolate, dried fruit, toasted spice.' },
-  { id:'l08', name:'Booker\'s The Reserve',         msrp:130, rarity:'legendary', icon:'📚', desc:'Freddie Noe\'s hand-selected 8–14 year barrels. A rare, refined evolution of Booker\'s DNA.' },
-  { id:'l09', name:'Bluegrass Elkwood Reserve 9 Yr',msrp:150, rarity:'legendary', icon:'🌿', desc:'120 proof Kentucky straight from a celebrated craft producer. Deep, barrel-forward complexity.' },
-  { id:'l10', name:'Weller Millennium',             msrp:7500,rarity:'legendary', icon:'🌕', desc:'The rarest Weller — a true unicorn. Estimated $7,500 MSRP. You may never see this again.' },
+  { id:'l01', name:'Pappy Van Winkle 15 Year',      msrp:500, rarity:'legendary', icon:'👴', wiki:"Pappy Van Winkle's Family Reserve", desc:'The white whale of bourbon. Aged 15 years wheated — silky leather, dark fruit, impossible to find.' },
+  { id:'l02', name:'George T. Stagg',               msrp:150, rarity:'legendary', icon:'🦬', wiki:'George T. Stagg (bourbon)', desc:'Antique Collection powerhouse. 136+ proof, massive caramel and oak, generational complexity.' },
+  { id:'l03', name:'William Larue Weller',          msrp:200, rarity:'legendary', icon:'⚜️', wiki:'W.L. Weller', desc:'Wheated BTAC titan at full proof. The pinnacle of soft wheat power — beyond rare.' },
+  { id:'l04', name:'Little Book "The Infinite"',    msrp:250, rarity:'legendary', icon:'♾️', wiki:'Little Book (bourbon)', desc:'Booker Noe\'s grandson\'s masterwork — ultra-rare blend of Beam whiskies at barrel strength.' },
+  { id:'l05', name:'Knob Creek 18 Year',            msrp:160, rarity:'legendary', icon:'🌿', wiki:'Knob Creek (bourbon)', desc:'Extraordinarily aged Kentucky bourbon. Deep oak, leather, dark chocolate profundity.' },
+  { id:'l06', name:'Old Rip Van Winkle 10 Year',    msrp:200, rarity:'legendary', icon:'😴', wiki:"Pappy Van Winkle's Family Reserve", desc:'MSRP is deceptively low — impossible to find. Silky and elegant with pure wheat charm.' },
+  { id:'l07', name:'Woodford Reserve Batch Proof',  msrp:165, rarity:'legendary', icon:'🏡', wiki:'Woodford Reserve', desc:'Annual batched barrel-proof Woodford. Concentrated chocolate, dried fruit, toasted spice.' },
+  { id:'l08', name:'Booker\'s The Reserve',         msrp:130, rarity:'legendary', icon:'📚', wiki:"Booker's Bourbon", desc:'Freddie Noe\'s hand-selected 8–14 year barrels. A rare, refined evolution of Booker\'s DNA.' },
+  { id:'l09', name:'Bluegrass Elkwood Reserve 9 Yr',msrp:150, rarity:'legendary', icon:'🌿', wiki:null, desc:'120 proof Kentucky straight from a celebrated craft producer. Deep, barrel-forward complexity.' },
+  { id:'l10', name:'Weller Millennium',             msrp:7500,rarity:'legendary', icon:'🌕', wiki:'W.L. Weller', desc:'The rarest Weller — a true unicorn. Estimated $7,500 MSRP. You may never see this again.' },
 ];
 
 // Rarity weights: common 50%, uncommon 30%, rare 12%, epic 6%, legendary 2%
 const WEIGHTS = { common: 50, uncommon: 30, rare: 12, epic: 6, legendary: 2 };
 
 // ═══════════════════════════════════════
-//  STATE
+//  WIKIPEDIA IMAGE CACHE
 // ═══════════════════════════════════════
+const imgCache = {}; // wiki title -> image URL or null
+
+async function fetchWikiImage(wikiTitle) {
+  if (!wikiTitle) return null;
+  if (imgCache[wikiTitle] !== undefined) return imgCache[wikiTitle];
+  imgCache[wikiTitle] = null; // mark as pending/tried
+  try {
+    const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikiTitle)}&prop=pageimages&piprop=thumbnail&pithumbsize=300&format=json&origin=*`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const pages = data.query.pages;
+    const page = Object.values(pages)[0];
+    if (page && page.thumbnail && page.thumbnail.source) {
+      imgCache[wikiTitle] = page.thumbnail.source;
+      return page.thumbnail.source;
+    }
+  } catch(e) {}
+  return null;
+}
+
+// Pre-warm cache for all wiki titles on load
+(async () => {
+  const titles = [...new Set(BOURBONS.filter(b => b.wiki).map(b => b.wiki))];
+  for (const title of titles) {
+    fetchWikiImage(title); // fire and forget
+  }
+})();
+
+
 const DEFAULT_STATE = { tickets: 5000, inventory: [] };
 let state = loadState();
 
@@ -848,22 +915,26 @@ function resetBarrelAnim() {
 // ═══════════════════════════════════════
 //  ITEM REVEAL
 // ═══════════════════════════════════════
-function showReveal(item) {
+async function showReveal(item) {
   const overlay = document.getElementById('overlay');
   const card    = document.getElementById('item-card');
 
   // Set content
   document.getElementById('rarity-badge').textContent = item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1);
-  document.getElementById('item-icon').textContent    = item.icon;
   document.getElementById('item-name').textContent    = item.name;
   document.getElementById('item-msrp').textContent    = `MSRP: $${item.msrp.toLocaleString()}`;
   document.getElementById('item-desc').textContent    = item.desc;
+
+  // Set icon — show spinner then swap to image or emoji
+  const iconEl = document.getElementById('item-icon');
+  iconEl.innerHTML = item.wiki
+    ? '<div class="spinner"></div>'
+    : item.icon;
 
   // Apply rarity class
   card.className = 'item-card ' + item.rarity;
 
   overlay.classList.add('active');
-  // Force reflow for transition
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       card.style.display = 'flex';
@@ -876,8 +947,19 @@ function showReveal(item) {
   });
 
   // Legendary particles
-  if (item.rarity === 'legendary') {
-    spawnParticles();
+  if (item.rarity === 'legendary') spawnParticles();
+
+  // Fetch image if we have a wiki title
+  if (item.wiki) {
+    const imgUrl = await fetchWikiImage(item.wiki);
+    if (imgUrl) {
+      const img = new Image();
+      img.onload = () => { iconEl.innerHTML = `<img src="${imgUrl}" alt="${item.name}">`; };
+      img.onerror = () => { iconEl.textContent = item.icon; };
+      img.src = imgUrl;
+    } else {
+      iconEl.textContent = item.icon;
+    }
   }
 }
 
@@ -982,9 +1064,13 @@ function renderInventory() {
   sorted.forEach(item => {
     const div = document.createElement('div');
     div.className = 'inv-item ' + item.rarity;
+    const imgUrl = item.wiki ? imgCache[item.wiki] : null;
+    const iconHtml = imgUrl
+      ? `<img src="${imgUrl}" alt="${item.name}" style="width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))">`
+      : `<span style="font-size:2.4rem">${item.icon}</span>`;
     div.innerHTML = `
       ${item.count > 1 ? `<div class="inv-count">×${item.count}</div>` : ''}
-      <div class="i-icon">${item.icon}</div>
+      <div class="i-icon">${iconHtml}</div>
       <div class="i-name">${item.name}</div>
       <div class="i-msrp">~$${item.msrp.toLocaleString()}</div>
     `;
