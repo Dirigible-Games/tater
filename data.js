@@ -690,26 +690,28 @@ window.DB = (function () {
   // noteOverValue: true = also call out price-is-no-object if rating > 9.25
   function getSegmentExpectation(rarity, msrp) {
     const isLow = rarity === 'common' || rarity === 'uncommon';
-    if (rarity === 'common' && msrp < 20) return { lo: 3.0, hi: 4.0,  overThresh: 4.0,  priceTag: true  };
-    if (isLow && msrp < 30)  return { lo: 3.0, hi: 5.25, overThresh: 5.5,  priceTag: true  };
-    if (isLow && msrp <= 45) return { lo: 4.0, hi: 6.25, overThresh: 6.5,  priceTag: true  };
-    if (isLow)               return { lo: 5.0, hi: 6.75, overThresh: 7.0,  priceTag: true  };
-    if (rarity === 'rare' && msrp < 50)  return { lo: 4.0, hi: 6.5,  overThresh: 6.75, priceTag: true  };
-    if (rarity === 'rare')               return { lo: 6.0, hi: 7.5,  overThresh: 7.75, priceTag: true  };
-    if (rarity === 'epic')               return { lo: 6.0, hi: 8.0,  overThresh: 8.25, priceTag: msrp < 125 };
+    if (rarity === 'common' && msrp < 20) return { lo: 3.0, hi: 4.0,  overThresh: 4.0,  badThresh: 3.0, priceTag: true  };
+    if (isLow && msrp < 30)  return { lo: 3.0, hi: 5.25, overThresh: 5.5,  badThresh: 3.0, priceTag: true  };
+    if (isLow && msrp <= 45) return { lo: 4.0, hi: 6.25, overThresh: 6.5,  badThresh: 4.0, priceTag: true  };
+    if (isLow)               return { lo: 5.0, hi: 6.75, overThresh: 7.0,  badThresh: 5.0, priceTag: true  };
+    if (rarity === 'rare' && msrp < 50)  return { lo: 4.0, hi: 6.5,  overThresh: 6.75, badThresh: 4.0, priceTag: true  };
+    if (rarity === 'rare')               return { lo: 6.0, hi: 7.5,  overThresh: 7.75, badThresh: 6.0, priceTag: true  };
+    if (rarity === 'epic')               return { lo: 6.0, hi: 8.0,  overThresh: 8.25, badThresh: 6.0, priceTag: msrp < 125 };
     // legendary
-    return { lo: 7.75, hi: 9.0, overThresh: 9.0, priceTag: msrp < 180 };
+    return { lo: 7.75, hi: 9.0, overThresh: 9.0, badThresh: 7.75, priceTag: msrp < 180 };
   }
 
   // ── VALUE COMMENT POOLS ───────────────────────────────────────
   const VALUE_PHRASES = {
-    // rating < segment low — priced too high for what it delivers
-    underperform_bad_price: [
-      `At $\${msrp}, this is genuinely indefensible.`,
-      `You are paying a premium for a bottle that earns nothing close to its price.`,
-      `The $\${msrp} asking price makes this actively offensive.`,
-      `At $\${msrp}, this is one of the worst values in the category.`,
-      `Hard to imagine a worse use of $\${msrp}.`,
+    // Seriously underperforming its segment — bad value, price called out
+    bad_value: [
+      `At $\${msrp}, this is a seriously bad value.`,
+      `This underperforms its $\${msrp} price tag by a considerable margin.`,
+      `$\${msrp} buys significantly better whiskey than this almost anywhere else.`,
+      `Hard to justify spending $\${msrp} on a bottle this far below expectations.`,
+      `At $\${msrp}, this is one of the worst values in its segment.`,
+      `The asking price of $\${msrp} significantly overstates what is in this bottle.`,
+      `You are getting far less than what $\${msrp} should deliver in this category.`,
     ],
     underperform_strong: [
       'Hard to justify at this price.',
@@ -727,8 +729,6 @@ window.DB = (function () {
       'The price overstates what is actually in the glass.',
       'Competent, but the price promises more than it delivers.',
     ],
-    // within expected range — no value comment
-    // overperforming — seriously punches above weight
     overperform_value: [
       'At this price, it is a serious find — do not hesitate.',
       'Remarkable value. This drinks well above anything near this price.',
@@ -736,7 +736,7 @@ window.DB = (function () {
       'Defies its price point entirely. One of the best values in the category.',
       'This makes you genuinely question why you would spend more.',
       'A hidden gem at this price. Tell your friends, or don\'t.',
-      'At $\${msrp}, this might be the most whiskey per dollar on the market right now.',
+      `At $\${msrp}, this might be the most whiskey per dollar on the market right now.`,
     ],
     overperform_mild: [
       'Modestly overperforms its price point.',
@@ -744,15 +744,6 @@ window.DB = (function () {
       'Offers more than the price tag suggests.',
       'Quietly beats everything around it on the shelf.',
     ],
-    // sub-3 star regardless of price
-    sub3_any: [
-      `At $\${msrp}, this is not just bad — it is a bad value.`,
-      `Even at half the price, this would be a disappointment.`,
-      `$\${msrp} for this is not a transaction anyone should make twice.`,
-      `The price paid here is the second thing to regret. The first is opening it.`,
-      `There is nothing in this bottle that justifies what was paid for it.`,
-    ],
-    // > 9.25 — all-time greats, price no object
     all_time_great: [
       'This belongs in any serious conversation about the greatest American whiskeys ever produced.',
       'A once-in-a-career pour. Price is not a relevant consideration.',
@@ -764,38 +755,31 @@ window.DB = (function () {
   };
 
   function getValueComment(rating, rarity, msrp) {
-    // Sub-3: always shame the price
-    if (rating < 3.0) {
-      return pick(VALUE_PHRASES.sub3_any).replace('${msrp}', msrp);
-    }
-
-    // All-time great
+    // All-time great — fire first, no bad-value language can override this
     if (rating > 9.25) {
       return pick(VALUE_PHRASES.all_time_great);
     }
 
     const seg = getSegmentExpectation(rarity, msrp);
 
-    // Below segment floor
-    const deficit = seg.lo - rating;
-    if (deficit >= 1.5) {
-      return pick(VALUE_PHRASES.underperform_bad_price).replace('${msrp}', msrp);
+    // Seriously underperforming: rating is below this segment's bad threshold
+    if (rating < seg.badThresh) {
+      return pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp);
     }
-    if (deficit > 0) {
+
+    // Overperforming: above the segment's overperform threshold
+    if (rating >= seg.overThresh) {
+      return seg.priceTag
+        ? pick(VALUE_PHRASES.overperform_value).replace('${msrp}', msrp)
+        : pick(VALUE_PHRASES.overperform_mild);
+    }
+
+    // Below segment floor (but above bad threshold) — strong underperform
+    if (rating < seg.lo) {
       return pick(VALUE_PHRASES.underperform_strong);
     }
 
-    // Above segment ceiling meaningfully
-    const surplus = rating - seg.overThresh;
-    if (surplus >= 0) {
-      // Only call out price-as-value if priceTag flag is set for this segment
-      if (seg.priceTag) {
-        return pick(VALUE_PHRASES.overperform_value).replace('${msrp}', msrp);
-      }
-      return pick(VALUE_PHRASES.overperform_mild);
-    }
-
-    // Mild underperform (between floor and hi, but below midpoint)
+    // Below midpoint — mild underperform
     const midpoint = (seg.lo + seg.hi) / 2;
     if (rating < midpoint - 0.5) {
       return pick(VALUE_PHRASES.underperform_mild);
