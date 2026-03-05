@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Barrel Roll — Bourbon Gacha</title>
+  <title>Tater's Treasures — Bourbon Gacha</title>
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#1a0f00" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -143,67 +143,61 @@
       gap: 32px;
     }
 
-    .barrel-scene {
+    .store-scene {
       position: relative;
-      width: 180px;
-      height: 210px;
+      width: min(340px, 88vw);
+      height: min(260px, 67vw);
+      flex-shrink: 0;
     }
 
-    /* SVG barrel shakes on click */
-    @keyframes barrel-shake {
-      0%   { transform: rotate(0deg); }
-      15%  { transform: rotate(-4deg) translateX(-4px); }
-      30%  { transform: rotate(4deg) translateX(4px); }
-      45%  { transform: rotate(-3deg) translateX(-3px); }
-      60%  { transform: rotate(3deg) translateX(3px); }
-      75%  { transform: rotate(-1deg); }
-      100% { transform: rotate(0deg); }
-    }
-    @keyframes barrel-open {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-      40%  { transform: translateY(-30px) rotate(-8deg); opacity: 1; }
-      100% { transform: translateY(-50px) rotate(-15deg); opacity: 0; }
-    }
-    @keyframes bottle-roll {
-      0%   { transform: translateX(-100px) translateY(0px) rotate(-90deg); opacity: 0; }
-      20%  { opacity: 1; }
-      70%  { transform: translateX(60px) translateY(0px) rotate(20deg); }
-      85%  { transform: translateX(50px) translateY(0px) rotate(15deg); }
-      92%  { transform: translateX(56px) translateY(0px) rotate(18deg); }
-      100% { transform: translateX(52px) translateY(0px) rotate(16deg); }
+    /* Store SVG fills its container */
+    .store-svg {
+      width: 100%;
+      height: 100%;
     }
 
-    .barrel-svg { width: 180px; height: 210px; }
-    .barrel-svg.shaking { animation: barrel-shake .5s ease-in-out; }
-    .barrel-svg.opening { animation: barrel-open .6s ease-in forwards; }
-
-    /* Lid piece that flies off */
-    .lid-pop {
+    /* Left and right door panels — each clips to half the doorway */
+    .door-left, .door-right {
       position: absolute;
-      top: -10px; left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 24px;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    @keyframes door-open-left {
+      0%   { transform: scaleX(1);   transform-origin: left center; }
+      100% { transform: scaleX(0.08); transform-origin: left center; }
+    }
+    @keyframes door-open-right {
+      0%   { transform: scaleX(1);   transform-origin: right center; }
+      100% { transform: scaleX(0.08); transform-origin: right center; }
+    }
+    .door-left.opening  { animation: door-open-left  .55s cubic-bezier(.4,0,.2,1) forwards; }
+    .door-right.opening { animation: door-open-right .55s cubic-bezier(.4,0,.2,1) forwards; }
+
+    /* Bottle emerging from store — scales up and moves down toward viewer */
+    .bottle-emerge {
+      position: absolute;
+      /* centered in the doorway */
+      left: 50%;
+      bottom: 22%;
+      transform: translateX(-50%) scale(0);
       opacity: 0;
       pointer-events: none;
-    }
-    @keyframes lid-fly {
-      0%   { transform: translateX(-50%) rotate(0deg) translateY(0); opacity: 1; }
-      100% { transform: translateX(calc(-50% + 80px)) rotate(40deg) translateY(-120px); opacity: 0; }
-    }
-    .lid-pop.flying { animation: lid-fly .7s ease-out forwards; }
-
-    /* Bottle rolling out */
-    .bottle-out {
-      position: absolute;
-      bottom: -40px; left: 0;
-      width: 70px;
-      height: 140px;
-      opacity: 0;
       transform-origin: center bottom;
-      pointer-events: none;
+      width: min(66px, 17vw);
     }
-    .bottle-out.rolling { animation: bottle-roll 1.2s cubic-bezier(.25,.46,.45,.94) forwards; }
+
+    @keyframes bottle-emerge {
+      0%   { transform: translateX(-50%) scale(0.15); opacity: 0; }
+      15%  { opacity: 1; }
+      80%  { transform: translateX(-50%) scale(1.1);  opacity: 1; }
+      100% { transform: translateX(-50%) scale(1.0);  opacity: 1; }
+    }
+    .bottle-emerge.emerging {
+      animation: bottle-emerge 1.1s cubic-bezier(.22,.68,0,1.2) forwards;
+    }
 
     /* ── Roll button ── */
     .roll-btn {
@@ -682,12 +676,12 @@
       position: relative;
     }
 
-    /* Barrel scales up to fill the stage nicely */
-    .barrel-scene {
-      width: min(220px, 55vw);
-      height: min(264px, 66vw);
+    /* Store scales to fill the stage nicely */
+    .store-scene {
+      width: min(340px, 88vw);
+      height: min(260px, 67vw);
     }
-    .barrel-svg {
+    .store-svg {
       width: 100%;
       height: 100%;
     }
@@ -782,7 +776,7 @@
 <body>
 
 <header>
-  <div class="logo">Barrel <span>Roll</span></div>
+  <div class="logo">Tater's <span>Treasures</span></div>
   <div class="hud">
     <div class="ticket-counter">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -798,144 +792,209 @@
   <div class="ground"></div>
 
   <div class="barrel-wrap">
-    <div class="barrel-scene">
-      <!-- Barrel SVG -->
-      <svg class="barrel-svg" id="barrel-svg" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="store-scene" id="store-scene">
+
+      <!-- ══ TATER'S TREASURES STOREFRONT SVG ══ -->
+      <svg class="store-svg" viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="wood-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stop-color="#1c0a02"/>
-            <stop offset="8%"   stop-color="#5c2a0a"/>
-            <stop offset="22%"  stop-color="#8b4010"/>
-            <stop offset="42%"  stop-color="#a84e18"/>
-            <stop offset="50%"  stop-color="#b85820"/>
-            <stop offset="58%"  stop-color="#a84e18"/>
-            <stop offset="78%"  stop-color="#8b4010"/>
-            <stop offset="92%"  stop-color="#5c2a0a"/>
-            <stop offset="100%" stop-color="#1c0a02"/>
+          <!-- Building facade gradient -->
+          <linearGradient id="facade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#2a1c0e"/>
+            <stop offset="100%" stop-color="#1a1008"/>
           </linearGradient>
-          <radialGradient id="lid-grad" cx="42%" cy="38%" r="65%">
-            <stop offset="0%"   stop-color="#c07838"/>
-            <stop offset="55%"  stop-color="#8b4818"/>
-            <stop offset="100%" stop-color="#3a1a06"/>
+          <!-- Awning stripe gradient -->
+          <linearGradient id="awning-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#8b1a1a"/>
+            <stop offset="100%" stop-color="#5c1010"/>
+          </linearGradient>
+          <!-- Window glow -->
+          <radialGradient id="win-glow" cx="50%" cy="50%" r="55%">
+            <stop offset="0%"   stop-color="#ffe4a0" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#c87820" stop-opacity=".08"/>
           </radialGradient>
-          <linearGradient id="hoop-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#5a3a10"/>
-            <stop offset="30%"  stop-color="#1a0c04"/>
-            <stop offset="70%"  stop-color="#2a1606"/>
-            <stop offset="100%" stop-color="#4a2a0c"/>
+          <!-- Floor / sidewalk -->
+          <linearGradient id="sidewalk" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#2e2418"/>
+            <stop offset="100%" stop-color="#1a1208"/>
           </linearGradient>
-          <linearGradient id="hoop-hi" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stop-color="rgba(200,120,40,0)"/>
-            <stop offset="35%"  stop-color="rgba(200,130,50,0.4)"/>
-            <stop offset="65%"  stop-color="rgba(200,130,50,0.3)"/>
-            <stop offset="100%" stop-color="rgba(200,120,40,0)"/>
+          <!-- Door interior (warm interior light) -->
+          <linearGradient id="door-interior" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ffe090" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#c87020" stop-opacity=".3"/>
           </linearGradient>
-          <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stop-color="rgba(255,255,255,0)"/>
-            <stop offset="48%"  stop-color="rgba(255,220,150,0.10)"/>
-            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-          </linearGradient>
-          <clipPath id="barrel-clip">
-            <path d="M68,16 Q44,20 32,52 Q22,80 22,122 Q22,164 32,190 Q44,210 68,216 L132,216 Q156,210 168,190 Q178,164 178,122 Q178,80 168,52 Q156,20 132,16 Z"/>
-          </clipPath>
+          <!-- Neon sign flicker effect handled via opacity -->
+          <filter id="neon-blur">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
         </defs>
 
-        <!-- Ground shadow -->
-        <ellipse cx="100" cy="230" rx="68" ry="9" fill="#0a0400" opacity=".55"/>
+        <!-- ── SIDEWALK / GROUND ── -->
+        <rect x="0" y="218" width="340" height="42" fill="url(#sidewalk)"/>
+        <!-- Sidewalk cracks -->
+        <line x1="80"  y1="220" x2="82"  y2="258" stroke="#111008" stroke-width="1" opacity=".5"/>
+        <line x1="200" y1="222" x2="198" y2="258" stroke="#111008" stroke-width="1" opacity=".5"/>
+        <line x1="260" y1="220" x2="263" y2="258" stroke="#111008" stroke-width=".8" opacity=".4"/>
 
-        <!-- Barrel body -->
-        <path d="M68,16 Q44,20 32,52 Q22,80 22,122 Q22,164 32,190 Q44,210 68,216 L132,216 Q156,210 168,190 Q178,164 178,122 Q178,80 168,52 Q156,20 132,16 Z"
-              fill="url(#wood-grad)"/>
-
-        <!-- Stave lines, clipped -->
-        <g clip-path="url(#barrel-clip)" opacity=".4">
-          <line x1="78"  y1="16"  x2="70"  y2="216" stroke="#1e0a02" stroke-width="1.8"/>
-          <line x1="90"  y1="15"  x2="87"  y2="217" stroke="#1e0a02" stroke-width="1.3"/>
-          <line x1="100" y1="14"  x2="100" y2="218" stroke="#1e0a02" stroke-width="1.8"/>
-          <line x1="110" y1="15"  x2="113" y2="217" stroke="#1e0a02" stroke-width="1.3"/>
-          <line x1="122" y1="16"  x2="130" y2="216" stroke="#1e0a02" stroke-width="1.8"/>
+        <!-- ── BUILDING FACADE ── -->
+        <rect x="10" y="30" width="320" height="190" fill="url(#facade)"/>
+        <!-- Brick texture rows (subtle) -->
+        <g opacity=".18" stroke="#c8a060" stroke-width=".5">
+          <line x1="10" y1="50"  x2="330" y2="50"/>
+          <line x1="10" y1="66"  x2="330" y2="66"/>
+          <line x1="10" y1="82"  x2="330" y2="82"/>
+          <line x1="10" y1="98"  x2="330" y2="98"/>
+          <line x1="10" y1="114" x2="330" y2="114"/>
+          <!-- vertical brick offsets alternating rows -->
+          <line x1="60"  y1="50" x2="60"  y2="66"/><line x1="120" y1="50" x2="120" y2="66"/>
+          <line x1="180" y1="50" x2="180" y2="66"/><line x1="240" y1="50" x2="240" y2="66"/>
+          <line x1="300" y1="50" x2="300" y2="66"/>
+          <line x1="30"  y1="66" x2="30"  y2="82"/><line x1="90"  y1="66" x2="90"  y2="82"/>
+          <line x1="150" y1="66" x2="150" y2="82"/><line x1="210" y1="66" x2="210" y2="82"/>
+          <line x1="270" y1="66" x2="270" y2="82"/><line x1="330" y1="66" x2="330" y2="82"/>
         </g>
 
-        <!-- Wood sheen -->
-        <path d="M68,16 Q44,20 32,52 Q22,80 22,122 Q22,164 32,190 Q44,210 68,216 L132,216 Q156,210 168,190 Q178,164 178,122 Q178,80 168,52 Q156,20 132,16 Z"
-              fill="url(#sheen)"/>
+        <!-- ── ROOFLINE / PARAPET ── -->
+        <rect x="10" y="18" width="320" height="18" fill="#3a2410" rx="2"/>
+        <rect x="10" y="18" width="320" height="4"  fill="#5a3818"/>
+        <!-- Parapet notches -->
+        <rect x="20"  y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="56"  y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="92"  y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="128" y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="164" y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="200" y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="236" y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="272" y="14" width="24" height="8" rx="1" fill="#3a2410"/>
+        <rect x="308" y="14" width="24" height="8" rx="1" fill="#3a2410"/>
 
-        <!-- TOP HOOP -->
-        <path d="M68,40 Q84,35 100,35 Q116,35 132,40 Q116,45 100,45 Q84,45 68,40 Z" fill="url(#hoop-grad)"/>
-        <path d="M68,40 Q84,35 100,35 Q116,35 132,40" fill="none" stroke="url(#hoop-hi)" stroke-width="1.5"/>
+        <!-- ── AWNING ── -->
+        <path d="M20,36 L320,36 L308,72 L32,72 Z" fill="url(#awning-grad)"/>
+        <!-- Awning stripes (cream) -->
+        <line x1="64"  y1="36" x2="56"  y2="72" stroke="#f5e8c8" stroke-width="8" opacity=".12"/>
+        <line x1="110" y1="36" x2="100" y2="72" stroke="#f5e8c8" stroke-width="8" opacity=".12"/>
+        <line x1="156" y1="36" x2="146" y2="72" stroke="#f5e8c8" stroke-width="8" opacity=".12"/>
+        <line x1="202" y1="36" x2="192" y2="72" stroke="#f5e8c8" stroke-width="8" opacity=".12"/>
+        <line x1="248" y1="36" x2="238" y2="72" stroke="#f5e8c8" stroke-width="8" opacity=".12"/>
+        <line x1="294" y1="36" x2="284" y2="72" stroke="#f5e8c8" stroke-width="8" opacity=".12"/>
+        <!-- Awning fringe -->
+        <g stroke="#c8a040" stroke-width="1.2" opacity=".7">
+          <line x1="35"  y1="72" x2="33"  y2="80"/>
+          <line x1="50"  y1="72" x2="48"  y2="80"/>
+          <line x1="65"  y1="72" x2="63"  y2="80"/>
+          <line x1="80"  y1="72" x2="78"  y2="80"/>
+          <line x1="95"  y1="72" x2="93"  y2="80"/>
+          <line x1="110" y1="72" x2="108" y2="80"/>
+          <line x1="125" y1="72" x2="123" y2="80"/>
+          <line x1="140" y1="72" x2="138" y2="80"/>
+          <line x1="155" y1="72" x2="153" y2="80"/>
+          <line x1="170" y1="72" x2="168" y2="80"/>
+          <line x1="185" y1="72" x2="183" y2="80"/>
+          <line x1="200" y1="72" x2="198" y2="80"/>
+          <line x1="215" y1="72" x2="213" y2="80"/>
+          <line x1="230" y1="72" x2="228" y2="80"/>
+          <line x1="245" y1="72" x2="243" y2="80"/>
+          <line x1="260" y1="72" x2="258" y2="80"/>
+          <line x1="275" y1="72" x2="273" y2="80"/>
+          <line x1="290" y1="72" x2="288" y2="80"/>
+          <line x1="305" y1="72" x2="303" y2="80"/>
+        </g>
 
-        <!-- UPPER HOOP -->
-        <path d="M38,78 Q68,70 100,70 Q132,70 162,78 Q132,86 100,86 Q68,86 38,78 Z" fill="url(#hoop-grad)"/>
-        <path d="M38,78 Q68,70 100,70 Q132,70 162,78" fill="none" stroke="url(#hoop-hi)" stroke-width="2"/>
+        <!-- ── STORE NAME ON AWNING ── -->
+        <text x="170" y="61" font-family="'Playfair Display',Georgia,serif" font-weight="900"
+              font-size="17" fill="#f5e8c8" text-anchor="middle" letter-spacing="2"
+              opacity=".95">TATER'S TREASURES</text>
 
-        <!-- LOWER HOOP -->
-        <path d="M38,158 Q68,166 100,166 Q132,166 162,158 Q132,150 100,150 Q68,150 38,158 Z" fill="url(#hoop-grad)"/>
-        <path d="M38,158 Q68,166 100,166 Q132,166 162,158" fill="none" stroke="url(#hoop-hi)" stroke-width="2"/>
+        <!-- ── LEFT DISPLAY WINDOW ── -->
+        <rect x="22" y="92" width="76" height="88" rx="2" fill="#0a0800"/>
+        <rect x="22" y="92" width="76" height="88" rx="2" fill="url(#win-glow)"/>
+        <rect x="22" y="92" width="76" height="88" rx="2" fill="none" stroke="#8b6030" stroke-width="2.5"/>
+        <!-- Window bottles silhouettes -->
+        <rect x="34"  y="120" width="7"  height="46" rx="3" fill="#c87020" opacity=".55"/>
+        <rect x="46"  y="112" width="9"  height="54" rx="3" fill="#a05018" opacity=".6"/>
+        <rect x="60"  y="118" width="7"  height="48" rx="3" fill="#c87020" opacity=".5"/>
+        <rect x="72"  y="108" width="10" height="58" rx="4" fill="#d4901c" opacity=".65"/>
+        <rect x="84"  y="122" width="7"  height="44" rx="3" fill="#b06018" opacity=".5"/>
+        <!-- Window sill -->
+        <rect x="20" y="178" width="80" height="5" rx="1" fill="#5a3818"/>
+        <!-- Window reflection -->
+        <line x1="26" y1="95" x2="26" y2="175" stroke="rgba(255,255,255,.08)" stroke-width="3"/>
 
-        <!-- BOTTOM HOOP -->
-        <path d="M68,194 Q84,199 100,199 Q116,199 132,194 Q116,189 100,189 Q84,189 68,194 Z" fill="url(#hoop-grad)"/>
-        <path d="M68,194 Q84,199 100,199 Q116,199 132,194" fill="none" stroke="url(#hoop-hi)" stroke-width="1.5"/>
+        <!-- ── RIGHT DISPLAY WINDOW ── -->
+        <rect x="242" y="92" width="76" height="88" rx="2" fill="#0a0800"/>
+        <rect x="242" y="92" width="76" height="88" rx="2" fill="url(#win-glow)"/>
+        <rect x="242" y="92" width="76" height="88" rx="2" fill="none" stroke="#8b6030" stroke-width="2.5"/>
+        <rect x="254" y="120" width="7"  height="46" rx="3" fill="#d4901c" opacity=".6"/>
+        <rect x="266" y="110" width="9"  height="56" rx="3" fill="#c87020" opacity=".55"/>
+        <rect x="280" y="116" width="7"  height="50" rx="3" fill="#a05018" opacity=".6"/>
+        <rect x="292" y="106" width="10" height="60" rx="4" fill="#c87020" opacity=".65"/>
+        <rect x="306" y="120" width="7"  height="46" rx="3" fill="#b06018" opacity=".5"/>
+        <rect x="240" y="178" width="80" height="5" rx="1" fill="#5a3818"/>
+        <line x1="246" y1="95" x2="246" y2="175" stroke="rgba(255,255,255,.08)" stroke-width="3"/>
 
-        <!-- Bung hole -->
-        <ellipse cx="100" cy="122" rx="8" ry="6" fill="#0d0500"/>
-        <ellipse cx="100" cy="122" rx="4.5" ry="3.5" fill="#3a1a04"/>
-        <ellipse cx="100" cy="122" rx="2" ry="1.5" fill="#c87020" opacity=".45"/>
+        <!-- ── DOOR FRAME ── -->
+        <rect x="122" y="96" width="96" height="122" rx="3" fill="#3a2410"/>
+        <!-- Door interior (warm glow behind the doors) -->
+        <rect id="door-interior-rect" x="126" y="100" width="88" height="115" fill="url(#door-interior)" opacity="0"/>
 
-        <!-- Top lid face -->
-        <ellipse id="barrel-lid" cx="100" cy="16" rx="32" ry="10"
-                 fill="url(#lid-grad)" stroke="#5a2808" stroke-width="2"/>
-        <ellipse cx="100" cy="16" rx="25" ry="7" fill="none" stroke="rgba(160,80,30,0.45)" stroke-width="1"/>
-        <ellipse cx="100" cy="16" rx="5" ry="2" fill="#2a1004" stroke="#5a2808" stroke-width=".8"/>
+        <!-- ── NEON SIGN above door ── -->
+        <rect x="136" y="82" width="68" height="14" rx="3" fill="#1a0808" stroke="#8b1a1a" stroke-width="1"/>
+        <text x="170" y="93" font-family="'Libre Baskerville',Georgia,serif" font-size="8.5"
+              fill="#ff6060" text-anchor="middle" letter-spacing="1.5"
+              filter="url(#neon-blur)" opacity=".9">OPEN</text>
+
+        <!-- ── DOOR PANELS (drawn last so they overlap frame) ── -->
+        <!-- Left door panel (solid, will scale-close left) -->
+        <rect id="door-l" x="126" y="100" width="44" height="115" fill="#5c3818" stroke="#3a2008" stroke-width="1"/>
+        <line x1="148" y1="105" x2="148" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
+        <circle cx="164" cy="157" r="4" fill="#c8a040"/><!-- left door handle -->
+
+        <!-- Right door panel -->
+        <rect id="door-r" x="170" y="100" width="44" height="115" fill="#5c3818" stroke="#3a2008" stroke-width="1"/>
+        <line x1="192" y1="105" x2="192" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
+        <circle cx="176" cy="157" r="4" fill="#c8a040"/><!-- right door handle -->
+
+        <!-- ── STEP / THRESHOLD ── -->
+        <rect x="118" y="214" width="104" height="8" rx="2" fill="#4a3018"/>
+        <rect x="118" y="216" width="104" height="2" fill="#6a4820" opacity=".6"/>
+
+        <!-- ── LAMP SCONCE left ── -->
+        <rect x="108" y="90" width="6" height="18" rx="2" fill="#5a3818"/>
+        <ellipse cx="111" cy="90" rx="5" ry="3" fill="#c8a040"/>
+        <ellipse cx="111" cy="90" rx="3" ry="2" fill="#ffe090" opacity=".8"/>
+
+        <!-- ── LAMP SCONCE right ── -->
+        <rect x="226" y="90" width="6" height="18" rx="2" fill="#5a3818"/>
+        <ellipse cx="229" cy="90" rx="5" ry="3" fill="#c8a040"/>
+        <ellipse cx="229" cy="90" rx="3" ry="2" fill="#ffe090" opacity=".8"/>
+
+        <!-- ── SIGN BOARD below windows ── -->
+        <rect x="22" y="190" width="296" height="24" rx="2" fill="#2e1c0c"/>
+        <text x="170" y="205" font-family="'Playfair Display',Georgia,serif" font-size="10"
+              font-style="italic" fill="#c8a040" text-anchor="middle" letter-spacing="1.5"
+              opacity=".9">Fine Bourbons &amp; Rare Spirits</text>
       </svg>
 
-      <!-- Lid that flies off -->
-      <div class="lid-pop" id="lid-pop">
-        <svg viewBox="0 0 68 22" width="68" height="22" fill="none">
-          <defs>
-            <radialGradient id="lid2" cx="42%" cy="38%" r="65%">
-              <stop offset="0%"   stop-color="#c07838"/>
-              <stop offset="55%"  stop-color="#8b4818"/>
-              <stop offset="100%" stop-color="#3a1a06"/>
-            </radialGradient>
-          </defs>
-          <ellipse cx="34" cy="11" rx="32" ry="10" fill="url(#lid2)" stroke="#5a2808" stroke-width="1.5"/>
-          <ellipse cx="34" cy="11" rx="25" ry="7" fill="none" stroke="rgba(160,80,30,0.4)" stroke-width="1"/>
-          <ellipse cx="34" cy="11" rx="5" ry="2" fill="#2a1004" stroke="#5a2808" stroke-width=".8"/>
-        </svg>
-      </div>
+      <!-- Door overlay: two absolutely-positioned rects animated via JS class -->
+      <!-- We draw them as SVGs to match the exact door coordinates in the scene -->
+      <svg class="door-left" id="door-anim-left" viewBox="0 0 340 260">
+        <rect x="126" y="100" width="44" height="115" fill="#5c3818"/>
+        <line x1="148" y1="105" x2="148" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
+        <circle cx="164" cy="157" r="4" fill="#c8a040"/>
+      </svg>
+      <svg class="door-right" id="door-anim-right" viewBox="0 0 340 260">
+        <rect x="170" y="100" width="44" height="115" fill="#5c3818"/>
+        <line x1="192" y1="105" x2="192" y2="210" stroke="#3a2008" stroke-width=".8" opacity=".5"/>
+        <circle cx="176" cy="157" r="4" fill="#c8a040"/>
+      </svg>
 
-      <!-- Bottle that rolls out -->
-      <div class="bottle-out" id="bottle-out">
-        <svg viewBox="0 0 70 140" width="70" height="140" fill="none" xmlns="http://www.w3.org/2000/svg" id="bottle-svg">
-          <!-- Generic amber bottle shape -->
-          <path d="M28 8 L28 30 Q14 40 14 55 L14 120 Q14 132 22 132 L48 132 Q56 132 56 120 L56 55 Q56 40 42 30 L42 8 Z" fill="url(#bottle-grad)" stroke="#2a1000" stroke-width="1.5"/>
-          <!-- Label -->
-          <rect x="18" y="65" width="34" height="45" rx="3" fill="rgba(245,232,200,.15)" stroke="rgba(245,232,200,.3)" stroke-width="1"/>
-          <!-- Neck -->
-          <rect x="27" y="6" width="16" height="25" rx="4" fill="url(#neck-grad)" stroke="#2a1000" stroke-width="1.5"/>
-          <!-- Cap -->
-          <rect x="26" y="2" width="18" height="10" rx="3" fill="#c8720a"/>
-          <!-- Highlight -->
-          <path d="M20 55 Q18 80 18 105" stroke="rgba(255,255,255,.15)" stroke-width="4" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="bottle-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#4a2000"/>
-              <stop offset="40%" stop-color="#c87814"/>
-              <stop offset="70%" stop-color="#a06010"/>
-              <stop offset="100%" stop-color="#3a1500"/>
-            </linearGradient>
-            <linearGradient id="neck-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#3a1500"/>
-              <stop offset="50%" stop-color="#c87814"/>
-              <stop offset="100%" stop-color="#3a1500"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      <!-- Bottle that emerges from the doorway -->
+      <div class="bottle-emerge" id="bottle-emerge"></div>
+
     </div>
 
     <button class="roll-btn" id="roll-btn" onclick="doRoll()">
-      Open the Barrel
+      Wait in Line at 4AM
       <span class="cost-tag">— 1 ticket —</span>
     </button>
   </div>
@@ -1123,49 +1182,60 @@ async function doRoll() {
   saveState();
   refreshHUD();
 
-  // ★ STEP 1: Determine rarity FIRST before animation ★
+  // ★ STEP 1: Determine rarity FIRST ★
   const rarity = pickRarity();
 
-  const barrel = document.getElementById('barrel-svg');
-  const lid    = document.getElementById('lid-pop');
-  const bottle = document.getElementById('bottle-out');
-
-  // 1. Shake
-  barrel.classList.add('shaking');
-  await sleep(550);
-  barrel.classList.remove('shaking');
-
-  // 2. Lid flies off
-  lid.classList.add('flying');
-  await sleep(200);
-
-  // 3. Barrel fades open
-  barrel.classList.add('opening');
-  await sleep(400);
-
-  // 4. Bottle rolls out
-  bottle.classList.add('rolling');
-  await sleep(1300);
-
-  // 5. Generate item using pre-determined rarity
+  // ★ STEP 2: Generate the item so we can show its actual bottle SVG ★
   const item = DB.generateBottle(rarity);
+
+  const doorL  = document.getElementById('door-anim-left');
+  const doorR  = document.getElementById('door-anim-right');
+  const emerge = document.getElementById('bottle-emerge');
+  const interior = document.getElementById('door-interior-rect');
+
+  // Reset state
+  doorL.classList.remove('opening');
+  doorR.classList.remove('opening');
+  emerge.classList.remove('emerging');
+  emerge.style.opacity = '0';
+  emerge.innerHTML = '';
+  if (interior) interior.style.opacity = '0';
+
+  // 1. Doors slide open
+  doorL.classList.add('opening');
+  doorR.classList.add('opening');
+  if (interior) {
+    interior.style.transition = 'opacity .3s';
+    interior.style.opacity = '1';
+  }
+  await sleep(600);
+
+  // 2. Bottle emerges — inject the real generated bottle SVG
+  emerge.innerHTML = makeBottleSVG(item, 120);
+  emerge.classList.add('emerging');
+  await sleep(1200);
+
+  // 3. Add to inventory and show reveal
   addToInventory(item);
   saveState();
 
-  // 6. Show reveal
-  await sleep(300);
+  await sleep(200);
   showReveal(item);
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-function resetBarrelAnim() {
-  const barrel = document.getElementById('barrel-svg');
-  const lid    = document.getElementById('lid-pop');
-  const bottle = document.getElementById('bottle-out');
-  barrel.classList.remove('shaking', 'opening');
-  lid.classList.remove('flying');
-  bottle.classList.remove('rolling');
+function resetStoreAnim() {
+  const doorL  = document.getElementById('door-anim-left');
+  const doorR  = document.getElementById('door-anim-right');
+  const emerge = document.getElementById('bottle-emerge');
+  const interior = document.getElementById('door-interior-rect');
+  doorL.classList.remove('opening');
+  doorR.classList.remove('opening');
+  emerge.classList.remove('emerging');
+  emerge.style.opacity = '0';
+  emerge.innerHTML = '';
+  if (interior) interior.style.opacity = '0';
 }
 
 // ── Star rating renderer ───────────────────────────────
@@ -1243,7 +1313,7 @@ function closeReveal() {
   card.style.opacity   = '0';
   setTimeout(() => { card.style.display = 'none'; }, 350);
   stopParticles();
-  resetBarrelAnim();
+  resetStoreAnim();
   isAnimating = false;
   // Always restore default button state
   const btn = document.getElementById('card-close-btn');
