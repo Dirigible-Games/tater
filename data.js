@@ -476,211 +476,476 @@ window.DB = (function () {
   }
 
   // ── TASTING NOTE DESCRIPTORS ─────────────────────────────────
+  // Five flavor tiers. 'flawed' is for sub-3 ratings regardless of rarity.
+  // 'light'/'mid' serve the 3–6.5 band. 'rich' serves 6.5–8.
+  // 'exotic' is reserved for 8+ ratings and leans into unique, standout notes.
+  // 'transcendent' is 9.25+ only — florid, one-of-a-kind language.
 
   const NOSE = {
-    flawed: ['acetone', 'nail polish remover', 'harsh solvent', 'sulfur', 'wet cardboard', 'stale grain', 'cheap ethanol', 'vinegar', 'paint thinner', 'musty cellar'],
-    light:  ['light vanilla', 'fresh grain', 'mild caramel', 'young oak', 'soft corn', 'faint honey', 'light citrus peel', 'dried hay', 'mild biscuit', 'powdered sugar', 'light apple', 'green wood', 'fresh straw', 'soft peach'],
-    mid:    ['caramel apple', 'toasted oak', 'brown sugar', 'butterscotch', 'cinnamon spice', 'dried cherry', 'baked bread', 'clove', 'orange zest', 'roasted corn', 'leather', 'toffee', 'peach preserve', 'dried apricot', 'nutmeg', 'warm vanilla', 'honeyed grain', 'candied orange peel', 'light tobacco', 'lightly charred wood'],
-    rich:   ['dark chocolate', 'tobacco leaf', 'charred oak', 'molasses', 'dried fig', 'espresso', 'black walnut', 'cedar', 'licorice root', 'prune', 'aged leather', 'toasted coconut', 'dark cherry', 'dried dates', 'cocoa powder', 'smoked caramel', 'stewed fruit', 'pipe tobacco', 'roasted coffee', 'bittersweet chocolate', 'dark toffee', 'toasted pecan'],
-    exotic: ['Oloroso sherry', 'candied violet', 'sandalwood', 'smoked plum', 'truffle', 'saffron', 'aged balsamic', 'burnt caramel', 'marzipan', 'wet slate', 'ancient oak resin', 'rum-soaked raisin', 'black cardamom', 'rose petal', 'dried hibiscus', 'smoked sea salt', 'toasted star anise', 'fig preserve', 'concentrated dark fruit', 'beeswax', 'leather and incense', 'old library'],
+    // Industrial, harsh, off-putting — things nobody wants to smell
+    flawed: [
+      'rubber tires', 'sawdust', 'pencil shavings', 'machine oil', 'solvent',
+      'wet cardboard', 'stale grain sacks', 'turpentine', 'nail polish remover',
+      'burning plastic', 'musty attic', 'cheap rubbing alcohol', 'sulfur',
+      'acetone', 'paint thinner', 'overcooked cabbage', 'damp newspaper',
+      'motor grease', 'scorched rubber', 'industrial cleaning fluid',
+    ],
+    // Standard good bourbon — vanilla, caramel, corn, light oak
+    light: [
+      'light vanilla', 'fresh grain', 'mild caramel', 'young oak', 'soft corn',
+      'faint honey', 'light citrus peel', 'dried hay', 'mild biscuit',
+      'powdered sugar', 'light apple', 'green wood', 'fresh straw', 'soft peach',
+      'cornbread', 'light butterscotch', 'faint cinnamon', 'white sugar',
+      'sweet cream', 'gentle malt',
+    ],
+    // Good quality bourbon expected notes plus one or two standouts
+    mid: [
+      'caramel apple', 'toasted oak', 'brown sugar', 'butterscotch', 'cinnamon spice',
+      'dried cherry', 'baked bread', 'clove', 'orange zest', 'roasted corn',
+      'warm leather', 'toffee', 'peach preserve', 'dried apricot', 'nutmeg',
+      'warm vanilla', 'honeyed grain', 'candied orange peel', 'light tobacco',
+      'lightly charred wood', 'banana bread', 'maple syrup', 'toasted almond',
+      'dried cranberry', 'black pepper', 'cherry cola', 'praline', 'ginger snap',
+      'coconut husk', 'cardamom', 'rye bread', 'fig jam', 'plum skin',
+    ],
+    // Rich, developed notes — the standouts take center stage
+    rich: [
+      'dark chocolate', 'tobacco leaf', 'charred oak', 'deep molasses',
+      'dried fig', 'espresso', 'black walnut', 'cedar', 'licorice root',
+      'prune', 'aged leather', 'toasted coconut', 'dark cherry', 'dried dates',
+      'cocoa powder', 'smoked caramel', 'stewed plum', 'pipe tobacco',
+      'roasted coffee', 'bittersweet chocolate', 'dark toffee', 'toasted pecan',
+      'tar and leather', 'candied walnut', 'anise seed', 'red fruit compote',
+      'smoke and vanilla intertwined', 'old growth cedar', 'robust rye spice',
+      'charred pecan shell', 'black currant', 'aged balsamic drizzle',
+    ],
+    // Exceptional, rare, unique — things that make the nose remarkable
+    exotic: [
+      'Oloroso sherry and dried fig', 'candied violet and warm cedar',
+      'sandalwood and toasted coconut', 'smoked plum and dark cherry',
+      'truffle and aged leather', 'saffron and honeycomb',
+      'aged balsamic and dark chocolate', 'burnt sugar and black walnut',
+      'marzipan and espresso', 'rain-soaked slate and oak resin',
+      'rum-soaked golden raisin', 'black cardamom and fig preserve',
+      'rose petal and smoked vanilla', 'dried hibiscus and praline',
+      'smoked sea salt and butterscotch', 'toasted star anise and caramel',
+      'beeswax and leather', 'old library and pipe tobacco',
+      'dried lavender and charred pecan', 'wild honey and roasted grain',
+      'port wine reduction and dark fruit', 'crystallized ginger and cocoa nib',
+    ],
+    // Top-tier — flowery, poetic, one-of-a-kind
+    transcendent: [
+      'an almost impossible convergence of smoked plum, aged leather, and sweet oak',
+      'layers that unfold like a room full of antique books and dark fruit',
+      'sandalwood and saffron drifting over a foundation of caramel and tobacco',
+      'a whisper of beeswax, dark cherry, and something ancient in the wood',
+      'fig, rose petal, and charred oak woven together with extraordinary delicacy',
+      'the kind of nose that stops conversation — smoked vanilla, truffle, and dark raisin',
+      'candied violet and Oloroso sherry over a deep bed of toasted coconut and spice',
+      'crystallized honey, roasted pecan, and just a thread of black cardamom',
+      'port wine, dried hibiscus, and old cedarwood in a harmony that defies easy description',
+      'a nose so complex and alive it changes with every breath — dark fruit, spice, and silk',
+    ],
   };
 
   const PALATE = {
-    flawed: ['harsh and unpleasant', 'aggressive grain bite', 'chemical burn with no resolution', 'thin and watery with a bite', 'bitter and short', 'sharp ethanol poorly integrated', 'astringent and rough'],
-    light:  ['gentle sweetness', 'light grain', 'mild vanilla cream', 'soft caramel', 'clean corn sweetness', 'thin body', 'biscuit and honey', 'mild warmth', 'light fruit', 'easy-drinking sweetness', 'soft and unchallenging', 'water-forward grain'],
-    mid:    ['caramel and spice', 'toasted oak tannins', 'ripe stone fruit', 'peppery rye bite', 'butterscotch richness', 'warm honey', 'baking spice', 'roasted nuts', 'mild citrus', 'chewy caramel', 'brown sugar and corn', 'gentle wood influence', 'pleasant fruit and spice interplay', 'satisfying mid-palate weight', 'dried fruit and oak'],
-    rich:   ['full-bodied oak', 'dark fruit complexity', 'deep molasses', 'bold cinnamon heat', 'leather and tobacco', 'rich chocolate', 'long spice build', 'dense caramel', 'dried fruit layers', 'cracked black pepper', 'toasted oak and dark sugar', 'powerful but balanced heat', 'deeply integrated tannins', 'waves of baking spice', 'muscular grain and fruit'],
-    exotic: ['extraordinary depth', 'multi-layered complexity', 'rare tropical fruit', 'ancient oak structure', 'waves of dark spice', 'opulent fruit preserve', 'lingering floral notes', 'profound sweetness balanced by oak', 'silky texture with explosive finish', 'transcendent integration of wood and spirit', 'impossibly long mid-palate', 'perfect tension between sweetness and heat', 'kaleidoscopic fruit and spice', 'masterful balance at high proof', 'seamless layering with no rough edges'],
+    flawed: [
+      'harsh and thoroughly unpleasant', 'aggressive unintegrated grain bite',
+      'chemical burn with no resolution', 'thin and watery with a stinging exit',
+      'bitter from start to finish', 'sharp raw ethanol over nothing',
+      'astringent and rough with no redeeming sweetness',
+      'rubbing alcohol warmth and little else', 'clumsy heat and flat grain',
+      'a texture like diluted turpentine', 'off-putting bitterness throughout',
+      'industrial sharpness with no softening', 'metallic and thin',
+    ],
+    light: [
+      'gentle sweetness', 'light grain', 'mild vanilla cream', 'soft caramel',
+      'clean corn sweetness', 'biscuit and honey', 'mild warmth',
+      'easy-drinking sweetness', 'soft and unchallenging', 'lightly sweet grain',
+      'a pleasant if thin mid-palate', 'white sugar and mild oak',
+      'soft fruit and cream', 'simple corn and vanilla', 'light brown sugar',
+    ],
+    mid: [
+      'caramel and warming spice', 'toasted oak tannins', 'ripe stone fruit',
+      'peppery rye bite', 'butterscotch richness', 'warm honey',
+      'baking spice and dried fruit', 'roasted nuts', 'mild citrus and caramel',
+      'chewy caramel', 'brown sugar and corn', 'gentle wood influence',
+      'pleasant fruit and spice interplay', 'satisfying mid-palate weight',
+      'dried fruit and oak', 'soft tannins and vanilla', 'banana and brown sugar',
+      'cherry and cinnamon', 'maple and dried apricot', 'praline and light oak',
+      'rye spice balanced with sweetness', 'light chocolate and caramel',
+      'toasted grain and peach', 'apple and clove', 'honey and black pepper',
+    ],
+    rich: [
+      'full-bodied oak and dark fruit', 'deep molasses', 'bold cinnamon heat',
+      'leather and tobacco', 'rich bittersweet chocolate', 'a long spice build',
+      'dense caramel and dried fruit', 'cracked black pepper and dark cherry',
+      'toasted oak and dark sugar', 'powerful but balanced heat',
+      'deeply integrated tannins', 'waves of baking spice and dark fruit',
+      'muscular grain and fruit complexity', 'espresso and charred oak',
+      'prune and dark chocolate', 'licorice and tobacco leaf',
+      'black walnut and molasses', 'stewed fig and leather',
+      'smoked caramel and rye spice', 'old oak and dried stone fruit',
+      'cocoa and charred pecan', 'dark fruit layers and long warmth',
+    ],
+    exotic: [
+      'extraordinary depth anchored by dark fruit and ancient oak',
+      'rare tropical fruit and dark chocolate in a seamless integration',
+      'waves of baking spice with an almost savory leather finish',
+      'opulent fruit preserve and roasted coffee at perfect tension',
+      'lingering floral notes over a deeply spiced foundation',
+      'profound sweetness perfectly balanced by oak and leather',
+      'silky texture with an explosive mid-palate of dark fruit and spice',
+      'transcendent integration — wood, fruit, and heat as one',
+      'an impossibly long mid-palate that shifts from caramel to smoke to dried fruit',
+      'perfect tension between heat and sweetness, neither winning',
+      'kaleidoscopic fruit and spice that keeps revealing new layers',
+      'masterful balance at high proof — power and elegance at once',
+      'seamless layering with no rough edges, every note earning its place',
+      'dark cherry and smoked vanilla braided through toasted oak',
+      'a mid-palate that feels almost architectural in its structure',
+    ],
+    transcendent: [
+      'something so seamlessly integrated it defies description — dark fruit, oak, and caramel as a single perfect idea',
+      'the kind of palate that makes you set down the glass and just sit with it — waves of spice, chocolate, and dried fruit',
+      'extraordinary: the sweetness, heat, and tannin have negotiated a peace that most distilleries never achieve',
+      'an experience more than a taste — dark cherry, leather, espresso, and ancient oak arriving together',
+      'perfect at every turn: the fruit, the spice, the wood — all present, all balanced, all remarkable',
+      'a palate so complex and sustained it is almost unfair to describe it in words',
+      'layers upon layers — smoked fruit, dark chocolate, roasted grain — each one revealing another beneath it',
+      'the kind of mid-palate that collectors trade for: full, structured, endlessly nuanced',
+      'a rare harmony of heat and sweetness that makes you wonder what took everyone else so long',
+    ],
   };
 
   const FINISH = {
-    flawed: ['an abrupt chemical cut', 'a harsh, unresolved close', 'a bitter and short ending', 'a thin finish with a sting', 'fades badly', 'a hot and hollow close', 'a sharp astringent fade'],
-    light:  ['short and clean', 'quick and mild', 'brief sweetness', 'light and easy', 'thin but inoffensive', 'fades quickly', 'a short soft close', 'a gentle fade', 'clean and brief'],
-    mid:    ['medium-length warmth', 'lingering caramel', 'pleasant spice fade', 'dry oak close', 'moderate heat', 'sweet with a dry close', 'warming finish', 'a tidy medium fade', 'pleasant and lasting', 'a clean oak-driven close'],
-    rich:   ['long spiced finish', 'persistent oak tannins', 'extended dark fruit', 'slow fade with heat', 'rich and lasting', 'complex fade', 'deep warming close', 'finish builds over minutes', 'a sustained and rewarding fade', 'dark fruit and spice that linger', 'long and warming with oak throughout'],
-    exotic: ['exceptionally long finish', 'a finish that evolves for minutes', 'extraordinary persistence', 'waves that return long after the sip', 'a near-infinite fade', 'a finish that redefines patience', 'successive waves of spice and sweetness', 'an endless close that shifts and deepens', 'a finish worth sitting with', 'a finish that other bottles aspire to'],
+    flawed: [
+      'an abrupt and harsh chemical cut', 'a bitter, unresolved close',
+      'a thin finish with a sting that outstays its welcome',
+      'a hot and hollow exit with nothing behind it',
+      'a sharp astringent fade that lingers unpleasantly',
+      'a short, rough finish that confirms the worst',
+      'a metallic close that fades slowly into nothing good',
+      'burns out fast and leaves bitterness behind',
+      'ends like a mistake, not a whiskey',
+    ],
+    light: [
+      'short and clean', 'quick and mild', 'brief sweetness', 'light and easy',
+      'thin but inoffensive', 'fades quietly', 'a short soft close',
+      'a gentle uncomplicated fade', 'clean and brief', 'pleasantly short',
+      'sweet and quick', 'a tidy, simple exit',
+    ],
+    mid: [
+      'medium-length warmth', 'lingering caramel', 'pleasant spice fade',
+      'a dry oak close', 'moderate heat that fades cleanly', 'sweet with a dry close',
+      'a warming finish', 'a tidy medium fade', 'pleasant and lasting',
+      'a clean oak-driven close', 'caramel and a hint of pepper at the back',
+      'a medium fade with light spice', 'finishes with brown sugar and oak',
+      'a clean warm exit', 'moderate length with a honey note at the close',
+    ],
+    rich: [
+      'a long spiced finish', 'persistent oak tannins', 'extended dark fruit',
+      'a slow warm fade', 'rich and lasting', 'a complex multi-stage fade',
+      'a deep warming close', 'a finish that builds over minutes',
+      'a sustained and rewarding fade', 'dark fruit and spice that linger',
+      'long and warming with oak throughout', 'a long close that shifts from spice to chocolate',
+      'dark cherry and tobacco that persist', 'a finish as long as it is good',
+      'slowly fading waves of cinnamon and dark fruit',
+    ],
+    exotic: [
+      'an exceptionally long and layered finish',
+      'a finish that evolves and deepens for several minutes',
+      'extraordinary persistence — notes still arriving long after the sip',
+      'waves that return long after the glass is empty',
+      'a near-infinite fade that rewards patience',
+      'successive waves of spice, dried fruit, and oak that never quite resolve',
+      'an endless close that shifts and deepens with every breath',
+      'a finish worth sitting with — give it five minutes before you pour another',
+      'a finish that other bottles openly aspire to and rarely approach',
+      'long, complex, and quietly triumphant',
+    ],
+    transcendent: [
+      'a finish measured not in seconds but in memory — it simply does not leave',
+      'the kind of close that makes you reconsider everything that preceded it',
+      'a finish so perfect and sustained it feels like a privilege to experience',
+      'a finish you will describe to others for years — long, complex, and completely unresolved in the best way',
+      'waves of dark spice, fruit, and smoke returning again and again long after the glass is empty',
+      'a close that earns the word infinite — still present an hour later if you pay attention',
+      'everything you wanted the finish to be, and then more than that',
+      'the finish alone justifies the hunt for a second bottle',
+    ],
   };
 
   const BODY_WORDS = {
-    flawed: ['thin and harsh', 'poorly structured', 'rough and unbalanced', 'clumsy'],
-    light:  ['light-bodied', 'thin', 'delicate', 'lean', 'easy', 'clean'],
-    mid:    ['medium-bodied', 'approachable', 'balanced', 'rounded', 'solid', 'steady'],
-    rich:   ['full-bodied', 'rich', 'dense', 'robust', 'weighty', 'substantial', 'muscular'],
-    exotic: ['opulent', 'majestic', 'profoundly structured', 'extraordinarily full', 'immaculate', 'transcendent'],
+    flawed:       ['thin and harsh', 'poorly structured', 'rough and unbalanced', 'clumsy and unintegrated', 'flat and mean'],
+    light:        ['light-bodied', 'thin', 'delicate', 'lean', 'easy', 'clean', 'lightly sweet'],
+    mid:          ['medium-bodied', 'approachable', 'balanced', 'rounded', 'solid', 'steady', 'pleasantly weighted'],
+    rich:         ['full-bodied', 'rich', 'dense', 'robust', 'weighty', 'substantial', 'muscular', 'boldly structured'],
+    exotic:       ['opulent', 'majestic', 'profoundly structured', 'extraordinarily full', 'immaculately assembled'],
+    transcendent: ['singular', 'transcendent', 'flawlessly constructed', 'unlike anything else on the shelf'],
   };
 
-  // ── VALUE COMMENTARY ─────────────────────────────────────────
-  // Appended when rating significantly over- or under-performs price/rarity expectations
-
-  // Expected rating midpoints by rarity (on 0–10 scale)
-  const RARITY_EXPECTED = { common: 3.5, uncommon: 5.0, rare: 6.5, epic: 7.5, legendary: 8.5 };
-  // Expected rating midpoints by MSRP band
-  function msrpExpected(msrp) {
-    if (msrp < 25)  return 2.5;
-    if (msrp < 50)  return 4.5;
-    if (msrp < 80)  return 6.0;
-    if (msrp < 120) return 7.0;
-    if (msrp < 180) return 8.0;
-    return 8.8;
+  // ── SEGMENT-BASED VALUE SYSTEM ────────────────────────────────
+  // Returns { expectedLow, expectedHigh, overperformThreshold, noteOverValue }
+  // noteOverValue: true = also call out price-is-no-object if rating > 9.25
+  function getSegmentExpectation(rarity, msrp) {
+    const isLow = rarity === 'common' || rarity === 'uncommon';
+    if (isLow && msrp < 30)  return { lo: 3.0, hi: 5.25, overThresh: 5.5,  priceTag: true  };
+    if (isLow && msrp <= 45) return { lo: 4.0, hi: 6.25, overThresh: 6.5,  priceTag: true  };
+    if (isLow)               return { lo: 5.0, hi: 6.75, overThresh: 7.0,  priceTag: true  };
+    if (rarity === 'rare' && msrp < 50)  return { lo: 4.0, hi: 6.5,  overThresh: 6.75, priceTag: true  };
+    if (rarity === 'rare')               return { lo: 6.0, hi: 7.5,  overThresh: 7.75, priceTag: true  };
+    if (rarity === 'epic')               return { lo: 6.0, hi: 8.0,  overThresh: 8.25, priceTag: msrp < 125 };
+    // legendary
+    return { lo: 7.75, hi: 9.0, overThresh: 9.0, priceTag: msrp < 180 };
   }
 
-  const VALUE_COMMENTS = {
-    // rating much higher than rarity/price would suggest
-    overperform_strong: [
-      'At this price, it genuinely punches above its class.',
-      'Remarkable value — this drinks well above its tier.',
-      'An outstanding find for what it costs.',
-      'Defies expectations entirely — a steal.',
-      'This one makes you question why you\'d spend more.',
+  // ── VALUE COMMENT POOLS ───────────────────────────────────────
+  const VALUE_PHRASES = {
+    // rating < segment low — priced too high for what it delivers
+    underperform_bad_price: [
+      `At $\${msrp}, this is genuinely indefensible.`,
+      `You are paying a premium for a bottle that earns nothing close to its price.`,
+      `The $\${msrp} asking price makes this actively offensive.`,
+      `At $\${msrp}, this is one of the worst values in the category.`,
+      `Hard to imagine a worse use of $\${msrp}.`,
+    ],
+    underperform_strong: [
+      'Hard to justify at this price.',
+      'A serious disappointment given what it costs.',
+      'Does not deliver on its positioning.',
+      'You are paying for the label, not the liquid.',
+      'Expected far more at this price point.',
+      'Fails to earn its place on the shelf at this price.',
+      'A premium price attached to a discount experience.',
+    ],
+    underperform_mild: [
+      'Slightly underwhelms for the asking price.',
+      'Falls just short of earning its shelf price.',
+      'A modest step below where it should be at this tier.',
+      'The price overstates what is actually in the glass.',
+      'Competent, but the price promises more than it delivers.',
+    ],
+    // within expected range — no value comment
+    // overperforming — seriously punches above weight
+    overperform_value: [
+      'At this price, it is a serious find — do not hesitate.',
+      'Remarkable value. This drinks well above anything near this price.',
+      'An outstanding discovery for what it costs. Buy multiples.',
+      'Defies its price point entirely. One of the best values in the category.',
+      'This makes you genuinely question why you would spend more.',
+      'A hidden gem at this price. Tell your friends, or don\'t.',
+      'At $\${msrp}, this might be the most whiskey per dollar on the market right now.',
     ],
     overperform_mild: [
       'Modestly overperforms its price point.',
       'A touch better than you\'d expect at this tier.',
-      'Offers slightly more than its price suggests.',
-      'Quietly outperforms the shelf neighbors around it.',
+      'Offers more than the price tag suggests.',
+      'Quietly beats everything around it on the shelf.',
     ],
-    // rating much lower than rarity/price would suggest
-    underperform_strong: [
-      'Hard to justify at this price.',
-      'A serious disappointment given what it costs.',
-      'Does not deliver on its premium positioning.',
-      'Pays for the label, not the liquid.',
-      'Expected far more at this price point.',
+    // sub-3 star regardless of price
+    sub3_any: [
+      `At $\${msrp}, this is not just bad — it is a bad value.`,
+      `Even at half the price, this would be a disappointment.`,
+      `$\${msrp} for this is not a transaction anyone should make twice.`,
+      `The price paid here is the second thing to regret. The first is opening it.`,
+      `There is nothing in this bottle that justifies what was paid for it.`,
     ],
-    underperform_mild: [
-      'Slightly underwhelms for the asking price.',
-      'Falls just short of earning its keep on the shelf.',
-      'A modest step below where it should be at this tier.',
-      'The price overstates what\'s in the glass.',
+    // > 9.25 — all-time greats, price no object
+    all_time_great: [
+      'This belongs in any serious conversation about the greatest American whiskeys ever produced.',
+      'A once-in-a-career pour. Price is not a relevant consideration.',
+      'One of the all-time greats. Acquire it by any means necessary.',
+      'Whiskeys like this are the reason people become collectors. Price is irrelevant.',
+      'If you find this at any price, the answer is yes. No further thought required.',
+      'This is the kind of bottle that defines a collection and a palate. Irreplaceable.',
     ],
   };
 
   function getValueComment(rating, rarity, msrp) {
-    const rarityExp = RARITY_EXPECTED[rarity];
-    const msrpExp   = msrpExpected(msrp);
-    // Average the two expectations for a combined benchmark
-    const expected  = (rarityExp + msrpExp) / 2;
-    const delta     = rating - expected;
+    // Sub-3: always shame the price
+    if (rating < 3.0) {
+      return pick(VALUE_PHRASES.sub3_any).replace('${msrp}', msrp);
+    }
 
-    if (delta >= 2.5)  return pick(VALUE_COMMENTS.overperform_strong);
-    if (delta >= 1.2)  return pick(VALUE_COMMENTS.overperform_mild);
-    if (delta <= -2.5) return pick(VALUE_COMMENTS.underperform_strong);
-    if (delta <= -1.2) return pick(VALUE_COMMENTS.underperform_mild);
-    return ''; // within expectations — no value comment
+    // All-time great
+    if (rating > 9.25) {
+      return pick(VALUE_PHRASES.all_time_great);
+    }
+
+    const seg = getSegmentExpectation(rarity, msrp);
+
+    // Below segment floor
+    const deficit = seg.lo - rating;
+    if (deficit >= 1.5) {
+      return pick(VALUE_PHRASES.underperform_bad_price).replace('${msrp}', msrp);
+    }
+    if (deficit > 0) {
+      return pick(VALUE_PHRASES.underperform_strong);
+    }
+
+    // Above segment ceiling meaningfully
+    const surplus = rating - seg.overThresh;
+    if (surplus >= 0) {
+      // Only call out price-as-value if priceTag flag is set for this segment
+      if (seg.priceTag) {
+        return pick(VALUE_PHRASES.overperform_value).replace('${msrp}', msrp);
+      }
+      return pick(VALUE_PHRASES.overperform_mild);
+    }
+
+    // Mild underperform (between floor and hi, but below midpoint)
+    const midpoint = (seg.lo + seg.hi) / 2;
+    if (rating < midpoint - 0.5) {
+      return pick(VALUE_PHRASES.underperform_mild);
+    }
+
+    return ''; // within comfortable range
   }
 
-  // ── TASTING NOTE TONE LAYERS ──────────────────────────────────
-  // Seven bands mapped to 0–10 scale
+  // ── TONE BANDS ────────────────────────────────────────────────
+  // Seven bands. Openers, nose framings, palate framings, finish framings, closers.
+  // Low bands are acidic and insulting. Mid is honest. Upper is enthusiastic.
+  // Top tier is florid and reverential.
 
   const TONE = {
-    // 0.0–1.5: actively bad
+    // 0–1.5: a disaster
     terrible: {
       openers: [
         'A genuine failure in the glass.',
-        'Avoid at all costs.',
-        'Difficult to recommend to anyone.',
-        'A cautionary tale.',
+        'Avoid without exception.',
+        'Difficult to recommend to any living person.',
+        'A cautionary tale in bottle form.',
         'This should not exist.',
-        'An offense to the category.',
+        'An embarrassment to the category.',
+        'Whoever approved this release owes someone an apology.',
       ],
-      nose:    ['a repellent', 'a genuinely off-putting', 'an actively unpleasant', 'a broken'],
-      palate:  ['nothing redeemable in the glass', 'active unpleasantness from start to finish', 'a study in what not to do', 'harsh and completely unintegrated'],
-      finish:  ['a finish you\'ll want to forget', 'a punishing and unresolved close', 'ends badly and lingers worse'],
-      closers: ['Do not buy.', 'Pour it out.', 'A waste of shelf space and money.', 'Not worth finishing the glass.'],
+      nose:    ['a genuinely repellent', 'an actively hostile', 'an unacceptably broken', 'a stomach-turning'],
+      palate:  ['nothing remotely redeemable', 'active hostility from the first sip to the last', 'a study in how badly wrong this can go', 'so poorly made it borders on punishing'],
+      finish:  ['a finish that makes the experience worse, not better', 'a punishing close that is the final insult', 'ends so badly it taints the memory of everything before it'],
+      closers: ['Do not buy. Do not accept. Do not finish the glass.', 'Pour it down the drain and count it as a lesson.', 'There is no use case for this bottle.', 'A waste of everything involved in making it.'],
     },
-    // 1.5–3.0: poor, seriously flawed
+    // 1.5–3.0: seriously flawed
     poor: {
       openers: [
-        'Weak effort.',
-        'Struggles to find any identity.',
-        'Not recommended.',
-        'A disappointment.',
+        'A weak and unconvincing effort.',
+        'Struggles to find any identity in the glass.',
+        'Not recommended under any circumstances.',
+        'A disappointment from the first pour.',
         'Hard to defend at any price.',
-        'Lacks the fundamentals.',
-        'A bottle best left on the shelf.',
+        'Lacks the basic fundamentals of a drinkable whiskey.',
+        'A bottle that should have stayed at the distillery.',
+        'Put this one back.',
+        'Underwhelming does not begin to cover it.',
       ],
-      nose:    ['a thin, unremarkable', 'an underwhelming', 'a flat, uninspired', 'a barely-there', 'an unimpressive', 'a forgettable'],
-      palate:  ['little complexity', 'watery texture', 'harsh grain with little else', 'an unpleasant bite that doesn\'t resolve', 'clumsy heat', 'rough integration throughout', 'a rough and characterless profile'],
-      finish:  ['an abrupt, rough close', 'a short and unpleasant finish', 'a harsh chemical fade', 'little to no finish worth noting', 'a quick and unpleasant exit'],
-      closers: ['Skip it.', 'Better options exist at this price.', 'Not worth the shelf space.', 'A mixer at absolute best.', 'Nothing to seek out.'],
+      nose:    ['a thin, deeply unremarkable', 'a flat and uninspired', 'a barely-there', 'an unimpressive and forgettable', 'a characterless'],
+      palate:  ['little that resembles quality', 'harsh grain and not much else', 'an unpleasant bite that never resolves', 'clumsy heat with no payoff', 'rough and characterless from front to back'],
+      finish:  ['an abrupt and rough close', 'a short and unpleasant finish', 'a harsh fade with nothing to recommend it', 'a quick, ugly exit'],
+      closers: ['Skip it.', 'Better options exist at half this price.', 'Not worth the shelf space.', 'A mixer, at absolute best, for people who don\'t care.', 'Nothing to seek out here.'],
     },
-    // 3.0–5.0: below average to passable
+    // 3.0–5.0: passable but underwhelming
     below: {
       openers: [
         'A forgettable entry.',
-        'Falls short of expectations.',
-        'Unremarkable but drinkable.',
-        'Gets the job done, barely.',
-        'Serviceable, nothing more.',
-        'Won\'t offend, won\'t impress.',
+        'Falls meaningfully short of expectations.',
+        'Unremarkable but technically drinkable.',
+        'Gets the job done, and that is the kindest thing to say.',
+        'Serviceable. Nothing more.',
+        'Will not offend. Will not impress.',
+        'A bottle that exists, which is about all that can be said for it.',
+        'Not a disaster, but not a reason to pour either.',
       ],
-      nose:    ['a subdued', 'a modest', 'a thin but recognizable', 'a muted', 'a plain', 'a workmanlike'],
-      palate:  ['little depth', 'thin sweetness', 'some grain bite with minimal follow-through', 'passable sweetness', 'underwhelming warmth', 'uncomplicated to a fault'],
-      finish:  ['a brief, forgettable finish', 'a short fade', 'a thin close', 'fades too quickly', 'an unremarkable exit'],
-      closers: ['A mixer at best.', 'Drinkable but uninspiring.', 'Functional, not memorable.', 'Acceptable on ice, not much else.'],
+      nose:    ['a subdued', 'a modest', 'a thin but recognizable', 'a muted', 'a plain', 'a workmanlike and uninspired'],
+      palate:  ['little actual depth', 'thin sweetness over flat grain', 'some bite with minimal follow-through', 'passable sweetness without ambition', 'underwhelming warmth and not much else'],
+      finish:  ['a brief and forgettable finish', 'a short fade that disappears without a trace', 'a thin, uninspiring close', 'fades too quickly to matter', 'an unremarkable exit you\'ll forget immediately'],
+      closers: ['A mixer at best.', 'Drinkable, but uninspiring.', 'Functional and entirely forgettable.', 'Acceptable over ice, nothing beyond that.'],
     },
     // 5.0–6.5: decent, unremarkable
     average: {
       openers: [
         'A decent everyday pour.',
         'Solid and unpretentious.',
-        'Does what it says on the label.',
-        'A reliable sipper.',
+        'Does exactly what it says on the label.',
+        'A reliable sipper with no surprises.',
         'Nothing to complain about.',
-        'Inoffensive and consistent.',
+        'Inoffensive, consistent, and honest.',
         'A capable if unexciting bottle.',
+        'Earns a place on the shelf without demanding attention.',
+        'A workhorse pour that delivers on its modest promises.',
       ],
-      nose:    ['a pleasant', 'a clean', 'a straightforward', 'an approachable', 'a tidy', 'a familiar'],
-      palate:  ['balanced sweetness', 'good drinkability', 'solid oak and vanilla', 'easy warmth', 'consistent corn sweetness', 'serviceable depth', 'predictable but pleasing', 'a steady mid-palate'],
-      finish:  ['a clean, satisfying close', 'a pleasant medium-length finish', 'a warm, tidy fade', 'an honest and unremarkable close'],
-      closers: ['Worth keeping on the shelf.', 'A solid daily drinker.', 'Good value for the category.', 'Will satisfy without wowing.'],
+      nose:    ['a pleasant', 'a clean', 'a straightforward', 'an approachable', 'a tidy', 'a familiar and reassuring'],
+      palate:  ['balanced sweetness and grain', 'good basic drinkability', 'solid oak and vanilla doing their job', 'easy warmth', 'consistent corn sweetness', 'predictable but pleasing from start to finish', 'a steady mid-palate without ambition or fault'],
+      finish:  ['a clean, satisfying close', 'a pleasant medium-length finish', 'a warm, tidy fade', 'an honest and unremarkable close that ends when it should'],
+      closers: ['Worth keeping on the shelf.', 'A solid daily drinker.', 'Good value for what it is.', 'Will satisfy without wowing anyone.'],
     },
-    // 6.5–8.0: good, worth seeking
+    // 6.5–8.0: genuinely good
     good: {
       openers: [
         'An impressive bottle.',
         'Well worth seeking out.',
-        'Stands above the crowd.',
-        'A genuinely enjoyable pour.',
-        'Hard to put down.',
-        'Makes its case clearly.',
-        'Better than most in its tier.',
+        'Stands clearly above the crowd.',
+        'A genuinely enjoyable pour that earns its praise.',
+        'Hard to put down once it is open.',
+        'Makes its case confidently and backs it up.',
+        'Better than most of what surrounds it on the shelf.',
+        'A real find — this delivers.',
+        'This is what good bourbon is supposed to taste like.',
       ],
-      nose:    ['a rich, inviting', 'a complex and rewarding', 'a beautifully layered', 'an elegant', 'a confident and developed', 'a deeply appealing'],
-      palate:  ['excellent depth and balance', 'a rewarding interplay of sweetness and oak', 'complex fruit and spice', 'remarkable texture', 'impressive layering', 'a genuinely satisfying mid-palate', 'well-integrated heat and sweetness'],
-      finish:  ['a long, satisfying finish', 'a beautifully sustained close', 'a complex lingering fade', 'a finish that rewards patience', 'a warm and rewarding exit'],
-      closers: ['Highly recommended.', 'A bottle worth buying again.', 'Earns its place on any shelf.', 'Buy a second bottle when you can.'],
+      nose:    ['a rich and inviting', 'a complex and rewarding', 'a beautifully layered', 'an elegant and developed', 'a confident and deeply appealing', 'a genuinely compelling'],
+      palate:  ['excellent depth and balance', 'a rewarding interplay of sweetness and oak', 'complex fruit and spice working in harmony', 'remarkable texture for its tier', 'impressive layering that keeps revealing itself', 'well-integrated heat and sweetness from start to finish', 'a mid-palate that earns the price of admission on its own'],
+      finish:  ['a long and satisfying finish', 'a beautifully sustained close', 'a complex lingering fade that evolves', 'a finish that rewards patience — give it time', 'a warm and deeply rewarding exit'],
+      closers: ['Highly recommended.', 'A bottle worth buying again and again.', 'Earns its place on any shelf, at any price in its range.', 'Buy a second bottle before this one is gone.'],
     },
-    // 8.0–9.2: excellent, a genuine gem
+    // 8.0–9.25: a genuine gem
     excellent: {
       openers: [
-        'A remarkable find.',
-        'Among the best in its class.',
-        'An exceptional whiskey by any measure.',
-        'Genuinely outstanding.',
-        'This is what the category aspires to.',
-        'Unforgettable.',
-        'One of the finest pours you\'ll encounter.',
+        'A remarkable and significant find.',
+        'Among the very best in its class.',
+        'An exceptional whiskey by any serious measure.',
+        'Genuinely, meaningfully outstanding.',
+        'This is what the entire category aspires to be.',
+        'Unforgettable — one of those bottles.',
+        'One of the finest pours you are likely to encounter this year.',
+        'This is the one. The bottle you tell people about.',
+        'Exceptional quality that needs no qualification.',
       ],
-      nose:    ['an extraordinary', 'a breathtaking', 'a profound and deeply complex', 'an awe-inspiring', 'a stunning', 'a revelatory'],
-      palate:  ['unparalleled depth for its tier', 'a masterclass in balance and complexity', 'transcendent layering', 'unforgettable richness', 'a once-in-many-bottles experience', 'everything working together perfectly'],
-      finish:  ['an extraordinary, near-endless finish', 'a finish that evolves for minutes', 'an exceptional close that lingers long after the glass is empty', 'a finish that will bring you back to the glass again', 'a sustained and deeply rewarding fade'],
-      closers: ['Buy every bottle you can find.', 'A collector\'s treasure.', 'Set aside a few bottles for special occasions.', 'Seeks out this release without hesitation.'],
+      nose:    ['an extraordinary', 'a breathtaking', 'a profound and deeply complex', 'an awe-inspiring', 'a stunning and revelatory', 'a genuinely moving'],
+      palate:  ['an unparalleled depth that justifies every dollar', 'a masterclass in balance and complexity', 'transcendent layering that keeps giving', 'unforgettable richness that sits with you', 'a once-in-many-bottles experience that changes the benchmark', 'everything working in perfect concert — nothing wasted, nothing missing'],
+      finish:  ['an extraordinary and near-endless finish', 'a finish that evolves for long minutes after the sip', 'an exceptional close that lingers long after the glass is empty', 'a finish that pulls you back to the glass again and again', 'a sustained and deeply rewarding fade that earns genuine admiration'],
+      closers: ['Buy every bottle you can locate.', 'A collector\'s treasure that punches above any price.', 'Set aside multiple bottles — this deserves revisiting.', 'Seek this release out without hesitation.'],
     },
-    // 9.2–10.0: transcendent
+    // 9.25–10.0: transcendent, all-time great
     perfect: {
       openers: [
         'A once-in-a-generation pour.',
-        'Transcendent.',
-        'There are no adequate words.',
-        'A whiskey that redefines what is possible.',
-        'Perfection, or near enough that the difference doesn\'t matter.',
-        'The kind of bottle people build cellars for.',
+        'Transcendent. No other word applies.',
+        'There are genuinely no adequate words for this.',
+        'A whiskey that redefines what the spirit is capable of.',
+        'Perfection, or near enough that the difference is philosophical.',
+        'The kind of bottle people build entire cellars around the dream of finding.',
+        'This does not drink like a whiskey. It drinks like an argument that everything else needs to try harder.',
+        'You may not encounter this again. Act accordingly.',
       ],
-      nose:    ['an impossibly perfect', 'a once-in-a-lifetime', 'a singular and unrepeatable', 'an utterly transcendent'],
-      palate:  ['the very definition of what this spirit can be', 'something that exists outside of normal frameworks of evaluation', 'a benchmark that other distilleries will spend decades chasing', 'the absolute pinnacle of the craft'],
-      finish:  ['a finish measured not in seconds but in memory', 'the kind of finish that makes you reconsider everything that came before it', 'a close so perfect it feels like a privilege', 'a finish you will describe to people for years'],
-      closers: ['Acquire at any cost.', 'One of the most important bottles you will ever open.', 'Do not share with people who don\'t deserve it.', 'A testament to what patience and craft can achieve.'],
+      nose:    ['an impossibly perfect and singular', 'a once-in-a-lifetime', 'an unrepeatable and otherworldly', 'an utterly transcendent'],
+      palate:  [
+        'the very definition of what American whiskey can be at its absolute apex',
+        'something that exists entirely outside of normal frameworks of evaluation',
+        'a benchmark that other distilleries will spend decades attempting to approach',
+        'the absolute pinnacle of the craft — nothing wasted, nothing missing, everything extraordinary',
+      ],
+      finish:  [
+        'a finish measured not in seconds but in memory — it simply refuses to leave',
+        'the kind of finish that makes you reconsider everything that came before it in your whiskey life',
+        'a close so perfect and sustained that it feels like a genuine privilege to sit with',
+        'a finish you will describe to other people for years, and they will not quite believe you',
+      ],
+      closers: [
+        'Acquire at any cost. Seriously.',
+        'One of the most important bottles you will ever have the occasion to open.',
+        'Do not share this with people who will not appreciate it.',
+        'A testament to what patience, craft, and a little luck can achieve.',
+        'If you find more of this, clear your schedule.',
+      ],
     },
   };
 
@@ -690,17 +955,18 @@ window.DB = (function () {
     if (rating < 5.0) return 'below';
     if (rating < 6.5) return 'average';
     if (rating < 8.0) return 'good';
-    if (rating < 9.2) return 'excellent';
+    if (rating < 9.25) return 'excellent';
     return 'perfect';
   }
 
-  // Map rarity + proof to descriptor tier (for flavor word pools)
+  // Map rarity + proof + rating to flavor descriptor tier
   function getTier(rarity, proof, rating) {
+    if (rating < 3.0) return 'flawed';
+    if (rating >= 9.25) return 'transcendent';
     const rarityScore = { common:0, uncommon:1, rare:2, epic:3, legendary:4 }[rarity];
     const proofScore  = proof >= 120 ? 2 : proof >= 100 ? 1 : 0;
-    const total = rarityScore + proofScore;
-    // If rating is terrible/poor, use flawed pool regardless
-    if (rating < 3.0) return 'flawed';
+    const ratingBoost = rating >= 8.0 ? 1 : 0;
+    const total = rarityScore + proofScore + ratingBoost;
     if (total <= 1) return 'light';
     if (total <= 3) return 'mid';
     if (total <= 5) return 'rich';
@@ -710,31 +976,29 @@ window.DB = (function () {
   const DETAIL_DEPTH = { common:1, uncommon:2, rare:2, epic:3, legendary:3 };
 
   function generateDescription(rarity, proof, processMod, ageMod, rating, msrp) {
-    const tier     = getTier(rarity, proof, rating);
-    const depth    = DETAIL_DEPTH[rarity];
-    const toneKey  = getToneKey(rating);
-    const tone     = TONE[toneKey];
+    const flavorTier = getTier(rarity, proof, rating);
+    const depth      = DETAIL_DEPTH[rarity];
+    const toneKey    = getToneKey(rating);
+    const tone       = TONE[toneKey];
 
-    // Flavor tier — bad ratings cap to flawed/light; average caps exotic to rich
-    const flavorTier = (toneKey === 'terrible' || toneKey === 'poor') ? 'flawed'
-                     : (toneKey === 'below') ? (tier === 'exotic' || tier === 'rich' ? 'mid' : tier)
-                     : (toneKey === 'average') ? (tier === 'exotic' ? 'rich' : tier)
-                     : tier;
+    // Nose tier: allow a bump at high proof in mid tier
     const nTier = (proof >= 110 && flavorTier === 'mid') ? 'rich' : flavorTier;
 
-    const nose   = pick(NOSE[nTier]);
-    const palate = pick(PALATE[flavorTier]);
-    const finish = pick(FINISH[flavorTier]);
-    const body   = pick(BODY_WORDS[flavorTier]);
+    // Pick flavor words
+    const nose    = pick(NOSE[nTier]);
+    const palate  = pick(PALATE[flavorTier]);
+    const finish  = pick(FINISH[flavorTier]);
+    const body    = pick(BODY_WORDS[flavorTier] || BODY_WORDS.mid);
 
     let palate2 = pick(PALATE[flavorTier]);
-    let attempts = 0;
-    while (palate2 === palate && attempts++ < 8) palate2 = pick(PALATE[flavorTier]);
+    let att = 0;
+    while (palate2 === palate && att++ < 10) palate2 = pick(PALATE[flavorTier]);
 
     let nose2 = pick(NOSE[nTier]);
-    attempts = 0;
-    while (nose2 === nose && attempts++ < 8) nose2 = pick(NOSE[nTier]);
+    att = 0;
+    while (nose2 === nose && att++ < 10) nose2 = pick(NOSE[nTier]);
 
+    // Tone phrases
     const opener  = pick(tone.openers);
     const tNose   = pick(tone.nose);
     const tPalate = pick(tone.palate);
@@ -744,33 +1008,36 @@ window.DB = (function () {
     const good = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
     const bad  = toneKey === 'terrible' || toneKey === 'poor';
 
-    // Modifier notes — tone-adjusted
+    // Modifier notes — tone-aware
     let modNote = '';
     if (processMod) {
       const k = processMod.key;
-      if (k === 'Single Barrel')   modNote = good ? 'Single barrel character shines through with real distinction. '   : bad ? 'The single barrel variance exposes rather than flatters. ' : 'Single barrel character lends a unique edge. ';
-      if (k === 'Small Batch')     modNote = good ? 'Small batch blending achieves impressive harmony. '               : bad ? 'The small batch blend never finds its footing. ' : 'Small batch blending adds consistency. ';
-      if (k === 'Bottled-in-Bond') modNote = good ? 'The bonded bottling gives this honest, trustworthy structure. '   : bad ? 'Even the bonded standard can\'t rescue the base distillate. ' : 'Bottled-in-bond integrity is evident. ';
-      if (k === 'Full Proof')      modNote = good ? 'Full barrel proof bottling rewards with authority and honesty. '   : bad ? 'The uncut proof amplifies every flaw rather than masking them. ' : 'Bottled at full barrel proof — nothing held back. ';
-      if (k === 'Double Oaked')    modNote = good ? 'The double oak maturation has added remarkable complexity and depth. ' : bad ? 'The second barrel has over-extracted, leaving bitterness and little else. ' : 'A second barrel maturation doubles the oak influence. ';
-      if (k === 'French Oaked')    modNote = good ? 'French oak finishing introduces a sophisticated, quietly exotic elegance. ' : bad ? 'The French oak influence feels mismatched and awkward here. ' : 'French oak finishing lends subtle elegance. ';
+      if (k === 'Single Barrel')   modNote = good ? 'Single barrel character shines through with real distinction here. '         : bad ? 'The single barrel variance exposes flaws rather than flattering them. ' : 'Single barrel character gives this a distinctive edge. ';
+      if (k === 'Small Batch')     modNote = good ? 'Small batch blending achieves an impressive and cohesive harmony. '           : bad ? 'The small batch blend never finds its footing. ' : 'Small batch blending adds a layer of consistency. ';
+      if (k === 'Bottled-in-Bond') modNote = good ? 'The bonded bottling lends this honest, well-structured authority. '           : bad ? 'Even the bonded bottling standard cannot rescue the base distillate. ' : 'Bottled-in-bond discipline is evident throughout. ';
+      if (k === 'Full Proof')      modNote = good ? 'Bottled at full barrel proof, this rewards with undiluted authority and honesty. ' : bad ? 'The uncut proof amplifies every flaw rather than hiding them. ' : 'Bottled at full barrel proof — nothing held back. ';
+      if (k === 'Double Oaked')    modNote = good ? 'The double oaking has contributed remarkable structural depth and complexity. ' : bad ? 'The second barrel has over-extracted badly, leaving bitterness in place of depth. ' : 'A second barrel maturation doubles the oak influence throughout. ';
+      if (k === 'French Oaked')    modNote = good ? 'French oak finishing has introduced a quietly sophisticated, exotic elegance. ' : bad ? 'The French oak influence feels mismatched and out of place here. ' : 'French oak finishing contributes a subtle and distinct elegance. ';
     }
 
-    // Age notes — tone-adjusted
+    // Age notes — tone-aware, more elaborate at high tones
     let ageNote = '';
     if (ageMod) {
-      ageNote = good
-        ? (ageMod.years >= 12 ? `${ageMod.years} years of careful maturation have paid off handsomely. ` : `${ageMod.years} years has given this spirit genuine polish. `)
+      const y = ageMod.years;
+      ageNote = toneKey === 'perfect' || toneKey === 'excellent'
+        ? (y >= 12 ? `${y} years of patient maturation have rewarded this spirit with extraordinary depth. ` : `${y} years has given this spirit a genuine and admirable polish. `)
+        : toneKey === 'good'
+        ? (y >= 12 ? `${y} years of careful aging have clearly paid off. ` : `${y} years of oak integration have rounded this out nicely. `)
         : bad
-        ? (ageMod.years >= 12 ? `Despite ${ageMod.years} years in wood, time hasn't tamed its rough edges. ` : `${ageMod.years} years wasn't nearly enough to bring this into shape. `)
-        : (ageMod.years >= 12 ? `${ageMod.years} years of patience show in every sip. ` : `${ageMod.years} years of oak integration have mellowed the spirit. `);
+        ? (y >= 12 ? `Despite ${y} years in barrel, time has not tamed its considerable rough edges. ` : `${y} years was not enough to bring this into proper shape. `)
+        : (y >= 12 ? `${y} years of patience are evident in every sip. ` : `${y} years of oak integration have mellowed the spirit. `);
     }
 
-    // Value commentary — only appended at depth 2+
-    const valueNote = depth >= 2 ? getValueComment(rating, rarity, msrp) : '';
+    // Value commentary — always included at depth 2+
+    const valueNote   = depth >= 2 ? getValueComment(rating, rarity, msrp) : '';
     const valueSuffix = valueNote ? ' ' + valueNote : '';
 
-    // Assemble by depth
+    // Assemble
     if (depth === 1) {
       return `${opener} A ${body} pour with ${tNose} ${nose} on the nose and ${tFinish}.`;
     }
