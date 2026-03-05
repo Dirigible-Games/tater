@@ -1114,7 +1114,7 @@
 <!-- Toast -->
 <div id="toast"></div>
 
-<script src="data.js"></script>
+<script src="data.js?v=3"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 //  BARREL ROLL — MAIN GAME LOGIC
@@ -1122,11 +1122,11 @@
 
 // ── Rarity weights ──────────────────────────────────────
 const WEIGHTS = {
-  common:    75,
-  uncommon:  15,
-  rare:      7.5,
-  epic:       1.95,
-  legendary:  0.55,
+  common:    50,
+  uncommon:  30,
+  rare:      12,
+  epic:       6,
+  legendary:  2,
 };
 
 function pickRarity() {
@@ -1555,7 +1555,7 @@ function showToast(msg) {
 // ── PWA Service Worker ─────────────────────────────────
 if ('serviceWorker' in navigator) {
   const swCode = `
-    const CACHE = 'barrelroll-v2';
+    const CACHE = 'barrelroll-v3';
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html', './data.js'])));
     });
