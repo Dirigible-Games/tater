@@ -760,6 +760,11 @@ window.DB = (function () {
       return pick(VALUE_PHRASES.all_time_great);
     }
 
+    // Universal rule: any bottle over $175 that scores below 8.0 is a bad value
+    if (msrp > 175 && rating < 8.0) {
+      return pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp);
+    }
+
     const seg = getSegmentExpectation(rarity, msrp);
 
     // Seriously underperforming: rating is below this segment's bad threshold
@@ -1112,10 +1117,17 @@ window.DB = (function () {
 
     const description = generateDescription(rarity, proof, processMod, ageMod, rating, msrp);
 
+    // Spirit type: 80% Bourbon, 20% Rye
+    const isRye      = pct(0.20);
+    const spiritType = (processMod || ageMod)
+      ? (isRye ? 'Rye' : 'Bourbon')
+      : (isRye ? 'Straight Rye Whiskey' : 'Straight Bourbon Whiskey');
+
     // Build display name
     let displayName = baseName;
     if (processMod) displayName += ' ' + processMod.key;
     if (ageMod)     displayName += ' ' + ageMod.years + ' Year';
+    displayName += ' ' + spiritType;
 
     const style = pick(BOTTLE_STYLES[rarity]);
     const short = makeShort(baseName);
