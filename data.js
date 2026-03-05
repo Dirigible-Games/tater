@@ -165,7 +165,7 @@ window.DB = (function () {
     'Three','True','Twice','Tested','Timber','Toasted',
     'Union','Uncut','Unfiltered',
     'Valley','Vintage','Vaulted',
-    'Weathered','Well','West','Wheat','White','Wild','Winter','Wood','Worn','Whispered',
+    'Weathered','Well','West','Wheated','White','Wild','Winter','Wood','Worn','Whispered',
     'Young','Yielded',
   ];
 
@@ -186,12 +186,12 @@ window.DB = (function () {
     'Label','Legacy','Lot','Ledge',
     'Malt','Mark','Mash','Meadow','Mill','Mist','Mash','Mane',
     'Oak','Origin','Oath',
-    'Path','Peak','Point','Post','Pour','Pride','Proof','Porch',
+    'Path','Peak','Point','Post','Pour','Pride','Porch',
     'Rafter','Ranch','Range','Reserve','Ridge','Rill','Rise',
     'Rock','Root','Run','Rush','Rack','Rye',
     'Select','Shade','Shelf','Sign','Silo','Smoke','Source','Spirit',
     'Spring','Stack','Stave','Still','Stock','Stone','Store','Stream',
-    'Strength','Strike','Sip','Slate',
+    'Strike','Sip','Slate',
     'Timber','Toast','Top','Torch','Trace','Trail','Tun','Turn','Tide',
     'Valley','Vault','View','Veil',
     'Water','Well','Wheat','Whisper','Wood','Worth','Wisp',
