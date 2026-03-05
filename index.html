@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>i see you standing in line, tater</title>
+  <title>Barrel Roll — Bourbon Gacha</title>
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#1a0f00" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -474,6 +474,44 @@
       flex-shrink: 0;
       flex-wrap: wrap;
     }
+
+    .inv-sort-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,.02);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .sort-label {
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .4;
+      font-family: 'Libre Baskerville', serif;
+      margin-right: 2px;
+    }
+    .sort-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,.15);
+      color: var(--cream);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-family: inherit;
+      font-size: .75rem;
+      cursor: pointer;
+      opacity: .55;
+      transition: all .18s;
+    }
+    .sort-btn:hover { opacity: .85; border-color: var(--amber); }
+    .sort-btn.active {
+      background: var(--wood);
+      border-color: var(--amber);
+      color: var(--amber-lt);
+      opacity: 1;
+    }
     .stat-chip {
       display: flex;
       align-items: center;
@@ -709,7 +747,7 @@
 <body>
 
 <header>
-  <div class="logo">TATER'S <span>TREASURES</span></div>
+  <div class="logo">Barrel <span>Roll</span></div>
   <div class="hud">
     <div class="ticket-counter">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -728,57 +766,136 @@
     <div class="barrel-scene">
       <!-- Barrel SVG -->
       <svg class="barrel-svg" id="barrel-svg" viewBox="0 0 180 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Barrel body -->
-        <ellipse cx="90" cy="196" rx="72" ry="14" fill="#3d1f08" opacity=".6"/>
-        <!-- Staves -->
-        <rect x="30" y="20" width="120" height="170" rx="12" fill="url(#wood-grad)"/>
-        <!-- Barrel bulge shape -->
-        <path d="M30 105 Q18 105 18 105 Q10 80 18 55 Q30 30 30 30 L150 30 Q162 55 162 80 Q162 105 150 105 Q162 130 162 155 Q150 180 150 180 L30 180 Q18 155 18 130 Q18 105 30 105Z" fill="url(#wood-grad)"/>
-        <!-- Hoops -->
-        <path d="M22 60 Q90 50 158 60" stroke="#1a0f00" stroke-width="7" fill="none" opacity=".6"/>
-        <path d="M18 100 Q90 88 162 100" stroke="#1a0f00" stroke-width="8" fill="none" opacity=".7"/>
-        <path d="M22 140 Q90 130 158 140" stroke="#1a0f00" stroke-width="7" fill="none" opacity=".6"/>
-
-        <path d="M22 60 Q90 50 158 60" stroke="#8b4c1e" stroke-width="5" fill="none" opacity=".5"/>
-        <path d="M18 100 Q90 88 162 100" stroke="#8b4c1e" stroke-width="6" fill="none" opacity=".6"/>
-        <path d="M22 140 Q90 130 158 140" stroke="#8b4c1e" stroke-width="5" fill="none" opacity=".5"/>
-
-        <!-- Stave lines -->
-        <line x1="60" y1="30" x2="52" y2="180" stroke="#3a1a06" stroke-width="1.5" opacity=".4"/>
-        <line x1="90" y1="28" x2="90" y2="182" stroke="#3a1a06" stroke-width="1.5" opacity=".4"/>
-        <line x1="120" y1="30" x2="128" y2="180" stroke="#3a1a06" stroke-width="1.5" opacity=".4"/>
-
-        <!-- Lid / top ellipse -->
-        <ellipse id="barrel-lid" cx="90" cy="30" rx="60" ry="14" fill="url(#lid-grad)" stroke="#5c3010" stroke-width="2"/>
-        <!-- Tap hole -->
-        <circle cx="90" cy="100" r="6" fill="#1a0f00" opacity=".8"/>
-        <circle cx="90" cy="100" r="3" fill="#c87814" opacity=".6"/>
-
         <defs>
+          <!-- Main wood gradient: dark edges, warm mid -->
           <linearGradient id="wood-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stop-color="#3d1f08"/>
-            <stop offset="20%"  stop-color="#7a3a14"/>
-            <stop offset="50%"  stop-color="#9a4e20"/>
-            <stop offset="80%"  stop-color="#7a3a14"/>
-            <stop offset="100%" stop-color="#3d1f08"/>
+            <stop offset="0%"   stop-color="#2a1004"/>
+            <stop offset="12%"  stop-color="#6b2e0e"/>
+            <stop offset="30%"  stop-color="#a04820"/>
+            <stop offset="50%"  stop-color="#b85a28"/>
+            <stop offset="70%"  stop-color="#a04820"/>
+            <stop offset="88%"  stop-color="#6b2e0e"/>
+            <stop offset="100%" stop-color="#2a1004"/>
           </linearGradient>
-          <linearGradient id="lid-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"  stop-color="#b06030"/>
-            <stop offset="100%" stop-color="#5c2c0a"/>
+          <!-- Stave highlight shimmer -->
+          <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="rgba(255,255,255,0)"/>
+            <stop offset="35%"  stop-color="rgba(255,200,120,0.12)"/>
+            <stop offset="55%"  stop-color="rgba(255,220,160,0.18)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
           </linearGradient>
+          <!-- Hoop metal gradient -->
+          <linearGradient id="hoop-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#4a3010"/>
+            <stop offset="40%"  stop-color="#1a0c04"/>
+            <stop offset="100%" stop-color="#3a2008"/>
+          </linearGradient>
+          <!-- Hoop highlight -->
+          <linearGradient id="hoop-sheen" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="rgba(255,255,255,0)"/>
+            <stop offset="40%"  stop-color="rgba(255,180,80,0.25)"/>
+            <stop offset="60%"  stop-color="rgba(255,200,100,0.18)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </linearGradient>
+          <!-- Top lid gradient -->
+          <radialGradient id="lid-grad" cx="40%" cy="35%" r="60%">
+            <stop offset="0%"   stop-color="#c87030"/>
+            <stop offset="60%"  stop-color="#8b3e14"/>
+            <stop offset="100%" stop-color="#4a1e06"/>
+          </radialGradient>
+          <!-- Drop shadow blur -->
+          <filter id="shadow" x="-10%" y="-5%" width="120%" height="115%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0d0500" flood-opacity="0.7"/>
+          </filter>
+          <!-- Clip to barrel body shape -->
+          <clipPath id="barrel-clip">
+            <path d="M52,22 C52,22 28,26 22,55 C16,84 16,105 22,135 C28,165 52,188 90,188 C128,188 152,165 158,135 C164,105 164,84 158,55 C152,26 128,22 90,22 Z"/>
+          </clipPath>
         </defs>
+
+        <!-- Drop shadow ellipse on ground -->
+        <ellipse cx="90" cy="198" rx="66" ry="10" fill="#0d0500" opacity=".55"/>
+
+        <!-- ── BARREL BODY ── -->
+        <!-- True barrel silhouette: narrow top/bottom, wide bulge at center -->
+        <path d="M52,22 C52,22 28,26 22,55 C16,84 16,105 22,135 C28,165 52,188 90,188 C128,188 152,165 158,135 C164,105 164,84 158,55 C152,26 128,22 90,22 Z"
+              fill="url(#wood-grad)" filter="url(#shadow)"/>
+
+        <!-- ── STAVE LINES (curved to follow barrel bulge) ── -->
+        <!-- Left-of-center stave -->
+        <path d="M63,23 C60,55 58,85 60,105 C58,125 60,155 63,187"
+              stroke="#3a1806" stroke-width="1.8" opacity=".5" fill="none"/>
+        <!-- Left stave -->
+        <path d="M75,21 C73,55 72,85 73,105 C72,125 73,155 75,189"
+              stroke="#3a1806" stroke-width="1.5" opacity=".4" fill="none"/>
+        <!-- Center stave -->
+        <path d="M90,20 C90,55 90,85 90,105 C90,125 90,155 90,190"
+              stroke="#3a1806" stroke-width="1.8" opacity=".45" fill="none"/>
+        <!-- Right stave -->
+        <path d="M105,21 C107,55 108,85 107,105 C108,125 107,155 105,189"
+              stroke="#3a1806" stroke-width="1.5" opacity=".4" fill="none"/>
+        <!-- Right-of-center stave -->
+        <path d="M117,23 C120,55 122,85 120,105 C122,125 120,155 117,187"
+              stroke="#3a1806" stroke-width="1.8" opacity=".5" fill="none"/>
+
+        <!-- Wood sheen overlay -->
+        <path d="M52,22 C52,22 28,26 22,55 C16,84 16,105 22,135 C28,165 52,188 90,188 C128,188 152,165 158,135 C164,105 164,84 158,55 C152,26 128,22 90,22 Z"
+              fill="url(#sheen)"/>
+
+        <!-- ── IRON HOOPS ── -->
+        <!-- Top hoop -->
+        <path d="M54,45 C54,45 68,40 90,40 C112,40 126,45 126,45 C126,45 112,50 90,50 C68,50 54,45 54,45 Z"
+              fill="url(#hoop-grad)" stroke="#0d0600" stroke-width=".6"/>
+        <path d="M54,45 C54,45 68,40 90,40 C112,40 126,45 126,45"
+              fill="none" stroke="url(#hoop-sheen)" stroke-width="2.5"/>
+
+        <!-- Upper-mid hoop -->
+        <path d="M34,78 C34,78 58,70 90,70 C122,70 146,78 146,78 C146,78 122,86 90,86 C58,86 34,78 34,78 Z"
+              fill="url(#hoop-grad)" stroke="#0d0600" stroke-width=".6"/>
+        <path d="M34,78 C34,78 58,70 90,70 C122,70 146,78 146,78"
+              fill="none" stroke="url(#hoop-sheen)" stroke-width="2.5"/>
+
+        <!-- Lower-mid hoop -->
+        <path d="M34,124 C34,124 58,132 90,132 C122,132 146,124 146,124 C146,124 122,116 90,116 C58,116 34,124 34,124 Z"
+              fill="url(#hoop-grad)" stroke="#0d0600" stroke-width=".6"/>
+        <path d="M34,124 C34,124 58,132 90,132 C122,132 146,124 146,124"
+              fill="none" stroke="url(#hoop-sheen)" stroke-width="2.5"/>
+
+        <!-- Bottom hoop -->
+        <path d="M54,157 C54,157 68,162 90,162 C112,162 126,157 126,157 C126,157 112,152 90,152 C68,152 54,157 54,157 Z"
+              fill="url(#hoop-grad)" stroke="#0d0600" stroke-width=".6"/>
+        <path d="M54,157 C54,157 68,162 90,162 C112,162 126,157 126,157"
+              fill="none" stroke="url(#hoop-sheen)" stroke-width="2.5"/>
+
+        <!-- ── TAP HOLE ── -->
+        <ellipse cx="90" cy="105" rx="7" ry="5" fill="#1a0a02" opacity=".9"/>
+        <ellipse cx="90" cy="105" rx="4" ry="3" fill="#c87814" opacity=".55"/>
+        <ellipse cx="90" cy="105" rx="2" ry="1.5" fill="#0d0500" opacity=".9"/>
+
+        <!-- ── TOP LID (perspective ellipse) ── -->
+        <ellipse id="barrel-lid" cx="90" cy="22" rx="38" ry="12"
+                 fill="url(#lid-grad)" stroke="#6b3010" stroke-width="2"/>
+        <!-- Lid inner ring -->
+        <ellipse cx="90" cy="22" rx="32" ry="9"
+                 fill="none" stroke="rgba(180,100,40,0.4)" stroke-width="1.2"/>
+        <!-- Lid center bung -->
+        <ellipse cx="90" cy="22" rx="7" ry="3.5" fill="#3a1a06" stroke="#6b3010" stroke-width="1"/>
+        <ellipse cx="90" cy="22" rx="3" ry="1.5" fill="#c87030" opacity=".5"/>
       </svg>
 
       <!-- Lid that flies off -->
       <div class="lid-pop" id="lid-pop">
-        <svg viewBox="0 0 120 24" width="120" height="24" fill="none">
-          <ellipse cx="60" cy="12" rx="60" ry="12" fill="url(#lid2)"/>
+        <svg viewBox="0 0 80 26" width="80" height="26" fill="none">
           <defs>
-            <linearGradient id="lid2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#b06030"/>
-              <stop offset="100%" stop-color="#5c2c0a"/>
-            </linearGradient>
+            <radialGradient id="lid2" cx="40%" cy="35%" r="60%">
+              <stop offset="0%"   stop-color="#c87030"/>
+              <stop offset="60%"  stop-color="#8b3e14"/>
+              <stop offset="100%" stop-color="#4a1e06"/>
+            </radialGradient>
           </defs>
+          <ellipse cx="40" cy="13" rx="38" ry="12" fill="url(#lid2)" stroke="#6b3010" stroke-width="1.5"/>
+          <ellipse cx="40" cy="13" rx="32" ry="8.5" fill="none" stroke="rgba(180,100,40,0.35)" stroke-width="1"/>
+          <ellipse cx="40" cy="13" rx="7" ry="3" fill="#3a1a06" stroke="#6b3010" stroke-width=".8"/>
         </svg>
       </div>
 
@@ -847,6 +964,13 @@
     </div>
   </div>
   <div class="inv-stats" id="inv-stats"></div>
+  <div class="inv-sort-bar">
+    <span class="sort-label">Sort:</span>
+    <button class="sort-btn active" id="sort-rarity"   onclick="setSort('rarity')">Rarity</button>
+    <button class="sort-btn"        id="sort-value"    onclick="setSort('value')">Value</button>
+    <button class="sort-btn"        id="sort-proof"    onclick="setSort('proof')">Proof</button>
+    <button class="sort-btn"        id="sort-alpha"    onclick="setSort('alpha')">A–Z</button>
+  </div>
   <div class="inv-grid" id="inv-grid"></div>
 </div>
 
@@ -1136,6 +1260,14 @@ function closeInventory() {
   document.getElementById('inv-panel').classList.remove('open');
 }
 
+let currentSort = 'rarity';
+function setSort(mode) {
+  currentSort = mode;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sort-' + mode).classList.add('active');
+  renderInventory();
+}
+
 function renderInventory() {
   const grid  = document.getElementById('inv-grid');
   const stats = document.getElementById('inv-stats');
@@ -1164,8 +1296,15 @@ function renderInventory() {
     stats.innerHTML += `<div class="stat-chip" style="border-color:var(--amber-lt);color:var(--cream)">Est. Value: $${totalValue.toLocaleString()}</div>`;
   }
 
-  const order = ['legendary','epic','rare','uncommon','common'];
-  const sorted = [...state.inventory].sort((a, b) => order.indexOf(a.rarity) - order.indexOf(b.rarity));
+  const rarityOrder = ['legendary','epic','rare','uncommon','common'];
+  const sorted = [...state.inventory].sort((a, b) => {
+    switch (currentSort) {
+      case 'value':  return b.msrp  - a.msrp;
+      case 'proof':  return b.proof - a.proof;
+      case 'alpha':  return a.name.localeCompare(b.name);
+      default:       return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
+    }
+  });
 
   if (sorted.length === 0) {
     grid.innerHTML = '<div class="inv-empty">Your cellar is empty.<br>Open some barrels!</div>';
