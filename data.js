@@ -1132,15 +1132,42 @@ window.DB = (function () {
     const valueNote   = getValueComment(rating, rarity, msrp);
     const valueSuffix = valueNote ? ' ' + valueNote : '';
 
+    // Determine whether value note is negative — if so, suppress the tone closer
+    // to avoid contradictions like "Highly recommended. At $342, this is a bad value."
+    const negativeValuePhrases = VALUE_PHRASES.bad_value
+      .concat(VALUE_PHRASES.underperform_strong)
+      .concat(VALUE_PHRASES.underperform_mild);
+    const valueIsNegative = negativeValuePhrases.some(p =>
+      valueNote && valueNote.startsWith(p.replace('${msrp}', msrp).slice(0, 20))
+    );
+    // Simpler check: if the value note contains known negative signals
+    const valueIsNegativeSimple = valueNote && (
+      valueNote.includes('bad value') ||
+      valueNote.includes('seriously bad') ||
+      valueNote.includes('indefensible') ||
+      valueNote.includes('does not deliver') ||
+      valueNote.includes('hard to justify') ||
+      valueNote.includes('disappoint') ||
+      valueNote.includes('overstates') ||
+      valueNote.includes('underwhelms') ||
+      valueNote.includes('below') ||
+      valueNote.includes('worse use') ||
+      valueNote.includes('worst value') ||
+      valueNote.includes('far less') ||
+      valueNote.includes('pays for the label') ||
+      valueNote.includes('premium price')
+    );
+    const effectiveCloser = valueIsNegativeSimple ? '' : closer + ' ';
+
     // Assemble
     if (depth === 1) {
       return `${opener} A ${body} pour. On the nose: ${tNose} ${nose}. Finishes with ${tFinish}.${valueSuffix}`;
     }
     if (depth === 2) {
-      return `${opener} ${modNote}${ageNote}The nose offers ${tNose} ${nose}. On the palate, ${tPalate}. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${closer}${valueSuffix}`;
+      return `${opener} ${modNote}${ageNote}The nose offers ${tNose} ${nose}. On the palate, ${tPalate}. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
     }
     // depth 3
-    return `${opener} ${modNote}${ageNote}On the nose: ${tNose} ${nose} and ${nose2}. The palate delivers ${tPalate}, with ${palate} and ${palate2} alongside. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${closer}${valueSuffix}`;
+    return `${opener} ${modNote}${ageNote}On the nose: ${tNose} ${nose} and ${nose2}. The palate delivers ${tPalate}, with ${palate} and ${palate2} alongside. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
   }
 
   // ── STAR RATING GENERATOR (0–10 scale) ───────────────────────
