@@ -430,51 +430,6 @@ window.DB = (function () {
     return words.map(w => w[0]).join('').slice(0, 5).toUpperCase();
   }
 
-  // ── PRIMARY EXPORT: generateBottle ──────────────────────────
-  function generateBottle(rarity) {
-    const cfg     = RARITY_CONFIG[rarity];
-    const pattern = pick(cfg.patterns);
-    const baseName = applyPattern(pattern);
-
-    const { processMod, ageMod } = selectModifiers(rarity);
-
-    const proof = generateProof(processMod);
-
-    // Build display name
-    let displayName = baseName;
-    if (processMod) displayName += ' ' + processMod.key;
-    if (ageMod)     displayName += ' ' + ageMod.years + ' Year';
-
-    // MSRP
-    let msrp = rand(cfg.baseMsrp[0], cfg.baseMsrp[1]);
-    if (processMod) msrp += processMod.bonus;
-    if (ageMod)     msrp += ageMod.bonus;
-
-    // Visual style
-    const style = pick(BOTTLE_STYLES[rarity]);
-
-    // Short label text (for SVG)
-    const short = makeShort(baseName);
-    // Tag line: first ~16 chars of base name
-    const tag = baseName.length > 16 ? baseName.slice(0, 15) + '…' : baseName;
-
-    // Unique ID for this pull (not for deduplication)
-    const id = rarity[0] + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-
-    return {
-      id,
-      name: displayName,
-      baseName,
-      rarity,
-      msrp,
-      proof,
-      processMod,
-      ageMod,
-      // merged style object so makeBottleSVG gets what it needs
-      svgStyle: { ...style, short, tag },
-    };
-  }
-
   // ── TASTING NOTE DESCRIPTORS ─────────────────────────────────
   // Five flavor tiers. 'flawed' is for sub-3 ratings regardless of rarity.
   // 'light'/'mid' serve the 3–6.5 band. 'rich' serves 6.5–8.
