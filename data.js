@@ -165,7 +165,7 @@ window.DB = (function () {
     'Three','True','Twice','Tested','Timber','Toasted',
     'Union','Uncut','Unfiltered',
     'Valley','Vintage','Vaulted',
-    'Weathered','Well','West','Wheated','White','Wild','Winter','Wood','Worn','Whispered',
+    'Weathered','Well','West','Wheat','White','Wild','Winter','Wood','Worn','Whispered',
     'Young','Yielded',
   ];
 
@@ -186,12 +186,12 @@ window.DB = (function () {
     'Label','Legacy','Lot','Ledge',
     'Malt','Mark','Mash','Meadow','Mill','Mist','Mash','Mane',
     'Oak','Origin','Oath',
-    'Path','Peak','Point','Post','Pour','Pride','Porch',
+    'Path','Peak','Point','Post','Pour','Pride','Proof','Porch',
     'Rafter','Ranch','Range','Reserve','Ridge','Rill','Rise',
     'Rock','Root','Run','Rush','Rack','Rye',
     'Select','Shade','Shelf','Sign','Silo','Smoke','Source','Spirit',
     'Spring','Stack','Stave','Still','Stock','Stone','Store','Stream',
-    'Strike','Sip','Slate',
+    'Strength','Strike','Sip','Slate',
     'Timber','Toast','Top','Torch','Trace','Trail','Tun','Turn','Tide',
     'Valley','Vault','View','Veil',
     'Water','Well','Wheat','Whisper','Wood','Worth','Wisp',
@@ -959,7 +959,7 @@ window.DB = (function () {
       nose:    ['a pleasant', 'a clean', 'a straightforward', 'an approachable', 'a tidy', 'a familiar and reassuring'],
       palate:  ['balanced sweetness and grain', 'good basic drinkability', 'solid oak and vanilla doing their job', 'easy warmth', 'consistent corn sweetness', 'predictable but pleasing from start to finish', 'a steady mid-palate without ambition or fault'],
       finish:  ['a clean, satisfying close', 'a pleasant medium-length finish', 'a warm, tidy fade', 'an honest and unremarkable close that ends when it should'],
-      closers: ['Worth keeping on the shelf.', 'A solid daily drinker.', 'Good value for what it is.', 'Will satisfy without wowing anyone.'],
+      closers: ['Worth keeping on the shelf.', 'A solid daily drinker.', 'Will satisfy without wowing anyone.', 'Honest and unpretentious.'],
     },
     // 6.5–8.0: genuinely good
     good: {
@@ -977,7 +977,7 @@ window.DB = (function () {
       nose:    ['a rich and inviting', 'a complex and rewarding', 'a beautifully layered', 'an elegant and developed', 'a confident and deeply appealing', 'a genuinely compelling'],
       palate:  ['excellent depth and balance', 'a rewarding interplay of sweetness and oak', 'complex fruit and spice working in harmony', 'remarkable texture for its tier', 'impressive layering that keeps revealing itself', 'well-integrated heat and sweetness from start to finish', 'a mid-palate that earns the price of admission on its own'],
       finish:  ['a long and satisfying finish', 'a beautifully sustained close', 'a complex lingering fade that evolves', 'a finish that rewards patience — give it time', 'a warm and deeply rewarding exit'],
-      closers: ['Highly recommended.', 'A bottle worth buying again and again.', 'Earns its place on any shelf, at any price in its range.', 'Buy a second bottle before this one is gone.'],
+      closers: ['Highly recommended.', 'A bottle worth returning to.', 'A genuinely rewarding pour.', 'This one delivers.'],
     },
     // 8.0–9.25: a genuine gem
     excellent: {
@@ -995,7 +995,7 @@ window.DB = (function () {
       nose:    ['an extraordinary', 'a breathtaking', 'a profound and deeply complex', 'an awe-inspiring', 'a stunning and revelatory', 'a genuinely moving'],
       palate:  ['an unparalleled depth that justifies every dollar', 'a masterclass in balance and complexity', 'transcendent layering that keeps giving', 'unforgettable richness that sits with you', 'a once-in-many-bottles experience that changes the benchmark', 'everything working in perfect concert — nothing wasted, nothing missing'],
       finish:  ['an extraordinary and near-endless finish', 'a finish that evolves for long minutes after the sip', 'an exceptional close that lingers long after the glass is empty', 'a finish that pulls you back to the glass again and again', 'a sustained and deeply rewarding fade that earns genuine admiration'],
-      closers: ['Buy every bottle you can locate.', 'A collector\'s treasure that punches above any price.', 'Set aside multiple bottles — this deserves revisiting.', 'Seek this release out without hesitation.'],
+      closers: ['An extraordinary bottle by any measure.', 'A collector\'s treasure.', 'This is the one to remember.', 'One of those rare pours that justifies the obsession.'],
     },
     // 9.25–10.0: transcendent, all-time great
     perfect: {
@@ -1116,20 +1116,34 @@ window.DB = (function () {
         : (y >= 12 ? `${y} years of patience are evident in every sip. ` : `${y} years of oak integration have mellowed the spirit. `);
     }
 
-    // Value commentary — always included at depth 2+
-    const valueResult  = getValueComment(rating, rarity, msrp);
-    const valueSuffix  = valueResult.text ? ' ' + valueResult.text : '';
-    const effectiveCloser = valueResult.sentiment === 'negative' ? '' : closer + ' ';
+    // Value commentary
+    const valueResult    = getValueComment(rating, rarity, msrp);
+    const valueSuffix    = valueResult.text ? ' ' + valueResult.text : '';
+    const isNegativeValue = valueResult.sentiment === 'negative';
+
+    // When value is negative, suppress both the tone opener (which may praise the bottle
+    // in purchase terms) and the closer, letting the value verdict stand as the conclusion.
+    // Replace the opener with a neutral quality-only observation.
+    const NEUTRAL_OPENERS_BAD_VALUE = [
+      'Decent enough in the glass.',
+      'The whiskey itself is drinkable.',
+      'Not without merit as a spirit.',
+      'There is something here, just not enough.',
+      'Competent at what it does.',
+      'Technically a functional pour.',
+    ];
+    const effectiveOpener  = isNegativeValue ? pick(NEUTRAL_OPENERS_BAD_VALUE) : opener;
+    const effectiveCloser  = isNegativeValue ? '' : closer + ' ';
 
     // Assemble
     if (depth === 1) {
-      return `${opener} A ${body} pour. On the nose: ${tNose} ${nose}. Finishes with ${tFinish}.${valueSuffix}`;
+      return `${effectiveOpener} A ${body} pour. On the nose: ${tNose} ${nose}. Finishes with ${tFinish}.${valueSuffix}`;
     }
     if (depth === 2) {
-      return `${opener} ${modNote}${ageNote}The nose offers ${tNose} ${nose}. On the palate, ${tPalate}. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
+      return `${effectiveOpener} ${modNote}${ageNote}The nose offers ${tNose} ${nose}. On the palate, ${tPalate}. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
     }
     // depth 3
-    return `${opener} ${modNote}${ageNote}On the nose: ${tNose} ${nose} and ${nose2}. The palate delivers ${tPalate}, with ${palate} and ${palate2} alongside. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
+    return `${effectiveOpener} ${modNote}${ageNote}On the nose: ${tNose} ${nose} and ${nose2}. The palate delivers ${tPalate}, with ${palate} and ${palate2} alongside. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
   }
 
   // ── STAR RATING GENERATOR (0–10 scale) ───────────────────────
