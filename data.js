@@ -178,7 +178,7 @@ window.DB = (function () {
     'Dram','Draft','Draw','Drop','Dust',
     'Edge','Essence','Estate','Expression','Ember',
     'Farm','Fire','Flask','Ford','Forge','Fork','Fort','Foundation','Flint',
-    'Gate','Gem','Glen','Gold','Grain','Grant','Ground','Gulch',
+    'Gate','Gem','Glen','Gold','Grain','Grant','Gravel','Ground','Gulch',
     'Harvest','Haven','Heart','Heritage','Hill','Hollow','Home','Honor','Haze',
     'Iron','Inlet',
     'Journey','Jug',
@@ -191,7 +191,7 @@ window.DB = (function () {
     'Rock','Root','Run','Rush','Rack','Rye',
     'Select','Shade','Shelf','Sign','Silo','Smoke','Source','Spirit',
     'Spring','Stack','Stave','Still','Stock','Stone','Store','Stream',
-    'Strike','Sip','Slate',
+    'Strength','Strike','Sip','Slate',
     'Timber','Toast','Top','Torch','Trace','Trail','Tun','Turn','Tide',
     'Valley','Vault','View','Veil',
     'Water','Well','Wheat','Whisper','Wood','Worth','Wisp',
@@ -431,29 +431,34 @@ window.DB = (function () {
   }
 
   // ── TASTING NOTE DESCRIPTORS ─────────────────────────────────
-  // Five flavor tiers. 'flawed' is for sub-3 ratings regardless of rarity.
-  // 'light'/'mid' serve the 3–6.5 band. 'rich' serves 6.5–8.
-  // 'exotic' is reserved for 8+ ratings and leans into unique, standout notes.
-  // 'transcendent' is 9.25+ only — florid, one-of-a-kind language.
 
   const NOSE = {
-    // Industrial, harsh, off-putting — things nobody wants to smell
     flawed: [
-      'rubber tires', 'sawdust', 'pencil shavings', 'machine oil', 'solvent',
+      'rubber tires', 'sawdust', 'pencil shavings', 'machine oil', 'harsh solvent',
       'wet cardboard', 'stale grain sacks', 'turpentine', 'nail polish remover',
       'burning plastic', 'musty attic', 'cheap rubbing alcohol', 'sulfur',
       'acetone', 'paint thinner', 'overcooked cabbage', 'damp newspaper',
       'motor grease', 'scorched rubber', 'industrial cleaning fluid',
+      'hot asphalt', 'band-aids and grain alcohol', 'raw ammonia', 'lighter fluid',
+      'singed carpet', 'stale gym bag', 'metallic rust', 'acrid smoke',
+      'burnt matchsticks', 'canned vegetables left open', 'rubber cement',
+      'old mop water', 'stagnant grain', 'cheap plastic packaging',
+      'vinegar-soaked wood', 'bitter artificial sweetener', 'latex gloves',
+      'overheated electronics', 'rancid cooking oil', 'flat, lifeless grain',
     ],
-    // Standard good bourbon — vanilla, caramel, corn, light oak
     light: [
       'light vanilla', 'fresh grain', 'mild caramel', 'young oak', 'soft corn',
       'faint honey', 'light citrus peel', 'dried hay', 'mild biscuit',
       'powdered sugar', 'light apple', 'green wood', 'fresh straw', 'soft peach',
       'cornbread', 'light butterscotch', 'faint cinnamon', 'white sugar',
-      'sweet cream', 'gentle malt',
+      'sweet cream', 'gentle malt', 'light pear', 'apricot skin', 'marshmallow',
+      'fresh-cut wood', 'light lemon zest', 'gentle wildflower honey',
+      'rice pudding', 'soft brioche', 'faint almond', 'light brown butter',
+      'mild clover honey', 'fresh popcorn', 'gentle peach blossom',
+      'whipped cream', 'light waffle cone', 'sweet grain dust',
+      'new leather on a warm day', 'faint dried chamomile', 'mild coconut',
+      'soft toffee at a distance', 'clean rainwater over grain',
     ],
-    // Good quality bourbon expected notes plus one or two standouts
     mid: [
       'caramel apple', 'toasted oak', 'brown sugar', 'butterscotch', 'cinnamon spice',
       'dried cherry', 'baked bread', 'clove', 'orange zest', 'roasted corn',
@@ -462,8 +467,14 @@ window.DB = (function () {
       'lightly charred wood', 'banana bread', 'maple syrup', 'toasted almond',
       'dried cranberry', 'black pepper', 'cherry cola', 'praline', 'ginger snap',
       'coconut husk', 'cardamom', 'rye bread', 'fig jam', 'plum skin',
+      'dried peach', 'toasted marshmallow', 'brown butter', 'vanilla wafer',
+      'light molasses', 'blackberry jam', 'roasted hazelnut', 'dried orange peel',
+      'peanut brittle', 'pecan pie', 'warm spiced apple cider', 'dried mango',
+      'toasted sesame', 'soft candied ginger', 'butter pecan', 'honey wheat',
+      'mild pipe tobacco at distance', 'cotton candy corn', 'nectarine and oak',
+      'dried blueberry', 'salted caramel', 'toasted wheat bread', 'light cherry wood',
+      'granola and honey', 'warm rum raisin', 'baked apple with cinnamon',
     ],
-    // Rich, developed notes — the standouts take center stage
     rich: [
       'dark chocolate', 'tobacco leaf', 'charred oak', 'deep molasses',
       'dried fig', 'espresso', 'black walnut', 'cedar', 'licorice root',
@@ -473,8 +484,15 @@ window.DB = (function () {
       'tar and leather', 'candied walnut', 'anise seed', 'red fruit compote',
       'smoke and vanilla intertwined', 'old growth cedar', 'robust rye spice',
       'charred pecan shell', 'black currant', 'aged balsamic drizzle',
+      'burnt orange rind', 'clove and dark sugar', 'roasted cacao nib',
+      'black cherry preserve', 'toasted walnuts in dark syrup', 'woodsmoke and leather',
+      'dried plum and dark oak', 'muscovado sugar', 'charred maple',
+      'brandy-soaked raisin', 'dark dried blueberry', 'clove cigarette',
+      'smoked jerky and sweet wood', 'strong black tea with honey',
+      'roasted barley', 'singed oak stave', 'leather-bound books',
+      'concentrated dark fig paste', 'bourbon barrel itself',
+      'incense and dark sugar', 'cold espresso and caramel', 'dark rum undertones',
     ],
-    // Exceptional, rare, unique — things that make the nose remarkable
     exotic: [
       'Oloroso sherry and dried fig', 'candied violet and warm cedar',
       'sandalwood and toasted coconut', 'smoked plum and dark cherry',
@@ -487,8 +505,16 @@ window.DB = (function () {
       'beeswax and leather', 'old library and pipe tobacco',
       'dried lavender and charred pecan', 'wild honey and roasted grain',
       'port wine reduction and dark fruit', 'crystallized ginger and cocoa nib',
+      'dark honey and funeral lilies', 'smoked pineapple and cedar',
+      'Madeira wine and dried apricot', 'muscatel grape and toasted oak',
+      'black truffle shavings over caramel', 'Persian rose water and dark chocolate',
+      'aged cognac barrel and dried cherry', 'smoked paprika and molasses',
+      'juniper berry and aged leather', 'dried tamarind and brown sugar',
+      'toasted cardamom pods and vanilla bean', 'walnut oil and dark caramel',
+      'pu-erh tea and smoked cedar', 'bitter orange marmalade and tobacco',
+      'fig newton and whiskey-soaked oak', 'cherry blossom and dark rum',
+      'clove-studded orange and dark honey', 'charred rosemary and toffee',
     ],
-    // Top-tier — flowery, poetic, one-of-a-kind
     transcendent: [
       'an almost impossible convergence of smoked plum, aged leather, and sweet oak',
       'layers that unfold like a room full of antique books and dark fruit',
@@ -500,6 +526,16 @@ window.DB = (function () {
       'crystallized honey, roasted pecan, and just a thread of black cardamom',
       'port wine, dried hibiscus, and old cedarwood in a harmony that defies easy description',
       'a nose so complex and alive it changes with every breath — dark fruit, spice, and silk',
+      'deep dried cherry, worn leather, and smoked vanilla arriving all at once and making perfect sense',
+      'something between a late-harvest wine and an old whiskey library — neither and both simultaneously',
+      'caramel, incense, and dark stone fruit drifting together like smoke from a rare wood fire',
+      'marzipan, aged cognac, and charred oak — each note impossibly distinct, impossibly unified',
+      'the nose alone is worth the price of admission: dark honey, truffle, and something almost floral',
+      'dried rose, black cardamom, and tobacco leaf over a bed of caramel that never quite resolves',
+      'a convergence of notes that shouldn\'t work together and are somehow perfect — dark fruit, slate, and beeswax',
+      'roasted grain and dark chocolate so well integrated they read as a single, extraordinary note',
+      'the air above the glass smells like someone made caramel in an old library during a thunderstorm',
+      'smoked plum, saffron, and sweet oak drifting in layers that reward a full minute of attention',
     ],
   };
 
@@ -512,6 +548,10 @@ window.DB = (function () {
       'rubbing alcohol warmth and little else', 'clumsy heat and flat grain',
       'a texture like diluted turpentine', 'off-putting bitterness throughout',
       'industrial sharpness with no softening', 'metallic and thin',
+      'burning plastic heat that never integrates', 'cardboard soaked in grain alcohol',
+      'harsh tannin with no fruit to balance it', 'a punishing rawness front to back',
+      'solvent bite that outlasts any sweetness', 'rough and hollow throughout',
+      'a flat grain note that burns and disappears without grace',
     ],
     light: [
       'gentle sweetness', 'light grain', 'mild vanilla cream', 'soft caramel',
@@ -519,6 +559,14 @@ window.DB = (function () {
       'easy-drinking sweetness', 'soft and unchallenging', 'lightly sweet grain',
       'a pleasant if thin mid-palate', 'white sugar and mild oak',
       'soft fruit and cream', 'simple corn and vanilla', 'light brown sugar',
+      'soft peach and mild spice', 'honeyed grain with no edge',
+      'light toffee and fresh wood', 'clean sweetness without complexity',
+      'a gentle wash of vanilla and cornbread', 'simple and agreeable throughout',
+      'faint citrus and soft grain', 'mild butterscotch and light oak',
+      'clean and undemanding from start to finish', 'light apple and cream',
+      'thin-bodied but pleasant vanilla', 'easy sweetness over neutral grain',
+      'mild honey with a clean exit', 'soft biscuit and light caramel',
+      'gentle warmth with no real bite', 'lightly sweet with a grain backbone',
     ],
     mid: [
       'caramel and warming spice', 'toasted oak tannins', 'ripe stone fruit',
@@ -530,6 +578,16 @@ window.DB = (function () {
       'cherry and cinnamon', 'maple and dried apricot', 'praline and light oak',
       'rye spice balanced with sweetness', 'light chocolate and caramel',
       'toasted grain and peach', 'apple and clove', 'honey and black pepper',
+      'pecan and brown butter', 'dried cherry and cinnamon stick',
+      'warm gingerbread and caramel', 'toasted coconut and vanilla',
+      'butterscotch and a hint of tobacco', 'dried mango and spice',
+      'light molasses and cracked pepper', 'toffee and roasted hazelnut',
+      'pear and vanilla cream', 'fig and warming rye', 'dried plum and baking spice',
+      'soft citrus peel and honey oak', 'orange marmalade and mild pepper',
+      'toasted grain and wildflower honey', 'warm caramel corn and nutmeg',
+      'ginger and dried stone fruit', 'lemon curd and light oak tannin',
+      'light chocolate malt and cinnamon', 'caramel-dipped apple slice',
+      'roasted almond and dried apricot', 'warm biscuit and light berry jam',
     ],
     rich: [
       'full-bodied oak and dark fruit', 'deep molasses', 'bold cinnamon heat',
@@ -542,6 +600,16 @@ window.DB = (function () {
       'black walnut and molasses', 'stewed fig and leather',
       'smoked caramel and rye spice', 'old oak and dried stone fruit',
       'cocoa and charred pecan', 'dark fruit layers and long warmth',
+      'burnt caramel and clove', 'charred oak and blackberry preserve',
+      'roasted coffee and dark muscovado', 'dried date and rye pepper',
+      'tobacco and black cherry in perfect proportion', 'mole-like dark complexity',
+      'dark toffee and singed wood', 'cedar and black currant',
+      'deep molasses and warming allspice', 'leather and espresso at high proof',
+      'toasted pecan and dark fruit preserve', 'bittersweet cocoa and charred grain',
+      'anise and stewed cherry', 'bold oak with a dark fruit backbone',
+      'smoked dark sugar and black pepper', 'old leather and dark honey',
+      'rich chocolate malt and spiced oak', 'bitter orange and tobacco leaf',
+      'concentrated dried plum and woodsmoke', 'vanilla bean buried in dark oak',
     ],
     exotic: [
       'extraordinary depth anchored by dark fruit and ancient oak',
@@ -559,6 +627,21 @@ window.DB = (function () {
       'seamless layering with no rough edges, every note earning its place',
       'dark cherry and smoked vanilla braided through toasted oak',
       'a mid-palate that feels almost architectural in its structure',
+      'dried fig and espresso over a floor of ancient oak tannin',
+      'dark honey and tobacco drifting through waves of dark fruit',
+      'smoked plum and Oloroso sherry in perfect harmony',
+      'rare and sustained complexity that builds for a full minute',
+      'black cardamom and vanilla bean at the center of something profound',
+      'a palate like a well-worn library — leather, wood, fruit, and time',
+      'roasted coffee and dark caramel layered over brooding oak',
+      'silky heat that transforms into dark fruit and then spice in sequence',
+      'marzipan and aged leather with waves of smoked vanilla',
+      'an almost savory mid-palate giving way to deep, sweet dark fruit',
+      'fruit, spice, and wood cycling through in distinct and rewarding waves',
+      'a mid-palate so complete it almost doesn\'t need a finish',
+      'dense and extraordinarily structured — every layer reveals another',
+      'crystallized dark sugar and smoked wood united at the center',
+      'dried cherry and bittersweet chocolate woven through ancient tannin',
     ],
     transcendent: [
       'something so seamlessly integrated it defies description — dark fruit, oak, and caramel as a single perfect idea',
@@ -570,6 +653,15 @@ window.DB = (function () {
       'layers upon layers — smoked fruit, dark chocolate, roasted grain — each one revealing another beneath it',
       'the kind of mid-palate that collectors trade for: full, structured, endlessly nuanced',
       'a rare harmony of heat and sweetness that makes you wonder what took everyone else so long',
+      'every note arrives in exactly the right order, at exactly the right time, at exactly the right intensity',
+      'dark fruit, leather, smoke, and spice cycling through in waves that never quite repeat themselves',
+      'a mid-palate of almost architectural precision — nothing is wasted, nothing is missing, everything is earned',
+      'the sweetness and the heat are so perfectly matched they seem to have been designed for each other',
+      'smoked plum, dark chocolate, ancient oak, and something floral — all of it at once, none of it too much',
+      'a palate that makes you reconsider what this spirit is actually capable of when everything goes right',
+      'dense, extraordinarily rich, and somehow still delicate — the rarest combination in American whiskey',
+      'dark cherry, roasted grain, leather, and vanilla occupying the same perfect moment',
+      'the kind of complexity that only reveals itself fully on the fifth or sixth sip',
     ],
   };
 
@@ -583,12 +675,28 @@ window.DB = (function () {
       'a metallic close that fades slowly into nothing good',
       'burns out fast and leaves bitterness behind',
       'ends like a mistake, not a whiskey',
+      'a caustic fade that leaves no pleasant memory',
+      'a sharp exit that somehow manages to get worse as it fades',
+      'a thin, burning close with no sweetness to soften it',
+      'ends in a jolt of heat and flat grain',
+      'a bitter medicinal finish that lingers far too long',
+      'a harsh and graceless exit that undoes anything that came before',
+      'a finish like drinking near the fumes rather than the spirit',
+      'a raw ethanol burn that just sits there, uninvited',
+      'no finish worth describing — just heat and a bad memory',
     ],
     light: [
       'short and clean', 'quick and mild', 'brief sweetness', 'light and easy',
       'thin but inoffensive', 'fades quietly', 'a short soft close',
       'a gentle uncomplicated fade', 'clean and brief', 'pleasantly short',
       'sweet and quick', 'a tidy, simple exit',
+      'a light vanilla close', 'fades with a whisper of corn sweetness',
+      'a gentle honey note on the way out', 'clean and uncomplicated',
+      'a brief warm close', 'light and forgettable in the best way',
+      'ends softly with a hint of grain', 'a quick caramel note and then nothing',
+      'fades cleanly without asking anything of you',
+      'a simple, honest close with light sweetness',
+      'a whisper of biscuit before it disappears', 'quick and pleasant enough',
     ],
     mid: [
       'medium-length warmth', 'lingering caramel', 'pleasant spice fade',
@@ -597,6 +705,17 @@ window.DB = (function () {
       'a clean oak-driven close', 'caramel and a hint of pepper at the back',
       'a medium fade with light spice', 'finishes with brown sugar and oak',
       'a clean warm exit', 'moderate length with a honey note at the close',
+      'a pleasant rye spice fade', 'dried fruit on the way out',
+      'a medium-length caramel and vanilla close', 'warming and satisfying without overstaying',
+      'a tidy exit with a light cinnamon note', 'brown sugar and mild pepper fading together',
+      'a medium warm finish with a touch of toasted grain',
+      'moderate but rewarding — caramel leading to a dry oak close',
+      'a clean fade with hints of honey and light spice',
+      'pleasant warmth that lingers a little longer than expected',
+      'a solid medium finish with dried fruit at the back',
+      'finishes with apple and a dry spice note',
+      'a satisfying if unspectacular exit — warm and clean',
+      'a gentle cinnamon and caramel fade', 'toasted nuts on the close',
     ],
     rich: [
       'a long spiced finish', 'persistent oak tannins', 'extended dark fruit',
@@ -606,6 +725,19 @@ window.DB = (function () {
       'long and warming with oak throughout', 'a long close that shifts from spice to chocolate',
       'dark cherry and tobacco that persist', 'a finish as long as it is good',
       'slowly fading waves of cinnamon and dark fruit',
+      'a long and complex exit that moves through dark fruit, spice, and dried oak',
+      'a finish that earns its length — deep, warming, and multi-layered',
+      'persistent dark chocolate and clove long after the sip',
+      'a slow-fading warmth anchored in charred oak and dried fruit',
+      'molasses and black pepper that linger with purpose',
+      'a long close that starts sweet and ends dry and spiced',
+      'sustained dark fruit layers that refuse to leave quickly',
+      'a deeply satisfying finish — long, warm, and complex throughout',
+      'a bold close of dark sugar and smoked wood that fades slowly',
+      'finishing tannins and dried cherry that persist through several breaths',
+      'a long and rewarding exit — tobacco, caramel, and dark oak in sequence',
+      'the finish alone earns the repeat pour — rich, complex, and lasting',
+      'a deep warming fade with persistent rye spice and dried dark fruit',
     ],
     exotic: [
       'an exceptionally long and layered finish',
@@ -618,6 +750,16 @@ window.DB = (function () {
       'a finish worth sitting with — give it five minutes before you pour another',
       'a finish that other bottles openly aspire to and rarely approach',
       'long, complex, and quietly triumphant',
+      'a finish that moves through dark fruit, smoke, leather, and spice — in that order',
+      'an extraordinary fade that transitions through four or five distinct notes',
+      'a close so long and complex it functions almost as a second tasting experience',
+      'waves of dried cherry, chocolate, and old oak returning in cycles',
+      'a finish that commands attention — nothing about it is passive',
+      'a long fade that reveals notes the nose and palate only hinted at',
+      'extraordinary persistence with new complexity emerging well past the sip',
+      'dark spice and ancient oak cycling through long after the glass is empty',
+      'a close that makes a strong argument for sitting still and doing nothing else',
+      'a finish where each exhale brings something slightly different and equally rewarding',
     ],
     transcendent: [
       'a finish measured not in seconds but in memory — it simply does not leave',
@@ -628,16 +770,24 @@ window.DB = (function () {
       'a close that earns the word infinite — still present an hour later if you pay attention',
       'everything you wanted the finish to be, and then more than that',
       'the finish alone justifies the hunt for a second bottle',
+      'a close so long and layered it constitutes its own separate experience',
+      'dark fruit, leather, smoke, and spice arriving and departing in slow, perfect rotation',
+      'a finish that changes on every exhale for the better part of ten minutes',
+      'the kind of close that makes you hold the empty glass because putting it down feels wrong',
+      'a sustained and extraordinary fade that makes the preceding palate feel like an introduction',
+      'a finish so complete and complex it requires a second pour just to begin understanding it',
+      'waves of spice and dark fruit returning on a rhythm that feels almost intentional',
+      'a close that lingers with such grace and persistence you genuinely lose track of time',
     ],
   };
 
   const BODY_WORDS = {
-    flawed:       ['thin and harsh', 'poorly structured', 'rough and unbalanced', 'clumsy and unintegrated', 'flat and mean'],
-    light:        ['light-bodied', 'thin', 'delicate', 'lean', 'easy', 'clean', 'lightly sweet'],
-    mid:          ['medium-bodied', 'approachable', 'balanced', 'rounded', 'solid', 'steady', 'pleasantly weighted'],
-    rich:         ['full-bodied', 'rich', 'dense', 'robust', 'weighty', 'substantial', 'muscular', 'boldly structured'],
-    exotic:       ['opulent', 'majestic', 'profoundly structured', 'extraordinarily full', 'immaculately assembled'],
-    transcendent: ['singular', 'transcendent', 'flawlessly constructed', 'unlike anything else on the shelf'],
+    flawed:       ['thin and harsh', 'poorly structured', 'rough and unbalanced', 'clumsy and unintegrated', 'flat and mean', 'harsh and characterless', 'graceless'],
+    light:        ['light-bodied', 'thin', 'delicate', 'lean', 'easy', 'clean', 'lightly sweet', 'bright', 'airy', 'uncomplicated'],
+    mid:          ['medium-bodied', 'approachable', 'balanced', 'rounded', 'solid', 'steady', 'pleasantly weighted', 'forthright', 'confident', 'well-proportioned'],
+    rich:         ['full-bodied', 'rich', 'dense', 'robust', 'weighty', 'substantial', 'muscular', 'boldly structured', 'powerful', 'deeply layered'],
+    exotic:       ['opulent', 'majestic', 'profoundly structured', 'extraordinarily full', 'immaculately assembled', 'lavishly composed', 'extraordinary'],
+    transcendent: ['singular', 'transcendent', 'flawlessly constructed', 'unlike anything else on the shelf', 'a genuine once-in-a-generation'],
   };
 
   // ── SEGMENT-BASED VALUE SYSTEM ────────────────────────────────
@@ -984,10 +1134,10 @@ window.DB = (function () {
 
     // Assemble
     if (depth === 1) {
-      return `${opener} A ${body} pour with ${tNose} ${nose} on the nose and ${tFinish}.${valueSuffix}`;
+      return `${opener} A ${body} pour. On the nose: ${tNose} ${nose}. Finishes with ${tFinish}.${valueSuffix}`;
     }
     if (depth === 2) {
-      return `${opener} ${modNote}${ageNote}Opens with ${tNose} ${nose}, leading to ${tPalate} on the palate. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${closer}${valueSuffix}`;
+      return `${opener} ${modNote}${ageNote}The nose offers ${tNose} ${nose}. On the palate, ${tPalate}. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${closer}${valueSuffix}`;
     }
     // depth 3
     return `${opener} ${modNote}${ageNote}On the nose: ${tNose} ${nose} and ${nose2}. The palate delivers ${tPalate}, with ${palate} and ${palate2} alongside. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${closer}${valueSuffix}`;
