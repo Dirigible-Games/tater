@@ -830,7 +830,7 @@
       <div class="item-stat"><span class="stat-label">Est. MSRP</span><span class="stat-val" id="item-msrp">—</span></div>
     </div>
     <div class="legendary-text">✦ wow, what an onion ✦</div>
-    <button class="btn-next" id="card-close-btn" onclick="closeReveal()">Next ›</button>
+    <button class="btn-next" id="card-close-btn">Next ›</button>
   </div>
 </div>
 
@@ -971,6 +971,9 @@ function saveState() {
 
 // ── UI init ────────────────────────────────────────────
 let isAnimating = false;
+
+// Wire close button (can't use inline onclick — JS reassigns it for inspect mode)
+document.getElementById('card-close-btn').onclick = closeReveal;
 
 function refreshHUD() {
   document.getElementById('ticket-display').textContent = state.tickets.toLocaleString();
@@ -1228,6 +1231,8 @@ function inspectItem(item) {
     document.getElementById('card-close-btn').onclick = closeReveal;
   };
 }
+
+function confirmReset() {
   if (confirm('Reset your entire account? This will clear your cellar and restore 5,000 tickets.')) {
     state = JSON.parse(JSON.stringify(DEFAULT_STATE));
     saveState();
