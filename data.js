@@ -979,12 +979,12 @@ window.DB = (function () {
     }
 
     // Value commentary — always included at depth 2+
-    const valueNote   = depth >= 2 ? getValueComment(rating, rarity, msrp) : '';
+    const valueNote   = getValueComment(rating, rarity, msrp);
     const valueSuffix = valueNote ? ' ' + valueNote : '';
 
     // Assemble
     if (depth === 1) {
-      return `${opener} A ${body} pour with ${tNose} ${nose} on the nose and ${tFinish}.`;
+      return `${opener} A ${body} pour with ${tNose} ${nose} on the nose and ${tFinish}.${valueSuffix}`;
     }
     if (depth === 2) {
       return `${opener} ${modNote}${ageNote}Opens with ${tNose} ${nose}, leading to ${tPalate} on the palate. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${closer}${valueSuffix}`;
