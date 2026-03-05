@@ -860,42 +860,30 @@ window.DB = (function () {
   };
 
   function getValueComment(rating, rarity, msrp) {
-    // All-time great — fire first, no bad-value language can override this
     if (rating > 9.25) {
-      return pick(VALUE_PHRASES.all_time_great);
+      return { text: pick(VALUE_PHRASES.all_time_great), sentiment: 'positive' };
     }
-
-    // Universal rule: any bottle over $175 that scores below 8.0 is a bad value
     if (msrp > 175 && rating < 8.0) {
-      return pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp);
+      return { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp), sentiment: 'negative' };
     }
-
     const seg = getSegmentExpectation(rarity, msrp);
-
-    // Seriously underperforming: rating is below this segment's bad threshold
     if (rating < seg.badThresh) {
-      return pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp);
+      return { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp), sentiment: 'negative' };
     }
-
-    // Overperforming: above the segment's overperform threshold
     if (rating >= seg.overThresh) {
-      return seg.priceTag
+      const text = seg.priceTag
         ? pick(VALUE_PHRASES.overperform_value).replace('${msrp}', msrp)
         : pick(VALUE_PHRASES.overperform_mild);
+      return { text, sentiment: 'positive' };
     }
-
-    // Below segment floor (but above bad threshold) — strong underperform
     if (rating < seg.lo) {
-      return pick(VALUE_PHRASES.underperform_strong);
+      return { text: pick(VALUE_PHRASES.underperform_strong), sentiment: 'negative' };
     }
-
-    // Below midpoint — mild underperform
     const midpoint = (seg.lo + seg.hi) / 2;
     if (rating < midpoint - 0.5) {
-      return pick(VALUE_PHRASES.underperform_mild);
+      return { text: pick(VALUE_PHRASES.underperform_mild), sentiment: 'negative' };
     }
-
-    return ''; // within comfortable range
+    return { text: '', sentiment: 'neutral' };
   }
 
   // ── TONE BANDS ────────────────────────────────────────────────
@@ -1129,35 +1117,9 @@ window.DB = (function () {
     }
 
     // Value commentary — always included at depth 2+
-    const valueNote   = getValueComment(rating, rarity, msrp);
-    const valueSuffix = valueNote ? ' ' + valueNote : '';
-
-    // Determine whether value note is negative — if so, suppress the tone closer
-    // to avoid contradictions like "Highly recommended. At $342, this is a bad value."
-    const negativeValuePhrases = VALUE_PHRASES.bad_value
-      .concat(VALUE_PHRASES.underperform_strong)
-      .concat(VALUE_PHRASES.underperform_mild);
-    const valueIsNegative = negativeValuePhrases.some(p =>
-      valueNote && valueNote.startsWith(p.replace('${msrp}', msrp).slice(0, 20))
-    );
-    // Simpler check: if the value note contains known negative signals
-    const valueIsNegativeSimple = valueNote && (
-      valueNote.includes('bad value') ||
-      valueNote.includes('seriously bad') ||
-      valueNote.includes('indefensible') ||
-      valueNote.includes('does not deliver') ||
-      valueNote.includes('hard to justify') ||
-      valueNote.includes('disappoint') ||
-      valueNote.includes('overstates') ||
-      valueNote.includes('underwhelms') ||
-      valueNote.includes('below') ||
-      valueNote.includes('worse use') ||
-      valueNote.includes('worst value') ||
-      valueNote.includes('far less') ||
-      valueNote.includes('pays for the label') ||
-      valueNote.includes('premium price')
-    );
-    const effectiveCloser = valueIsNegativeSimple ? '' : closer + ' ';
+    const valueResult  = getValueComment(rating, rarity, msrp);
+    const valueSuffix  = valueResult.text ? ' ' + valueResult.text : '';
+    const effectiveCloser = valueResult.sentiment === 'negative' ? '' : closer + ' ';
 
     // Assemble
     if (depth === 1) {
