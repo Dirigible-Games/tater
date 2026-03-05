@@ -690,6 +690,7 @@ window.DB = (function () {
   // noteOverValue: true = also call out price-is-no-object if rating > 9.25
   function getSegmentExpectation(rarity, msrp) {
     const isLow = rarity === 'common' || rarity === 'uncommon';
+    if (rarity === 'common' && msrp < 20) return { lo: 3.0, hi: 4.0,  overThresh: 4.0,  priceTag: true  };
     if (isLow && msrp < 30)  return { lo: 3.0, hi: 5.25, overThresh: 5.5,  priceTag: true  };
     if (isLow && msrp <= 45) return { lo: 4.0, hi: 6.25, overThresh: 6.5,  priceTag: true  };
     if (isLow)               return { lo: 5.0, hi: 6.75, overThresh: 7.0,  priceTag: true  };
