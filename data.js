@@ -1066,6 +1066,188 @@ window.DB = (function () {
     return 'perfect';
   }
 
+  // ── FRAME SYSTEM ─────────────────────────────────────────────
+  // frameKey is derived from rating quality × value sentiment.
+  // It drives HOW notes are expressed in sentences — separately from
+  // which flavor words are picked (that is still rating/rarity driven).
+  //
+  // Four frames:
+  //   'celebrate'  — good quality, good value: enthusiastic, earned praise
+  //   'forgiving'  — modest quality, good value: charitable, "for what it is"
+  //   'tempered'   — good quality, bad value: honest about quality, disappointed by price
+  //   'muted'      — modest quality, bad value: notes described as absent/flat/missing
+
+  function getFrameKey(toneKey, valueSentiment) {
+    const qualityGood = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
+    const qualityMid  = toneKey === 'average' || toneKey === 'below';
+    const qualityBad  = toneKey === 'terrible' || toneKey === 'poor';
+    // Very bad quality always gets muted/negative framing regardless of value
+    if (qualityBad) return 'muted';
+    if (valueSentiment === 'positive') return qualityGood ? 'celebrate' : 'forgiving';
+    if (valueSentiment === 'negative') return qualityGood ? 'tempered'  : 'muted';
+    // neutral value: good quality speaks for itself, mid quality gets honest framing
+    return qualityGood ? 'celebrate' : 'honest';
+  }
+
+  // FRAME phrase banks — used to wrap flavor notes in sentences
+  // Each has: nose_intro, palate_intro, finish_intro, note_wrapper (how a single note is contextualized)
+  const FRAME = {
+    // Good quality + good value: full enthusiasm
+    celebrate: {
+      nose_intro: [
+        'The nose opens with',
+        'On the nose, there is',
+        'Right away the nose offers',
+        'The nose arrives with',
+        'Opening with',
+      ],
+      palate_intro: [
+        'The palate follows through with',
+        'On the palate,',
+        'The mid-palate delivers',
+        'In the glass,',
+        'The palate rewards with',
+      ],
+      finish_intro: [
+        'The finish is',
+        'It closes with',
+        'The close brings',
+        'The finish delivers',
+      ],
+      // How an individual simple note is framed positively
+      note_positive: [
+        '{note} — simple, but genuinely welcome here',
+        '{note}, which lands exactly as it should',
+        '{note} that earns its place without apology',
+        '{note}, present and doing its job well',
+        'a clean expression of {note}',
+        '{note} that is honest and satisfying',
+      ],
+    },
+    // Modest quality + good value: forgiving, warm, contextual praise
+    forgiving: {
+      nose_intro: [
+        'For what it is, the nose offers',
+        'The nose is simple but shows',
+        'Unpretentiously, the nose brings',
+        'The nose delivers a modest',
+        'Nothing complicated — just',
+      ],
+      palate_intro: [
+        'The palate is straightforward with',
+        'Simply put, the palate offers',
+        'Honestly, the palate gives you',
+        'The palate keeps it basic —',
+        'There is nothing fancy here, just',
+      ],
+      finish_intro: [
+        'The finish is brief but',
+        'It closes simply with',
+        'The finish is modest —',
+        'The close is short and',
+      ],
+      note_positive: [
+        '{note} — simple, but welcomed at this price',
+        '{note} that doesn\'t try to be more than it is',
+        'a pleasant if uncomplicated {note}',
+        '{note}, which is exactly what you\'d hope for here',
+        '{note} — nothing more is needed',
+        'straightforward {note} that satisfies without demanding',
+      ],
+    },
+    // Good quality + bad value: quality acknowledged but price clouds everything
+    tempered: {
+      nose_intro: [
+        'The nose, to its credit, offers',
+        'Technically, the nose presents',
+        'The nose shows genuine',
+        'There is real quality in the nose —',
+        'In the glass, the nose does offer',
+      ],
+      palate_intro: [
+        'The palate is genuinely capable, delivering',
+        'To be fair, the palate offers',
+        'The whiskey itself delivers',
+        'In isolation, the palate shows',
+        'The quality is there on the palate —',
+      ],
+      finish_intro: [
+        'The finish is legitimately good —',
+        'The close, at least, delivers',
+        'The finish does its job —',
+        'To the spirit\'s credit, it finishes with',
+      ],
+      note_positive: [
+        '{note} that is genuinely well-done, if not well-priced',
+        'a capable {note} that deserves acknowledgment',
+        '{note} — this part, at least, earns respect',
+        'real {note} that makes the price sting more, not less',
+        '{note} of legitimate quality',
+        '{note} — and there is no question the quality is there',
+      ],
+    },
+    // Modest quality + bad value: notes framed as absent, muted, or failing to appear
+    muted: {
+      nose_intro: [
+        'What should be on the nose is mostly absent —',
+        'The nose promises',
+        'On paper, the nose should offer',
+        'There is a suggestion of',
+        'The nose gestures vaguely toward',
+      ],
+      palate_intro: [
+        'The palate falls well short of',
+        'What should be a palate of',
+        'The expected',
+        'There are traces of what might be',
+        'The palate hints at',
+      ],
+      finish_intro: [
+        'The finish barely registers —',
+        'What passes for a finish here is',
+        'The close disappoints with',
+        'The finish, such as it is, offers',
+      ],
+      note_positive: [
+        '{note} that never fully arrives',
+        'a muted suggestion of {note} that doesn\'t follow through',
+        '{note} in theory, but flat in practice',
+        'the ghost of {note}',
+        '{note} promised but not delivered',
+        'traces of {note} that disappear before making an impression',
+      ],
+    },
+    // Neutral value, mid quality: honest, no spin
+    honest: {
+      nose_intro: [
+        'The nose offers',
+        'On the nose,',
+        'The nose is',
+        'The nose brings',
+        'Opening with',
+      ],
+      palate_intro: [
+        'On the palate,',
+        'The palate delivers',
+        'The mid-palate shows',
+        'In the glass,',
+        'The palate brings',
+      ],
+      finish_intro: [
+        'The finish is',
+        'It closes with',
+        'The finish brings',
+        'The close offers',
+      ],
+      note_positive: [
+        '{note}',
+        'a recognizable {note}',
+        '{note} that does what it should',
+        'straightforward {note}',
+      ],
+    },
+  };
+
   // Map rarity + proof + rating to flavor descriptor tier
   function getTier(rarity, proof, rating) {
     if (rating < 3.0) return 'flawed';
@@ -1083,19 +1265,27 @@ window.DB = (function () {
   const DETAIL_DEPTH = { common:1, uncommon:2, rare:2, epic:3, legendary:3 };
 
   function generateDescription(rarity, proof, processMod, ageMod, rating, msrp) {
+    // ── Step 1: resolve value first — it drives framing ──────────
+    const valueResult   = getValueComment(rating, rarity, msrp);
+    const valueSuffix   = valueResult.text ? ' ' + valueResult.text : '';
+    const isNegativeValue = valueResult.sentiment === 'negative';
+
+    // ── Step 2: derive structural keys ───────────────────────────
     const flavorTier = getTier(rarity, proof, rating);
     const depth      = DETAIL_DEPTH[rarity];
     const toneKey    = getToneKey(rating);
     const tone       = TONE[toneKey];
+    const frameKey   = getFrameKey(toneKey, valueResult.sentiment);
+    const frame      = FRAME[frameKey];
 
     // Nose tier: allow a bump at high proof in mid tier
     const nTier = (proof >= 110 && flavorTier === 'mid') ? 'rich' : flavorTier;
 
-    // Pick flavor words
-    const nose    = pick(NOSE[nTier]);
-    const palate  = pick(PALATE[flavorTier]);
-    const finish  = pick(FINISH[flavorTier]);
-    const body    = pick(BODY_WORDS[flavorTier] || BODY_WORDS.mid);
+    // ── Step 3: pick flavor words ─────────────────────────────────
+    const nose   = pick(NOSE[nTier]);
+    const palate = pick(PALATE[flavorTier]);
+    const finish = pick(FINISH[flavorTier]);
+    const body   = pick(BODY_WORDS[flavorTier] || BODY_WORDS.mid);
 
     let palate2 = pick(PALATE[flavorTier]);
     let att = 0;
@@ -1105,84 +1295,150 @@ window.DB = (function () {
     att = 0;
     while (nose2 === nose && att++ < 10) nose2 = pick(NOSE[nTier]);
 
-    // Tone phrases
-    const opener  = pick(tone.openers);
-    const tNose   = pick(tone.nose);
-    const tPalate = pick(tone.palate);
-    const tFinish = pick(tone.finish);
-    const closer  = pick(tone.closers);
+    // ── Step 4: build framed note sentences ──────────────────────
+    // For terrible/poor tones the TONE nose/palate/finish framings are used directly
+    // (they're already harsh enough). For everything else, FRAME drives the sentence.
+    const useToneFraming = toneKey === 'terrible' || toneKey === 'poor';
+
+    const noseIntro   = useToneFraming ? pick(tone.nose)   : pick(frame.nose_intro);
+    const palateIntro = useToneFraming ? pick(tone.palate) : pick(frame.palate_intro);
+    const finishIntro = useToneFraming ? pick(tone.finish) : pick(frame.finish_intro);
+
+    // Wrap individual notes through the frame's note_positive template
+    function wrapNote(n) {
+      if (useToneFraming) return n;
+      return pick(frame.note_positive).replace('{note}', n);
+    }
+
+    const noseWrapped   = wrapNote(nose);
+    const nose2Wrapped  = wrapNote(nose2);
+    const palateWrapped = wrapNote(palate);
+    const palate2Wrapped = wrapNote(palate2);
+
+    // ── Step 5: tone opener and closer ───────────────────────────
+    const opener = pick(tone.openers);
+    const closer = pick(tone.closers);
 
     const good    = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
     const bad     = toneKey === 'terrible' || toneKey === 'poor';
     const mediocre = toneKey === 'below' || toneKey === 'average';
 
-    // Modifier notes — full tone spectrum
+    // ── Step 6: modifier notes ────────────────────────────────────
     let modNote = '';
     if (processMod) {
       const k = processMod.key;
       if (k === 'Single Barrel') {
-        modNote = good    ? 'Single barrel character shines through with real distinction here. '
-                : bad     ? 'The single barrel variance exposes flaws rather than flattering them. '
-                : mediocre ? pick([
-                    'Single barrel variation is present, though it doesn\'t work in this bottle\'s favor. ',
-                    'The single barrel character is detectable but unremarkable. ',
-                    'Single barrel bottling adds individuality — not necessarily quality here. ',
+        modNote = good     ? 'Single barrel character shines through with real distinction here. '
+                : bad      ? 'The single barrel variance exposes flaws rather than flattering them. '
+                : frameKey === 'forgiving' ? pick([
+                    'Single barrel individuality comes through — modest, but genuinely its own. ',
+                    'This barrel has a character of its own, for better and for worse. ',
+                    'Single barrel variation is part of the charm here, even if the results are simple. ',
+                  ])
+                : frameKey === 'muted' ? pick([
+                    'Single barrel bottling does nothing to distinguish this one. ',
+                    'Whatever made this barrel individual, it doesn\'t show up as quality. ',
+                    'The single barrel variance is evident — unfortunately, not in a useful direction. ',
+                  ])
+                : frameKey === 'tempered' ? pick([
+                    'Single barrel character is present and real — just not at the right price. ',
+                    'The individual barrel character is genuinely good. The price is not. ',
                   ])
                 : 'Single barrel character gives this a distinctive edge. ';
       }
       if (k === 'Small Batch') {
-        modNote = good    ? 'Small batch blending achieves an impressive and cohesive harmony. '
-                : bad     ? 'The small batch blend never finds its footing. '
-                : mediocre ? pick([
-                    'The small batch blend is consistent, for whatever that\'s worth here. ',
-                    'Small batch blending evens things out without elevating them. ',
-                    'The blending is tidy, but tidiness is about the best that can be said. ',
+        modNote = good     ? 'Small batch blending achieves an impressive and cohesive harmony. '
+                : bad      ? 'The small batch blend never finds its footing. '
+                : frameKey === 'forgiving' ? pick([
+                    'Small batch blending keeps things consistent and easy. ',
+                    'The blend is tidy and agreeable for the price. ',
+                  ])
+                : frameKey === 'muted' ? pick([
+                    'Small batch blending evens things out without improving them. ',
+                    'The blend is consistent, though consistently underwhelming. ',
+                    'Whatever the batching achieved, it didn\'t achieve enough. ',
+                  ])
+                : frameKey === 'tempered' ? pick([
+                    'The small batch harmony is real — the value case is not. ',
+                    'A well-blended small batch that costs more than it should. ',
                   ])
                 : 'Small batch blending adds a layer of consistency. ';
       }
       if (k === 'Bottled-in-Bond') {
-        modNote = good    ? 'The bonded bottling lends this honest, well-structured authority. '
-                : bad     ? 'Even the bonded bottling standard cannot rescue the base distillate. '
-                : mediocre ? pick([
-                    'Bottled-in-bond discipline is evident, though the base spirit doesn\'t reward the standard. ',
-                    'The bonded standard is met, though meeting it is all this achieves. ',
+        modNote = good     ? 'The bonded bottling lends this honest, well-structured authority. '
+                : bad      ? 'Even the bonded bottling standard cannot rescue the base distillate. '
+                : frameKey === 'forgiving' ? pick([
+                    'Bottled-in-bond standards provide a reliable foundation here. ',
+                    'The bonded credential means something, and it shows at this price. ',
+                  ])
+                : frameKey === 'muted' ? pick([
                     'Bonded credentials on paper, middling results in the glass. ',
+                    'Meeting the bonded standard is the most interesting thing about this bottle. ',
+                    'The bonded process is respected; the base spirit did not return the favor. ',
+                  ])
+                : frameKey === 'tempered' ? pick([
+                    'Bonded integrity is present and real — the price just isn\'t justified by what surrounds it. ',
+                    'The bonded structure is legitimately good. The shelf price is not. ',
                   ])
                 : 'Bottled-in-bond discipline is evident throughout. ';
       }
       if (k === 'Full Proof') {
-        modNote = good    ? 'Bottled at full barrel proof, this rewards with undiluted authority and honesty. '
-                : bad     ? 'The uncut proof amplifies every flaw rather than hiding them. '
-                : mediocre ? pick([
+        modNote = good     ? 'Bottled at full barrel proof, this rewards with undiluted authority and honesty. '
+                : bad      ? 'The uncut proof amplifies every flaw rather than hiding them. '
+                : frameKey === 'forgiving' ? pick([
+                    'Full proof bottling adds honesty and a bit of extra heat for the price. ',
+                    'At barrel strength, you get everything this has to offer — it\'s a fair deal. ',
+                  ])
+                : frameKey === 'muted' ? pick([
                     'Full proof bottling means nothing is hidden — including the shortcomings. ',
-                    'Barrel strength without dilution, though what\'s revealed isn\'t particularly flattering. ',
-                    'At full proof, there\'s nowhere to hide, and this doesn\'t quite have enough to show. ',
+                    'At barrel strength, there is nowhere to hide, and this has too much to hide. ',
+                    'The uncut proof reveals more problems than it solves. ',
+                  ])
+                : frameKey === 'tempered' ? pick([
+                    'At full proof, the quality is undeniable — the price is harder to forgive. ',
+                    'Full proof honesty reveals a genuinely good spirit asking too much for it. ',
                   ])
                 : 'Bottled at full barrel proof — nothing held back. ';
       }
       if (k === 'Double Oaked') {
-        modNote = good    ? 'The double oaking has contributed remarkable structural depth and complexity. '
-                : bad     ? 'The second barrel has over-extracted badly, leaving bitterness in place of depth. '
-                : mediocre ? pick([
+        modNote = good     ? 'The double oaking has contributed remarkable structural depth and complexity. '
+                : bad      ? 'The second barrel has over-extracted badly, leaving bitterness in place of depth. '
+                : frameKey === 'forgiving' ? pick([
+                    'Double oaking adds a pleasant extra layer of oak for the money. ',
+                    'The second barrel brings a little more wood influence, and at this price, that\'s welcome. ',
+                  ])
+                : frameKey === 'muted' ? pick([
                     'Double oaking doesn\'t seem to add much that the base spirit couldn\'t have done without. ',
-                    'A second barrel maturation, though the added oak influence is underwhelming. ',
+                    'A second barrel, though the added oak influence is underwhelming at best. ',
                     'The double oak treatment is detectable but doesn\'t lift this meaningfully. ',
+                  ])
+                : frameKey === 'tempered' ? pick([
+                    'The double oak complexity is real and genuinely impressive — the price just isn\'t. ',
+                    'Second barrel depth is present and earned; second-tier pricing is not. ',
                   ])
                 : 'A second barrel maturation doubles the oak influence throughout. ';
       }
       if (k === 'French Oaked') {
-        modNote = good    ? 'French oak finishing has introduced a quietly sophisticated, exotic elegance. '
-                : bad     ? 'The French oak influence feels mismatched and out of place here. '
-                : mediocre ? pick([
-                    'French oak finishing is present on paper, though it contributes little of note. ',
+        modNote = good     ? 'French oak finishing has introduced a quietly sophisticated, exotic elegance. '
+                : bad      ? 'The French oak influence feels mismatched and out of place here. '
+                : frameKey === 'forgiving' ? pick([
+                    'French oak finishing adds a subtle twist that makes this a bit more interesting for the price. ',
+                    'The French oak touch is a pleasant surprise at this price point. ',
+                  ])
+                : frameKey === 'muted' ? pick([
+                    'French oak finishing is listed on the label; finding it in the glass is another matter. ',
                     'The French oak influence is subtle to the point of being nearly undetectable. ',
-                    'An interesting finishing choice that doesn\'t quite justify itself in the glass. ',
+                    'An interesting finishing choice that doesn\'t justify itself in the glass or on the price tag. ',
+                  ])
+                : frameKey === 'tempered' ? pick([
+                    'The French oak elegance is legitimately present — but legitimacy costs extra here. ',
+                    'A genuinely distinctive French oak character undermined by a price that asks too much. ',
                   ])
                 : 'French oak finishing contributes a subtle and distinct elegance. ';
       }
     }
 
-    // Age notes — full tone spectrum
+    // ── Step 7: age notes ─────────────────────────────────────────
     let ageNote = '';
     if (ageMod) {
       const y = ageMod.years;
@@ -1198,8 +1454,16 @@ window.DB = (function () {
         ageNote = y >= 12
           ? `Despite ${y} years in barrel, time has not tamed its considerable rough edges. `
           : `${y} years was not enough to bring this into proper shape. `;
-      } else if (mediocre) {
-        // below / average — aging is present but unremarkable or wasted
+      } else if (frameKey === 'forgiving') {
+        ageNote = pick(y >= 12 ? [
+          `${y} years of aging that show in the glass — honestly more than expected at this price. `,
+          `${y} years of patience, and you can taste it. Simple, but earned. `,
+          `${y} years of maturation that genuinely contribute something at this price point. `,
+        ] : [
+          `${y} years of aging add a touch of character that punches above the price. `,
+          `${y} years in wood that does exactly what you'd hope for the money. `,
+        ]);
+      } else if (frameKey === 'muted') {
         ageNote = pick(y >= 12 ? [
           `${y} years of aging are largely invisible here. `,
           `${y} years in barrel and the results are surprisingly modest. `,
@@ -1210,6 +1474,14 @@ window.DB = (function () {
           `${y} years in wood, though the oak influence is unremarkable at best. `,
           `${y} years that mellowed things without adding much of interest. `,
         ]);
+      } else if (frameKey === 'tempered') {
+        ageNote = pick(y >= 12 ? [
+          `${y} years of maturation that genuinely show — this is not where the value problem lies. `,
+          `The ${y} years are evident in the glass. The price tag is where the argument falls apart. `,
+        ] : [
+          `${y} years that contribute real character, even if the price overstates it overall. `,
+          `Oak integration from ${y} years of aging is one of the better things going on here. `,
+        ]);
       } else {
         ageNote = y >= 12
           ? `${y} years of patience are evident in every sip. `
@@ -1217,14 +1489,7 @@ window.DB = (function () {
       }
     }
 
-    // Value commentary
-    const valueResult    = getValueComment(rating, rarity, msrp);
-    const valueSuffix    = valueResult.text ? ' ' + valueResult.text : '';
-    const isNegativeValue = valueResult.sentiment === 'negative';
-
-    // When value is negative, suppress both the tone opener (which may praise the bottle
-    // in purchase terms) and the closer, letting the value verdict stand as the conclusion.
-    // Replace the opener with a neutral quality-only observation.
+    // ── Step 8: opener / closer — suppress on negative value ─────
     const NEUTRAL_OPENERS_BAD_VALUE = [
       'Decent enough in the glass.',
       'The whiskey itself is drinkable.',
@@ -1233,18 +1498,20 @@ window.DB = (function () {
       'Competent at what it does.',
       'Technically a functional pour.',
     ];
-    const effectiveOpener  = isNegativeValue ? pick(NEUTRAL_OPENERS_BAD_VALUE) : opener;
-    const effectiveCloser  = isNegativeValue ? '' : closer + ' ';
+    const effectiveOpener = isNegativeValue ? pick(NEUTRAL_OPENERS_BAD_VALUE) : opener;
+    const effectiveCloser = isNegativeValue ? '' : closer + ' ';
 
-    // Assemble
+    // ── Step 9: assemble by depth ─────────────────────────────────
+    const finishCap = finishIntro[0].toUpperCase() + finishIntro.slice(1);
+
     if (depth === 1) {
-      return `${effectiveOpener} A ${body} pour. On the nose: ${tNose} ${nose}. Finishes with ${tFinish}.${valueSuffix}`;
+      return `${effectiveOpener} A ${body} pour. ${noseIntro} ${noseWrapped}. ${finishCap} ${finish}.${valueSuffix}`;
     }
     if (depth === 2) {
-      return `${effectiveOpener} ${modNote}${ageNote}The nose offers ${tNose} ${nose}. On the palate, ${tPalate}. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
+      return `${effectiveOpener} ${modNote}${ageNote}${noseIntro} ${noseWrapped}. ${palateIntro} ${palateWrapped}. ${finishCap} ${finish}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
     }
     // depth 3
-    return `${effectiveOpener} ${modNote}${ageNote}On the nose: ${tNose} ${nose} and ${nose2}. The palate delivers ${tPalate}, with ${palate} and ${palate2} alongside. ${tFinish[0].toUpperCase() + tFinish.slice(1)}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
+    return `${effectiveOpener} ${modNote}${ageNote}${noseIntro} ${noseWrapped} and ${nose2Wrapped}. ${palateIntro} ${palateWrapped} and ${palate2Wrapped}. ${finishCap} ${finish}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
   }
 
   // ── STAR RATING GENERATOR (0–10 scale) ───────────────────────
