@@ -1233,7 +1233,8 @@ window.DB = (function () {
         'luxurious', 'deep', 'velvety', 'rich', 'complex', 'layered',
         'bold', 'elegant', 'refined', 'vibrant', 'lush', 'silky',
         'powerful', 'extraordinary', 'profound', 'exceptional',
-        'immaculate', 'opulent', 'breathtaking', 'magnificent',
+        'immaculate', 'opulent', 'breathtaking', 'magnificent', 'surprising',
+        'unexpected', 'delicious',
       ],
     },
   };
