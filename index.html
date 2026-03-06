@@ -379,6 +379,7 @@
       font-style: italic;
       text-align: center;
       max-width: 300px;
+      white-space: pre-wrap;
     }
 
     .item-rating {
@@ -1114,7 +1115,7 @@
 <!-- Toast -->
 <div id="toast"></div>
 
-<script src="data.js?v=9"></script>
+<script src="data.js?v=10&bust=20260306"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 //  BARREL ROLL — MAIN GAME LOGIC
@@ -1332,7 +1333,14 @@ function populateCard(item) {
   document.getElementById('item-msrp').textContent       = '~$' + item.msrp.toLocaleString();
   document.getElementById('item-stars').innerHTML        = renderStars(item.rating);
   document.getElementById('item-rating-num').textContent = item.rating.toFixed(2);
-  document.getElementById('item-desc').textContent       = item.description || '';
+  document.getElementById('item-desc').innerHTML = (() => {
+    const raw = item.description || '';
+    const nl  = raw.indexOf('\n');
+    if (nl === -1) return `<span>${raw}</span>`;
+    const tags = raw.slice(0, nl).trim();
+    const sent = raw.slice(nl + 1).trim();
+    return `<span style="opacity:1;font-style:normal;font-size:.78rem;letter-spacing:.01em">${tags}</span>${sent ? `<br><span>${sent}</span>` : ''}`;
+  })();
   document.getElementById('item-card').className         = 'item-card ' + item.rarity;
 }
 
@@ -1555,7 +1563,7 @@ function showToast(msg) {
 // ── PWA Service Worker ─────────────────────────────────
 if ('serviceWorker' in navigator) {
   const swCode = `
-    const CACHE = 'barrelroll-v9';
+    const CACHE = 'barrelroll-v10';
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html', './data.js'])));
     });
