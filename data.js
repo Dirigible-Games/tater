@@ -615,347 +615,119 @@ window.DB = (function () {
       'miso caramel and smoked wood', 'salted dark chocolate and cedar',
     ],
     transcendent: [
-      'an almost impossible convergence of smoked plum, aged leather, and sweet oak',
-      'layers that unfold like a room full of antique books and dark fruit',
-      'sandalwood and saffron drifting over a foundation of caramel and tobacco',
-      'a whisper of beeswax, dark cherry, and something ancient in the wood',
-      'fig, rose petal, and charred oak woven together with extraordinary delicacy',
-      'the kind of nose that stops conversation — smoked vanilla, truffle, and dark raisin',
-      'candied violet and Oloroso sherry over a deep bed of toasted coconut and spice',
-      'crystallized honey, roasted pecan, and just a thread of black cardamom',
-      'port wine, dried hibiscus, and old cedarwood in a harmony that defies easy description',
-      'a nose so complex and alive it changes with every breath — dark fruit, spice, and silk',
-      'deep dried cherry, worn leather, and smoked vanilla arriving all at once and making perfect sense',
-      'something between a late-harvest wine and an old whiskey library — neither and both simultaneously',
-      'caramel, incense, and dark stone fruit drifting together like smoke from a rare wood fire',
-      'marzipan, aged cognac, and charred oak — each note impossibly distinct, impossibly unified',
-      'the nose alone is worth the price of admission: dark honey, truffle, and something almost floral',
-      'dried rose, black cardamom, and tobacco leaf over a bed of caramel that never quite resolves',
-      'a convergence of notes that shouldn\'t work together and are somehow perfect — dark fruit, slate, and beeswax',
-      'roasted grain and dark chocolate so well integrated they read as a single, extraordinary note',
-      'the air above the glass smells like someone made caramel in an old library during a thunderstorm',
-      'smoked plum, saffron, and sweet oak drifting in layers that reward a full minute of attention',
-      'a nose that keeps unfolding long after the glass is raised — dark spice, old wood, and something ineffable',
-      'tobacco, dried cherry, and ancient leather arriving in a sequence that feels both inevitable and rare',
-      'a nose of such density and grace it seems to exist outside of normal tasting language',
-      'something dark and sweet and smoky braided together so tightly the individual notes resist separation',
-      'the ghost of a great barrel made real — dark fruit, wax, and time in equal measure',
-      'cedarwood, dark honey, and truffle so seamlessly layered they feel like a single composed note',
-      'a nose that rewards patience in a way few whiskeys in any category ever manage to do',
-      'the kind of complexity that makes you wonder how a grain spirit ever got here — dark cherry, charred wood, and spice in perfect repose',
-      'fig paste, aged leather, and something faintly floral refusing to be separated or fully identified',
-      'a nose so complete it functions as its own tasting experience before a sip is taken',
-      'dark balsamic, smoked vanilla, and dried rose that arrive slowly and build without haste',
-      'old sherry, espresso, and rare wood resin layered in a way that feels composed rather than accidental',
-      'the kind of nose that belongs in memory — deeply complex, unmistakably great, impossible to replicate',
-      'burnt sugar, tobacco flower, and ancient oak arriving together in a harmony of almost uncomfortable beauty',
-      'a nose like opening a very old, very extraordinary bottle in a room full of wood smoke and stone fruit',
-      'walnut, dark cherry, and smoked vanilla presenting themselves with the confidence of something already legendary',
-      'a nose so fine that describing it feels reductive — dark fruit, incense, and time doing things words can\'t',
-      'extraordinary layering of cedar, dark chocolate, and saffron that shifts with every deliberate inhale',
-      'a whiskey that announces itself on the nose as something categorically different from what came before',
-      'the nose of something that had no business being this good and clearly didn\'t care about the odds',
-      'dried rose, old leather, and concentrated dark fruit forming a chord rather than individual notes',
-      'sandalwood, honeycomb, and deeply aged oak arriving like something from another era of distilling',
-      'a nose that exists in its own category — profoundly complex, deeply beautiful, completely its own thing',
-      'dark rum, dried cherry, and roasted grain layered with a precision that suggests decades of care',
-      'a nose so dense with interest it could sustain twenty minutes of quiet attention without repetition',
-      'the rarest kind of whiskey nose — one that changes what you thought the spirit was capable of',
-      'fig, cedar, dark honey, and ancient smoke woven into something that feels less made than discovered',
-      'old library, dark fruit compote, and smoked vanilla layered in a harmony that is simply extraordinary',
-      'a nose so well-constructed that calling it a nose feels insufficient — it is a complete olfactory statement',
-      'espresso, dark walnut, and dried rose in a unity so complete they may as well be one note',
-      'a nose that earns reverence — not because it is impressive, but because it is genuinely extraordinary',
-      'charred oak and dark cherry liqueur so intertwined you cannot find where one ends and the other begins',
-      'black cardamom, smoked dark fruit, and aged leather arriving in an order that feels predetermined',
-      'a nose that justifies the wait, the price, and whatever story brought this glass to your hand',
-      'the kind of nose that quietly resets your internal reference point for what great whiskey smells like',
-      'ancient wood, dark spice, and something almost savory arriving in waves that never become repetitive',
-      'a nose of impossible grace — layered, intricate, deeply scented, and completely its own thing',
-      'chocolate, dried plum, and bourbon-soaked cedarwood in a harmony that seems to have always existed',
-      'a nose that stops you mid-pour and makes you hold the glass for a long time before doing anything else',
-      'dark dried cherry, tobacco flower, and smoked honey arriving all at once and resolving into something beautiful',
-      'a nose that has no right to be this complete, this complex, or this beautiful — and is all three',
+      'smoked plum, aged leather, and sweet oak', 'antique books and dark fruit',
+      'sandalwood and saffron over caramel', 'beeswax, dark cherry, and ancient wood',
+      'fig, rose petal, and charred oak', 'smoked vanilla, truffle, and dark raisin',
+      'candied violet and Oloroso sherry', 'crystallized honey and black cardamom',
+      'port wine, hibiscus, and old cedarwood', 'dark fruit, spice, and silk',
+      'dried cherry, worn leather, and smoked vanilla', 'late-harvest wine and whiskey library',
+      'caramel, incense, and dark stone fruit', 'marzipan, aged cognac, and charred oak',
+      'dark honey, truffle, and floral undertones', 'dried rose, black cardamom, and tobacco',
+      'dark fruit, slate, and beeswax', 'roasted grain and dark chocolate',
+      'caramel made in an old library', 'smoked plum, saffron, and sweet oak',
+      'ancient spice and dark fruit layers', 'tobacco, dried cherry, and ancient leather',
+      'dark and sweet and smoky', 'dark fruit, wax, and time',
+      'cedarwood, dark honey, and truffle', 'deep complexity and old wood',
+      'dark cherry, charred wood, and spice', 'fig paste, leather, and floral',
+      'dark balsamic, smoked vanilla, and dried rose', 'old sherry, espresso, and rare wood resin',
+      'dark fruit, incense, and time', 'burnt sugar, tobacco flower, and ancient oak',
+      'old bottle and stone fruit', 'walnut, dark cherry, and smoked vanilla',
+      'cedar, dark chocolate, and saffron', 'dark rum, dried cherry, and roasted grain',
+      'fig, cedar, dark honey, and ancient smoke', 'old library, dark fruit, and smoked vanilla',
+      'espresso, dark walnut, and dried rose', 'charred oak and dark cherry liqueur',
+      'black cardamom, smoked fruit, and aged leather', 'chocolate, dried plum, and cedarwood',
+      'dark dried cherry, tobacco flower, and smoked honey', 'ancient wood and dark spice',
+      'dark fruit and funeral lilies', 'smoked plum and ancient leather',
+      'crystallized dark fruit and old oak', 'tobacco and dried dark cherry',
+      'singular dark spice and ancient wood', 'old cognac barrel and dark dried fruit',
     ],
   };
 
   const PALATE = {
     flawed: [
-      'harsh and thoroughly unpleasant', 'aggressive unintegrated grain bite',
-      'chemical burn with no resolution', 'thin and watery with a stinging exit',
-      'bitter from start to finish', 'sharp raw ethanol over nothing',
-      'astringent and rough with no redeeming sweetness',
-      'rubbing alcohol warmth and little else', 'clumsy heat and flat grain',
-      'a texture like diluted turpentine', 'off-putting bitterness throughout',
-      'industrial sharpness with no softening', 'metallic and thin',
-      'burning plastic heat that never integrates', 'cardboard soaked in grain alcohol',
-      'harsh tannin with no fruit to balance it', 'a punishing rawness front to back',
-      'solvent bite that outlasts any sweetness', 'rough and hollow throughout',
-      'a flat grain note that burns and disappears without grace',
-      'a mid-palate of sheer unpleasantness', 'bitter grain with no resolution at any stage',
-      'hot and characterless from the first sip', 'nothing that resembles a balanced spirit',
-      'a punishing heat that reveals only more heat beneath it',
-      'rough grain and something chemical that never integrates',
-      'a palate that actively discourages the next sip',
-      'thin, medicinal, and persistently unpleasant',
-      'a bitterness that starts immediately and never lets go',
-      'raw and unfinished, as though bottled too early by several years',
-      'an aggressive and graceless roughness from front to back',
-      'sharp chemical note layered over nothing worth salvaging',
-      'a palate that would benefit from being a different bottle entirely',
-      'burning without complexity, bitter without structure',
-      'a full-palate assault with no pleasant note anywhere in it',
-      'hot, flat, and deeply unrewarding from start to finish',
-      'a palate that punishes rather than rewards the act of drinking',
-      'sour mash gone wrong at every stage',
-      'a mid-palate that confirms every concern raised on the nose',
-      'thin heat and bitter grain presenting themselves as a finished product',
-      'a bitter, unresolved, and deeply unsatisfying drinking experience',
-      'the kind of palate that makes you put the glass down and walk away',
-      'a palate that was not ready and clearly never will be',
-      'angular heat and sour grain with no sweetness to soften either',
-      'a complete failure of flavor integration at every level',
-      'the palate equivalent of a door slamming — abrupt, harsh, and unpleasant',
-      'burning, flat, and inexcusably rough for a finished spirit',
+      'harsh grain bite', 'chemical heat', 'unresolved bitterness', 'raw ethanol',
+      'flat and thin', 'astringent tannin', 'solvent burn', 'off-grain sharpness',
+      'metallic finish lead-in', 'sour mash character', 'rough and hollow', 'plastic heat',
+      'bitter grain', 'clumsy heat', 'unpleasant bite', 'medicinal grain',
+      'burning without sweetness', 'thin and caustic', 'aggressive bitterness',
+      'industrial sharpness', 'rough tannin', 'stale grain', 'unintegrated heat',
+      'sour and astringent', 'burning grain bite', 'flat bitterness', 'sharp ethanol',
+      'hollow and unpleasant', 'raw and unfinished', 'bitter and thin',
     ],
     light: [
-      'gentle sweetness', 'light grain', 'mild vanilla cream', 'soft caramel',
-      'clean corn sweetness', 'biscuit and honey', 'mild warmth',
-      'easy-drinking sweetness', 'soft and unchallenging', 'lightly sweet grain',
-      'a pleasant if thin mid-palate', 'white sugar and mild oak',
-      'soft fruit and cream', 'simple corn and vanilla', 'light brown sugar',
-      'soft peach and mild spice', 'honeyed grain with no edge',
-      'light toffee and fresh wood', 'clean sweetness without complexity',
-      'a gentle wash of vanilla and cornbread', 'simple and agreeable throughout',
-      'faint citrus and soft grain', 'mild butterscotch and light oak',
-      'clean and undemanding from start to finish', 'light apple and cream',
-      'thin-bodied but pleasant vanilla', 'easy sweetness over neutral grain',
-      'mild honey with a clean exit', 'soft biscuit and light caramel',
-      'gentle warmth with no real bite', 'lightly sweet with a grain backbone',
-      'a clean and unchallenging mid-palate', 'mild sweetness over fresh oak',
-      'light vanilla and easy grain', 'a thin but pleasant sweetness throughout',
-      'soft honeyed grain and mild warmth', 'pleasant and light, nothing more',
-      'a simple clean sweetness from start to finish',
-      'mild caramel over light grain', 'soft and easy throughout',
-      'a gentle, approachable mid-palate with light vanilla',
-      'lightly sweet and undemanding', 'clean grain and soft sweetness',
-      'mild biscuity sweetness and light warmth',
-      'a soft and easy drinking experience with mild oak at the back',
-      'fresh grain and light honey', 'a pleasant thin sweetness',
-      'vanilla cream and mild spice, nothing complicated',
-      'a mid-palate that asks nothing and offers a modest light sweetness',
-      'easy corn sweetness with a soft finish leading in',
-      'thin but clean — light vanilla and grain',
-      'mild butterscotch and clean grain throughout',
-      'a simple, pleasant, and entirely unchallenging mid-palate',
-      'light sweetness that never becomes interesting but never becomes unpleasant',
-      'a clean easy-drinking profile with soft grain character',
-      'modest vanilla and corn with no rough edges',
-      'a gentle mid-palate that comforts without engaging',
-      'light caramel and grain in easy proportion',
-      'mild and pleasant throughout — nothing to complain about, nothing to write home about',
-      'a thin but honest sweetness with light grain supporting it',
-      'faint dried fruit and light vanilla cream',
-      'soft honey and mild corn sweetness without complexity',
-      'a gentle and agreeable mid-palate with light oak',
-      'simple biscuit sweetness over clean grain',
+      'vanilla cream', 'corn sweetness', 'light caramel', 'soft grain', 'honey',
+      'mild spice', 'biscuit', 'light oak', 'butterscotch', 'white sugar',
+      'soft peach', 'light citrus', 'mild warmth', 'clean sweetness', 'light toffee',
+      'fresh grain', 'mild vanilla', 'gentle warmth', 'soft fruit', 'light brown sugar',
+      'mild honey', 'clean corn', 'light biscuit sweetness', 'faint spice',
+      'soft caramel', 'mild warmth', 'light apple', 'gentle sweetness',
+      'corn and vanilla', 'soft malt', 'light dried fruit', 'mild oak sweetness',
     ],
     mid: [
-      'caramel and warming spice', 'toasted oak tannins', 'ripe stone fruit',
-      'peppery rye bite', 'butterscotch richness', 'warm honey',
-      'baking spice and dried fruit', 'roasted nuts', 'mild citrus and caramel',
-      'chewy caramel', 'brown sugar and corn', 'gentle wood influence',
-      'pleasant fruit and spice interplay', 'satisfying mid-palate weight',
-      'dried fruit and oak', 'soft tannins and vanilla', 'banana and brown sugar',
-      'cherry and cinnamon', 'maple and dried apricot', 'praline and light oak',
-      'rye spice balanced with sweetness', 'light chocolate and caramel',
-      'toasted grain and peach', 'apple and clove', 'honey and black pepper',
-      'pecan and brown butter', 'dried cherry and cinnamon stick',
-      'warm gingerbread and caramel', 'toasted coconut and vanilla',
-      'butterscotch and a hint of tobacco', 'dried mango and spice',
-      'light molasses and cracked pepper', 'toffee and roasted hazelnut',
-      'pear and vanilla cream', 'fig and warming rye', 'dried plum and baking spice',
-      'soft citrus peel and honey oak', 'orange marmalade and mild pepper',
-      'toasted grain and wildflower honey', 'warm caramel corn and nutmeg',
-      'ginger and dried stone fruit', 'lemon curd and light oak tannin',
-      'light chocolate malt and cinnamon', 'caramel-dipped apple slice',
-      'roasted almond and dried apricot', 'warm biscuit and light berry jam',
-      'salted caramel and rye spice', 'brown sugar and light clove',
-      'toasted hazelnut and dried cherry', 'caramelized peach and warm oak',
-      'spiced honey and mild tannin', 'dried apricot and vanilla bean',
-      'warm cinnamon roll and grain', 'pecan brittle and caramel',
-      'ripe plum and baking spice', 'maple syrup and light oak tannin',
-      'honeyed rye and dried fruit', 'dark brown sugar and warm spice',
-      'soft cherry and grain tannin', 'toasted walnut and vanilla cream',
-      'apple butter and mild pepper', 'warm cornbread and honey',
-      'cinnamon-dusted stone fruit', 'caramel sauce and light tobacco',
-      'dried blueberry and brown sugar', 'rye bread and dried cherry',
-      'baked pear and light caramel', 'toasted grain and fig preserve',
-      'spiced rum raisin and oak', 'mild molasses and dried orange',
-      'warm caramel and light leather', 'dried apricot jam and spice',
-      'roasted grain and mild dark fruit', 'honey oak and mild rye bite',
-      'warm dried cherry and cinnamon', 'toasted sesame and caramel',
-      'banana foster and light spice', 'butterscotch and dried plum',
-      'cardamom and brown butter', 'praline and warming rye',
-      'caramelized apple and light oak tannin', 'dried peach and baking spice',
-      'mild clove and dark honey', 'roasted nut and caramel apple',
-      'vanilla bean and mild pepper', 'dried currant and warming grain',
-      'black pepper and caramelized pear', 'soft cherry cola and tannin',
-      'light tobacco and warm vanilla', 'dried fig and mild rye spice',
-      'toasted coconut and caramel apple', 'honey wheat and light spice',
-      'warm spiced cider and dried fruit', 'roasted almond and maple',
-      'light chocolate and dried apricot', 'orange zest and caramel',
+      'caramel', 'warming spice', 'toasted oak', 'stone fruit', 'rye spice',
+      'butterscotch', 'warm honey', 'baking spice', 'dried fruit', 'roasted nuts',
+      'citrus and caramel', 'chewy caramel', 'brown sugar', 'soft tannins',
+      'banana and brown sugar', 'cherry and cinnamon', 'maple', 'praline',
+      'light chocolate', 'toasted grain', 'apple and clove', 'honey and pepper',
+      'pecan and butter', 'dried cherry', 'gingerbread', 'toasted coconut',
+      'dried mango', 'molasses', 'toffee', 'hazelnut', 'pear and vanilla',
+      'dried plum', 'orange marmalade', 'wildflower honey', 'caramel corn',
+      'ginger', 'lemon curd', 'salted caramel', 'rye bread and cherry',
+      'spiced honey', 'dried apricot', 'warm cinnamon', 'pecan brittle',
+      'ripe plum', 'maple and oak', 'dark brown sugar', 'toasted walnut',
+      'apple butter', 'caramel and tobacco', 'dried blueberry', 'baked pear',
+      'rum raisin', 'honey oak', 'banana and spice', 'cardamom', 'warm grain',
+      'black pepper and pear', 'light tobacco', 'dried fig', 'orange zest',
     ],
     rich: [
-      'full-bodied oak and dark fruit', 'deep molasses', 'bold cinnamon heat',
-      'leather and tobacco', 'rich bittersweet chocolate', 'a long spice build',
-      'dense caramel and dried fruit', 'cracked black pepper and dark cherry',
-      'toasted oak and dark sugar', 'powerful but balanced heat',
-      'deeply integrated tannins', 'waves of baking spice and dark fruit',
-      'muscular grain and fruit complexity', 'espresso and charred oak',
-      'prune and dark chocolate', 'licorice and tobacco leaf',
-      'black walnut and molasses', 'stewed fig and leather',
-      'smoked caramel and rye spice', 'old oak and dried stone fruit',
-      'cocoa and charred pecan', 'dark fruit layers and long warmth',
-      'burnt caramel and clove', 'charred oak and blackberry preserve',
-      'roasted coffee and dark muscovado', 'dried date and rye pepper',
-      'tobacco and black cherry in perfect proportion', 'mole-like dark complexity',
-      'dark toffee and singed wood', 'cedar and black currant',
-      'deep molasses and warming allspice', 'leather and espresso at high proof',
-      'toasted pecan and dark fruit preserve', 'bittersweet cocoa and charred grain',
-      'anise and stewed cherry', 'bold oak with a dark fruit backbone',
-      'smoked dark sugar and black pepper', 'old leather and dark honey',
-      'rich chocolate malt and spiced oak', 'bitter orange and tobacco leaf',
-      'concentrated dried plum and woodsmoke', 'vanilla bean buried in dark oak',
-      'dark cherry jam and warming rye', 'charred sugar and leather',
-      'deep oak tannin and black fruit', 'roasted cocoa and dark molasses',
-      'black pepper and dried fig over old oak', 'smoked caramel and dark walnut',
-      'concentrated dark fruit and wood resin', 'espresso and dark cherry preserves',
-      'charred oak and prune', 'muscovado and smoked tobacco',
-      'dark chocolate and black walnut oil', 'dense rye spice and dark fruit',
-      'singed stave and dried plum', 'deep molasses and black pepper',
-      'chocolate-covered cherry and old wood', 'robust coffee and dark spice',
-      'blackstrap molasses and leather', 'dried currant and bold tannin',
-      'smoked fig and dark caramel', 'bitter cocoa and old oak',
-      'roasted grain and concentrated dark fruit', 'cedar and dried dark cherry',
-      'dark muscovado and wood smoke', 'charred walnut and molasses',
-      'bitter orange peel and dark oak tannin', 'tobacco and stewed black fruit',
-      'concentrated prune and smoked wood', 'dark rye spice and dried cherry',
-      'ancient leather and black walnut', 'charred maple and dark fruit jam',
-      'dark honey and roasted grain', 'smoky toffee and charred pecan',
-      'deep baking spice and concentrated dark fruit', 'old oak and dark chocolate',
-      'roasted espresso and dark dried fruit', 'smoked dark sugar and leather',
-      'dense oak and dark cherry compote', 'molasses and charred grain',
-      'bitter chocolate and singed wood', 'black currant and spiced oak',
-      'dark rum and old leather', 'concentrated dark fruit and tobacco',
-      'roasted chicory and dark caramel', 'charred barrel and dried black fruit',
-      'dense dark fruit and old oak resin', 'bold leather and dark spice',
+      'dark fruit', 'molasses', 'bold cinnamon', 'leather and tobacco',
+      'bittersweet chocolate', 'dark cherry', 'charred oak', 'dark sugar',
+      'espresso', 'dried fig', 'black walnut', 'stewed plum', 'cocoa',
+      'smoked caramel', 'pipe tobacco', 'dark toffee', 'cedar',
+      'blackberry preserve', 'roasted coffee', 'dried date', 'dark rye spice',
+      'anise', 'licorice', 'black currant', 'burnt caramel', 'prune and chocolate',
+      'toasted pecan', 'smoked dark sugar', 'old leather', 'dark honey',
+      'chocolate malt', 'bitter orange', 'dried plum and smoke', 'charred grain',
+      'dark cherry jam', 'charred sugar', 'black fruit', 'dark molasses',
+      'smoked caramel', 'espresso and cherry', 'muscovado', 'smoked tobacco',
+      'dark walnut', 'dense rye spice', 'dark chocolate', 'blackstrap molasses',
+      'smoked fig', 'bitter cocoa', 'dark cherry compote', 'bold leather',
+      'roasted chicory', 'dark dried fruit', 'ancient leather', 'charred maple',
+      'smoky toffee', 'old oak', 'roasted espresso', 'smoked leather',
     ],
     exotic: [
-      'extraordinary depth anchored by dark fruit and ancient oak',
-      'rare tropical fruit and dark chocolate in a seamless integration',
-      'waves of baking spice with an almost savory leather finish',
-      'opulent fruit preserve and roasted coffee at perfect tension',
-      'lingering floral notes over a deeply spiced foundation',
-      'profound sweetness perfectly balanced by oak and leather',
-      'silky texture with an explosive mid-palate of dark fruit and spice',
-      'transcendent integration — wood, fruit, and heat as one',
-      'an impossibly long mid-palate that shifts from caramel to smoke to dried fruit',
-      'perfect tension between heat and sweetness, neither winning',
-      'kaleidoscopic fruit and spice that keeps revealing new layers',
-      'masterful balance at high proof — power and elegance at once',
-      'seamless layering with no rough edges, every note earning its place',
-      'dark cherry and smoked vanilla braided through toasted oak',
-      'a mid-palate that feels almost architectural in its structure',
-      'dried fig and espresso over a floor of ancient oak tannin',
-      'dark honey and tobacco drifting through waves of dark fruit',
-      'smoked plum and Oloroso sherry in perfect harmony',
-      'rare and sustained complexity that builds for a full minute',
-      'black cardamom and vanilla bean at the center of something profound',
-      'a palate like a well-worn library — leather, wood, fruit, and time',
-      'roasted coffee and dark caramel layered over brooding oak',
-      'silky heat that transforms into dark fruit and then spice in sequence',
-      'marzipan and aged leather with waves of smoked vanilla',
-      'an almost savory mid-palate giving way to deep, sweet dark fruit',
-      'fruit, spice, and wood cycling through in distinct and rewarding waves',
-      'a mid-palate so complete it almost doesn\'t need a finish',
-      'dense and extraordinarily structured — every layer reveals another',
-      'crystallized dark sugar and smoked wood united at the center',
-      'dried cherry and bittersweet chocolate woven through ancient tannin',
-      'a palate of rare complexity where no note outcompetes the others',
-      'smoked plum and dark honey arriving with extraordinary elegance',
-      'an expansive mid-palate that builds and builds without losing control',
-      'dark fruit layers arriving in sequence like movements in a composition',
-      'old leather and dark chocolate coexisting in effortless harmony',
-      'a profound sweetness underpinned by ancient wood and dark spice',
-      'an opulent and deeply layered mid-palate of genuine distinction',
-      'rare integration of heat, fruit, and wood at the highest level',
-      'a wide and complex palate that rewards every sip slightly differently',
-      'deep dark fruit and smoked vanilla anchored in something ancient',
-      'a texture and complexity that places this in rarified company',
-      'remarkable fruit-forward depth followed by wave after wave of dark spice',
-      'an almost musical mid-palate — notes arriving in perfect sequence and proportion',
-      'extraordinary balance between heat and dark fruit at every moment',
-      'dense, layered, and completely satisfying from the first sip forward',
-      'old world depth in a mid-palate of stunning cohesion and length',
-      'a palate that seems to expand rather than fade as it develops',
-      'dark cherry, ancient wood, and something floral in perfect balance',
-      'a deeply textured mid-palate with complexity that earns the word exceptional',
-      'smoked dark fruit and leather arriving in waves of extraordinary quality',
-      'tobacco, chocolate, and old oak occupying the same elevated space',
-      'a palate that doesn\'t reveal everything at once — and is better for it',
-      'dark fruit, roasted grain, and aged wood in seamless and memorable unity',
-      'an almost impossibly structured mid-palate that holds at every level',
-      'rare and sustained dark spice over a foundation of extraordinary oak',
-      'a complexity here that most distilleries spend decades chasing',
-      'silky, dark, and deeply satisfying — a mid-palate of genuine consequence',
-      'concentrated fruit and wood complexity at a level that earns real respect',
-      'dark dried fruit and smoked spice arriving in a sequence worth attending to',
-      'a mid-palate that announces itself as something genuinely different',
+      'dark fruit and ancient oak', 'tropical fruit and chocolate',
+      'dark cherry and vanilla', 'smoked plum', 'roasted coffee and dark fruit',
+      'spice and leather', 'fruit preserve and espresso', 'fig and espresso',
+      'dark honey and tobacco', 'Oloroso sherry and fruit', 'smoked vanilla',
+      'black cardamom and vanilla', 'dark spice and leather', 'marzipan and leather',
+      'charred oak and dark cherry', 'deep fig and balsamic', 'roasted cacao and oak',
+      'smoked dark fruit', 'caramel and smoke', 'tobacco and black cherry',
+      'dark dried cherry', 'leather and dark chocolate', 'smoked sugar and wood',
+      'crystallized dark sugar', 'dried cherry and bittersweet chocolate',
+      'ancient oak tannin', 'opulent dark fruit', 'silky dark spice',
+      'dark fruit layers', 'concentrated dried plum', 'aged leather and fruit',
+      'bittersweet cocoa and spice', 'cedar and dark currant', 'smoked molasses',
+      'dark rum and spice', 'roasted grain and dark cherry', 'anise and dark fruit',
+      'tropical wood and spice', 'candied dark fruit', 'smoked black cherry',
+      'dark treacle and tannin', 'layered dark fruit and oak', 'tobacco and dark spice',
     ],
     transcendent: [
-      'something so seamlessly integrated it defies description — dark fruit, oak, and caramel as a single perfect idea',
-      'the kind of palate that makes you set down the glass and just sit with it — waves of spice, chocolate, and dried fruit',
-      'extraordinary: the sweetness, heat, and tannin have negotiated a peace that most distilleries never achieve',
-      'an experience more than a taste — dark cherry, leather, espresso, and ancient oak arriving together',
-      'perfect at every turn: the fruit, the spice, the wood — all present, all balanced, all remarkable',
-      'a palate so complex and sustained it is almost unfair to describe it in words',
-      'layers upon layers — smoked fruit, dark chocolate, roasted grain — each one revealing another beneath it',
-      'the kind of mid-palate that collectors trade for: full, structured, endlessly nuanced',
-      'a rare harmony of heat and sweetness that makes you wonder what took everyone else so long',
-      'every note arrives in exactly the right order, at exactly the right time, at exactly the right intensity',
-      'dark fruit, leather, smoke, and spice cycling through in waves that never quite repeat themselves',
-      'a mid-palate of almost architectural precision — nothing is wasted, nothing is missing, everything is earned',
-      'the sweetness and the heat are so perfectly matched they seem to have been designed for each other',
-      'smoked plum, dark chocolate, ancient oak, and something floral — all of it at once, none of it too much',
-      'a palate that makes you reconsider what this spirit is actually capable of when everything goes right',
-      'dense, extraordinarily rich, and somehow still delicate — the rarest combination in American whiskey',
-      'dark cherry, roasted grain, leather, and vanilla occupying the same perfect moment',
-      'the kind of complexity that only reveals itself fully on the fifth or sixth sip',
-      'a palate so complete and unified it refuses to be broken down into individual components',
-      'the texture of something much older, the depth of something much rarer, the balance of something miraculous',
-      'dark fruit, heat, and ancient wood arriving simultaneously and staying simultaneously — nothing leaves before the others',
-      'a mid-palate that shifts, builds, and deepens over the course of a full minute without ever losing its center',
-      'an experience that cannot be adequately conveyed in writing — it must be tasted to be understood',
-      'a palate that makes the preceding glass seem like a rehearsal for this one',
-      'the best argument for patience, craft, and not settling — everything this spirit is supposed to be',
-      'a depth that feels geological — layers upon layers, each as interesting as the last, none as complete as all of them together',
-      'something beyond good, beyond excellent, beyond almost any frame of reference available to describe it',
-      'fruit and wood and heat coexisting in a balance so perfect it seems to have been engineered rather than made',
-      'a palate that justifies every superlative ever written about American whiskey',
-      'the kind of mid-palate that makes collectors understand exactly why they collect',
-      'a drinking experience so complete that putting the glass down feels like an interruption',
-      'dark cherry, smoked caramel, and ancient oak arriving in a sequence of absolute clarity',
-      'a palate of legendary quality that earns the word without self-consciousness',
-      'everything in its right place at its right intensity — the definition of perfection in a glass',
-      'a mid-palate that will establish its own reference point in the memory of everyone lucky enough to taste it',
-      'the kind of depth that makes you wonder how long the distiller knew this was different before releasing it',
-      'a palate so complete it answers questions about the category you didn\'t know you had',
-      'dark fruit, leather, smoke, spice, and time in a proportion so perfect it seems inevitable',
-      'a mid-palate that arrives fully formed, sustains completely, and resolves beautifully — a complete experience',
-      'something that earns the word transcendent without requiring a dictionary to justify it',
-      'the palate equivalent of a standing ovation — long, complete, and deserved at every level',
-      'a depth and integration that makes every other bottle in the collection feel like it\'s still trying',
+      'dark cherry and smoked oak', 'ancient leather and dark fruit',
+      'espresso and charred vanilla', 'dark chocolate and dried rose',
+      'smoked plum and ancient wood', 'saffron and honeycomb',
+      'fig and tobacco leaf', 'charred oak and dark honey',
+      'black cardamom and dried cherry', 'roasted cacao and aged leather',
+      'dark fruit and old cedarwood', 'tobacco flower and molasses',
+      'candied violet and dark spice', 'smoked vanilla and dark fruit',
+      'port wine reduction and dark oak', 'Oloroso sherry and dried fig',
+      'ancient wood and crystallized sugar', 'dark walnut and aged leather',
+      'smoked dark cherry and cedar', 'espresso and dark dried fruit',
+      'dark honey and ancient oak', 'concentrated dark fruit and silk',
+      'layered tobacco and dark spice', 'marzipan and aged cognac oak',
+      'crystallized dark sugar and smoke', 'bittersweet chocolate and leather',
+      'old oak resin and dark cherry', 'dark fruit and funeral lilies',
+      'smoked leather and dark molasses', 'ancient tannin and dark cherry liqueur',
     ],
   };
 
@@ -1303,19 +1075,31 @@ window.DB = (function () {
   };
 
   // ── SEGMENT-BASED VALUE SYSTEM ────────────────────────────────
-  // Returns { expectedLow, expectedHigh, overperformThreshold, noteOverValue }
-  // noteOverValue: true = also call out price-is-no-object if rating > 9.25
+  // Exact ranges per user spec.
+  // Returns { lo, hi, highThresh } where:
+  //   rating < lo        → low value (bad)
+  //   lo <= rating <= hi → expected value (neutral)
+  //   rating > hi        → high value (good)
+  // The global >$125 rule is checked first in getValueComment.
   function getSegmentExpectation(rarity, msrp) {
-    const isLow = rarity === 'common' || rarity === 'uncommon';
-    if (rarity === 'common' && msrp < 20) return { lo: 3.0, hi: 4.0,  overThresh: 4.0,  badThresh: 3.0, priceTag: true  };
-    if (isLow && msrp < 30)  return { lo: 3.0, hi: 5.25, overThresh: 5.5,  badThresh: 3.0, priceTag: true  };
-    if (isLow && msrp <= 45) return { lo: 4.0, hi: 6.25, overThresh: 6.5,  badThresh: 4.0, priceTag: true  };
-    if (isLow)               return { lo: 5.0, hi: 6.75, overThresh: 7.0,  badThresh: 5.0, priceTag: true  };
-    if (rarity === 'rare' && msrp < 50)  return { lo: 4.0, hi: 6.5,  overThresh: 6.75, badThresh: 4.0, priceTag: true  };
-    if (rarity === 'rare')               return { lo: 6.0, hi: 7.5,  overThresh: 7.75, badThresh: 6.0, priceTag: true  };
-    if (rarity === 'epic')               return { lo: 6.0, hi: 8.0,  overThresh: 8.25, badThresh: 6.0, priceTag: msrp < 125 };
-    // legendary
-    return { lo: 7.75, hi: 9.0, overThresh: 9.0, badThresh: 7.75, priceTag: msrp < 180 };
+    // Common & Uncommon share the same bands
+    if (rarity === 'common' || rarity === 'uncommon') {
+      if (msrp < 20)  return { lo: 3.1,  hi: 4.74, highThresh: 4.75 };
+      if (msrp <= 40) return { lo: 4.25, hi: 5.49, highThresh: 5.5  };
+      return           { lo: 5.25, hi: 6.74, highThresh: 6.75 };
+    }
+    if (rarity === 'rare') {
+      if (msrp < 20)  return { lo: 4.5,  hi: 6.74, highThresh: 6.75 };
+      if (msrp <= 40) return { lo: 5.25, hi: 7.24, highThresh: 7.25 };
+      return           { lo: 6.25, hi: 7.74, highThresh: 7.75 };
+    }
+    if (rarity === 'epic') {
+      if (msrp < 20)  return { lo: 6.5,  hi: 7.74, highThresh: 7.75 };
+      if (msrp <= 40) return { lo: 7.25, hi: 7.74, highThresh: 7.75 };
+      return           { lo: 7.25, hi: 8.74, highThresh: 8.75 };
+    }
+    // legendary — any MSRP
+    return { lo: 7.75, hi: 9.24, highThresh: 9.25 };
   }
 
   // ── VALUE COMMENT POOLS ───────────────────────────────────────
@@ -1393,917 +1177,113 @@ window.DB = (function () {
   };
 
   function getValueComment(rating, rarity, msrp) {
-    if (rating > 9.25) {
-      return { text: pick(VALUE_PHRASES.all_time_great), sentiment: 'positive' };
-    }
-    if (msrp > 175 && rating < 8.0) {
-      return { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp), sentiment: 'negative' };
+    // Global: any rarity, MSRP > $125 — special handling
+    if (msrp > 125) {
+      if (rating >= 9.1)  return { text: pick(VALUE_PHRASES.all_time_great),                                    sentiment: 'positive' };
+      if (rating >= 7.75) return { text: '',                                                                     sentiment: 'neutral'  };
+      return               { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp),                      sentiment: 'negative' };
     }
     const seg = getSegmentExpectation(rarity, msrp);
-    if (rating < seg.badThresh) {
-      return { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp), sentiment: 'negative' };
-    }
-    if (rating >= seg.overThresh) {
-      if (!seg.priceTag) {
-        return { text: pick(VALUE_PHRASES.overperform_mild), sentiment: 'positive' };
-      }
+    if (rating >= seg.highThresh) {
+      // High value — price-tiered overperform language
       const pool = msrp < 25  ? VALUE_PHRASES.overperform_budget
                  : msrp < 70  ? VALUE_PHRASES.overperform_value
                  :               VALUE_PHRASES.overperform_premium;
       return { text: pick(pool).replace('${msrp}', msrp), sentiment: 'positive' };
     }
     if (rating < seg.lo) {
-      return { text: pick(VALUE_PHRASES.underperform_strong), sentiment: 'negative' };
+      // Low value
+      return { text: pick(VALUE_PHRASES.bad_value).replace('${msrp}', msrp), sentiment: 'negative' };
     }
-    const midpoint = (seg.lo + seg.hi) / 2;
-    if (rating < midpoint - 0.5) {
-      return { text: pick(VALUE_PHRASES.underperform_mild), sentiment: 'negative' };
-    }
+    // Expected range — neutral, no value comment
     return { text: '', sentiment: 'neutral' };
   }
 
-  // ── TONE BANDS ────────────────────────────────────────────────
+  // ── RATING TIER ───────────────────────────────────────────────
+  function getRatingTier(rating) {
+    if (rating < 4.0)  return 'low';
+    if (rating < 7.0)  return 'mid';
+    return 'high';
+  }
 
-  const TONE = {
-    terrible: {
-      openers: [
-        'A genuine failure in the glass.',
-        'Avoid without exception.',
-        'Difficult to recommend to any living person.',
-        'A cautionary tale in bottle form.',
-        'This should not exist.',
-        'An embarrassment to the category.',
-        'Whoever approved this release owes someone an apology.',
-        'Not a whiskey so much as a warning.',
-        'One of the most unpleasant things to arrive in a bottle.',
-        'A remarkable achievement in the wrong direction.',
-        'There is no charitable reading of what is happening here.',
-        'This bottle is not a product. It is an incident.',
-        'The kind of pour that ends evenings and friendships.',
-        'An insult to the grain, the barrel, and the person holding the glass.',
-        'Objectively, demonstrably, a failure.',
-        'Whatever this is, it is not bourbon.',
-        'A bottle that raises serious questions about quality control.',
-        'Whoever made this should consider a different career.',
-        'There is not a single redeemable moment in this glass.',
-        'A complete and total breakdown from start to finish.',
-      ],
-      nose:   [
-        'a genuinely repellent', 'an actively hostile', 'an unacceptably broken',
-        'a stomach-turning', 'an eye-watering', 'a chemically aggressive',
-        'a deeply offensive', 'an assault-level', 'an outright alarming',
-        'a completely off',
-      ],
-      palate: [
-        'nothing remotely redeemable',
-        'active hostility from the first sip to the last',
-        'a study in how badly wrong this can go',
-        'so poorly made it borders on punishing',
-        'chaos without structure or mercy',
-        'a relentless and graceless unpleasantness',
-        'heat and bitterness fighting each other with no winner and one loser — the drinker',
-        'something that should have been stopped far earlier in the process',
-        'the kind of palate that makes you question your life choices',
-        'an education in what fermented grain should never taste like',
-        'a hostile and confusing mid-palate with no redemptive arc',
-        'nothing that belongs in a finished whiskey',
-      ],
-      finish: [
-        'a finish that makes the experience worse, not better',
-        'a punishing close that is the final insult',
-        'ends so badly it taints the memory of everything before it',
-        'a close that lingers in the worst possible way',
-        'a finish that makes you reach for water and reconsider your choices',
-        'an exit so unpleasant it becomes the dominant memory of the entire pour',
-        'ends badly and stays that way for far too long',
-        'a finish that should be a crime',
-        'closes with something that can only be described as a threat',
-        'a finish with no saving grace whatsoever',
-      ],
-      closers: [
-        'Do not buy. Do not accept. Do not finish the glass.',
-        'Pour it down the drain and count it as a lesson.',
-        'There is no use case for this bottle.',
-        'A waste of everything involved in making it.',
-        'A hard no under any circumstances.',
-        'Do not let this near your good glasses.',
-        'Some things exist so you know what to avoid. This is one of them.',
-        'Unopened, it has more value.',
-        'The only appropriate response is to pour it out immediately.',
-        'An object lesson in what goes wrong when nobody says stop.',
-        'Return it if you can. Forget it if you can\'t.',
-        'Life is too short for this bottle.',
+  // ── QUALIFIER WORDS BY TIER ───────────────────────────────────
+  // Low: prefixed to descriptors to signal problems
+  // Mid: optional mild positives, occasional negatives
+  // High: prefixed to descriptors to elevate them
+  const QUALIFIERS = {
+    low: {
+      negative: [
+        'harsh', 'faint', 'muted', 'flat', 'thin', 'sharp', 'rough',
+        'hollow', 'stale', 'bitter', 'astringent', 'acrid', 'raw',
+        'off', 'unpleasant', 'weak', 'watery', 'lifeless', 'chemical',
+        'aggressive', 'empty', 'sour',
       ],
     },
-    poor: {
-      openers: [
-        'A weak and unconvincing effort.',
-        'Struggles to find any identity in the glass.',
-        'Not recommended under any circumstances.',
-        'A disappointment from the first pour.',
-        'Hard to defend at any price.',
-        'Lacks the basic fundamentals of a drinkable whiskey.',
-        'A bottle that should have stayed at the distillery.',
-        'Put this one back.',
-        'Underwhelming does not begin to cover it.',
-        'A bottle without a reason for being.',
-        'Falls short in every meaningful way.',
-        'The definition of a missed opportunity.',
-        'This is what happens when ambition is absent entirely.',
-        'Not offensive enough to be interesting, not good enough to be worthwhile.',
-        'A thoroughly uninspired effort from start to finish.',
-        'Something went wrong early and nothing corrected it.',
-        'A bottle that asks questions it cannot answer.',
-        'Forgettable in the most permanent sense.',
-        'Drinkable, technically. Recommendable, no.',
-        'A whiskey that exists without distinction or purpose.',
-        'The kind of bottle that ends up forgotten at the back of a shelf.',
-        'Would not survive a blind tasting against anything better than itself.',
-        'Checked a box somewhere. Just not the quality one.',
-        'A cautionary addition to any collection.',
-        'Hard to say what this is trying to accomplish.',
+    mid: {
+      positive: [
+        'strong', 'clean', 'steady', 'solid', 'honest', 'good',
+        'noticeable', 'rounded', 'balanced', 'present',
       ],
-      nose:   [
-        'a thin, deeply unremarkable', 'a flat and uninspired', 'a barely-there',
-        'an unimpressive and forgettable', 'a characterless', 'a hollow and uninviting',
-        'a disappointingly thin', 'a wan, lifeless', 'a flat and unresolved',
-        'an airless', 'a stale and lifeless', 'a muted and joyless',
-        'a barely perceptible',
-      ],
-      palate: [
-        'little that resembles quality',
-        'harsh grain and not much else',
-        'an unpleasant bite that never resolves',
-        'clumsy heat with no payoff',
-        'rough and characterless from front to back',
-        'nothing that earns a second sip',
-        'thin and graceless throughout',
-        'a grain-forward bitterness with no sweetness to balance it',
-        'flat heat and very little else',
-        'an unresolved and unpleasant mid-palate',
-        'a palate that gives up quickly and without grace',
-        'a rough and forgettable drinking experience',
-        'nothing that develops or improves',
-        'a palate that makes the case against this purchase',
-        'dull grain bite with no depth to speak of',
-      ],
-      finish: [
-        'an abrupt and rough close',
-        'a short and unpleasant finish',
-        'a harsh fade with nothing to recommend it',
-        'a quick, ugly exit',
-        'a thin and bitter finish',
-        'nothing worth waiting for',
-        'a finish that cuts off before delivering anything',
-        'an unresolved close that lingers badly',
-        'a short harsh exit with no sweetness',
-        'a finish that confirms all concerns',
-        'a close that ends the conversation badly',
-        'a brief, uncomfortable fade',
-        'ends without dignity',
-      ],
-      closers: [
-        'Skip it.',
-        'Better options exist at half this price.',
-        'Not worth the shelf space.',
-        'A mixer, at absolute best, for people who don\'t care.',
-        'Nothing to seek out here.',
-        'Pass without hesitation.',
-        'A bottle for people with no alternatives.',
-        'Nothing here justifies a second pour.',
-        'A mixer at best — and even then, consider your options.',
-        'Pour it over ice and ignore it.',
-        'One glass is too many.',
-        'An easy pass.',
-        'Leave it for someone else.',
-        'Not worth your time or your money.',
-        'There are better options at every price point.',
+      negative: [
+        'thin', 'faint', 'muted', 'mild', 'subdued', 'flat',
       ],
     },
-    below: {
-      openers: [
-        'A forgettable entry.',
-        'Falls meaningfully short of expectations.',
-        'Unremarkable but technically drinkable.',
-        'Gets the job done, and that is the kindest thing to say.',
-        'Serviceable. Nothing more.',
-        'Will not offend. Will not impress.',
-        'A bottle that exists, which is about all that can be said for it.',
-        'Not a disaster, but not a reason to pour either.',
-        'Technically whiskey. Not much beyond that.',
-        'A pour that asks nothing and gives little.',
-        'Adequate in the way that something can be adequate without being good.',
-        'Uninspired but drinkable — that\'s the ceiling.',
-        'A bottle that makes no promises and keeps none of the ones it implies.',
-        'Passes the test and fails the conversation.',
-        'The kind of whiskey you reach for when everything better is gone.',
-        'Drinkable, which is apparently the best available word here.',
-        'A pour that neither rewards attention nor punishes inattention.',
-        'Not a failure, but not a success either.',
-        'Does the minimum and stops there.',
-        'A whiskey that goes down easily and leaves nothing behind.',
-        'The floor of acceptable — and only just.',
-        'Somewhere between inoffensive and irrelevant.',
-        'A predictable and entirely unchallenging pour.',
-        'Nothing wrong with it. Nothing particularly right either.',
-      ],
-      nose:   [
-        'a subdued', 'a modest', 'a thin but recognizable', 'a muted', 'a plain',
-        'a workmanlike and uninspired', 'a flat but inoffensive', 'a quiet',
-        'a one-dimensional', 'an unremarkable', 'a forgettable', 'a baseline',
-        'a thin and largely undeveloped', 'a routine', 'a colorless',
-        'a barely-there but functional',
-      ],
-      palate: [
-        'little actual depth',
-        'thin sweetness over flat grain',
-        'some bite with minimal follow-through',
-        'passable sweetness without ambition',
-        'underwhelming warmth and not much else',
-        'a flat and uncomplicated drinking experience',
-        'corn sweetness without complexity',
-        'predictable and thin throughout',
-        'a one-note mid-palate that never develops',
-        'basic grain and sweetness, nothing more',
-        'a palate that tells you what it is immediately and nothing further',
-        'acceptable drinkability with no depth beneath it',
-        'a flat sweetness that fades before it resolves',
-        'thin and undemanding in equal measure',
-        'the palate equivalent of a shrug',
-      ],
-      finish: [
-        'a brief and forgettable finish',
-        'a short fade that disappears without a trace',
-        'a thin, uninspiring close',
-        'fades too quickly to matter',
-        'an unremarkable exit you\'ll forget immediately',
-        'a finish that ends before it has anything to say',
-        'a thin warmth that vanishes quickly',
-        'a short, dry close with no character',
-        'a finish that confirms the lack of depth',
-        'a brief exit with no lasting impression',
-        'ends cleanly but emptily',
-        'a quick fade with nothing to hold onto',
-        'a thin and inoffensive close',
-        'gone before you notice it left',
-      ],
-      closers: [
-        'A mixer at best.',
-        'Drinkable, but uninspiring.',
-        'Functional and entirely forgettable.',
-        'Acceptable over ice, nothing beyond that.',
-        'A pour for occasions when nothing better is available.',
-        'Fine for what it is. Not much is what it is.',
-        'Serviceable in the most literal sense.',
-        'A background whiskey.',
-        'Gets the job done and nothing else.',
-        'Acceptable but easily forgotten.',
-        'Not the bottle you reach for on purpose.',
-        'A mixer or a last resort.',
-      ],
-    },
-    average: {
-      openers: [
-        'A decent everyday pour.',
-        'Solid and unpretentious.',
-        'Does exactly what it says on the label.',
-        'A reliable sipper with no surprises.',
-        'Nothing to complain about.',
-        'Inoffensive, consistent, and honest.',
-        'A capable if unexciting bottle.',
-        'Earns a place on the shelf without demanding attention.',
-        'A workhorse pour that delivers on its modest promises.',
-        'Dependable without being interesting.',
-        'Competent and entirely acceptable.',
-        'A steady and honest daily drinker.',
-        'Gets out of its own way and lets you enjoy a glass.',
-        'A reliable pour that knows its lane.',
-        'No fireworks, no failures — just a decent whiskey.',
-        'Clean, drinkable, and honest about what it is.',
-        'The kind of bottle you finish without drama.',
-        'A capable workhorse with no delusions of grandeur.',
-        'Solid enough to keep around.',
-        'A pour that earns its keep on the shelf.',
-        'Consistently pleasant in a way that doesn\'t demand praise.',
-        'Hits the expected notes and exits cleanly.',
-        'A bottle that does its job without calling attention to itself.',
-        'Honest whiskey at an honest level.',
-        'A reliable option for the nights when you just want a decent pour.',
-        'A comfortable, predictable, and pleasant glass.',
-        'Not memorable — but not everything needs to be.',
-      ],
-      nose:   [
-        'a pleasant', 'a clean', 'a straightforward', 'an approachable', 'a tidy',
-        'a familiar and reassuring', 'a decent', 'a balanced', 'a consistent',
-        'an agreeable', 'a reliable', 'a competent', 'a no-nonsense',
-        'a workmanlike but honest', 'a predictable but not unpleasant',
-        'a simple and functional',
-      ],
-      palate: [
-        'balanced sweetness and grain',
-        'good basic drinkability',
-        'solid oak and vanilla doing their job',
-        'easy warmth',
-        'consistent corn sweetness',
-        'predictable but pleasing from start to finish',
-        'a steady mid-palate without ambition or fault',
-        'clean and agreeable throughout',
-        'a reliable sweetness with mild spice',
-        'a pleasant mid-palate that doesn\'t surprise but doesn\'t disappoint',
-        'approachable warmth and decent balance',
-        'a competent sweetness over light oak',
-        'solid corn and vanilla that hold together well',
-        'a mid-palate that delivers exactly what the nose promises',
-        'comfortable warmth and familiar flavors',
-        'unchallenging but honestly pleasant',
-        'a tidy balance of grain and sweetness',
-        'nothing remarkable, nothing offensive — just a decent glass',
-        'good basic character without complexity',
-        'an agreeable mid-palate with mild spice and easy sweetness',
-      ],
-      finish: [
-        'a clean, satisfying close',
-        'a pleasant medium-length finish',
-        'a warm, tidy fade',
-        'an honest and unremarkable close that ends when it should',
-        'a brief warm finish with a light sweetness',
-        'a clean and inoffensive exit',
-        'a moderate fade with mild oak',
-        'finishes neatly and without drama',
-        'a warm and predictable close',
-        'a short to medium finish that doesn\'t overstay',
-        'a tidy, grain-forward exit',
-        'a clean, mild finish with a faint caramel note',
-        'a finish that wraps things up tidily',
-      ],
-      closers: [
-        'Worth keeping on the shelf.',
-        'A solid daily drinker.',
-        'Will satisfy without wowing anyone.',
-        'Honest and unpretentious.',
-        'A dependable option.',
-        'Gets the job done.',
-        'A solid regular pour.',
-        'Reliable enough to keep around.',
-        'An honest glass at an honest level.',
-        'Good for what it is.',
-        'Suitable for any occasion that doesn\'t call for something special.',
-        'A steady, trustworthy pour.',
-      ],
-    },
-    good: {
-      openers: [
-        'An impressive bottle.',
-        'Well worth seeking out.',
-        'Stands clearly above the crowd.',
-        'A genuinely enjoyable pour that earns its praise.',
-        'Hard to put down once it is open.',
-        'Makes its case confidently and backs it up.',
-        'Better than most of what surrounds it on the shelf.',
-        'A real find — this delivers.',
-        'This is what good bourbon is supposed to taste like.',
-        'A bottle that rewards every sip.',
-        'Genuinely above average in every meaningful way.',
-        'This one earns its reputation.',
-        'A well-made whiskey that announces itself clearly.',
-        'The kind of bottle that reminds you why you got into this.',
-        'An easy recommendation with nothing to apologize for.',
-        'This is a proper bottle.',
-        'More than the label promises — in a good way.',
-        'A confident and capable pour from start to finish.',
-        'A whiskey that holds your attention throughout.',
-        'One of the better things to come across at this tier.',
-        'A bottle with real quality behind it.',
-        'This one justifies the interest.',
-        'A serious sipper that delivers on every front.',
-        'Well above the median and knows it.',
-        'A bottle worth making room for.',
-        'A genuinely satisfying experience from first pour to last.',
-        'This is exactly what it should be.',
-      ],
-      nose:   [
-        'a rich and inviting', 'a complex and rewarding', 'a beautifully layered',
-        'an elegant and developed', 'a confident and deeply appealing', 'a genuinely compelling',
-        'a well-developed', 'an impressively layered', 'a characterful and inviting',
-        'a satisfyingly complex', 'a richly expressive', 'a well-structured',
-        'a notably fine', 'a full and inviting', 'a seriously good',
-        'an engaging and well-rounded', 'a polished and expressive',
-        'a well-integrated and appealing',
-      ],
-      palate: [
-        'excellent depth and balance',
-        'a rewarding interplay of sweetness and oak',
-        'complex fruit and spice working in harmony',
-        'remarkable texture for its tier',
-        'impressive layering that keeps revealing itself',
-        'well-integrated heat and sweetness from start to finish',
-        'a mid-palate that earns the price of admission on its own',
-        'a genuine complexity that builds with every sip',
-        'a beautifully balanced sweetness and spice',
-        'a confident and full mid-palate',
-        'layers that reward slow sipping',
-        'depth that becomes more apparent with attention',
-        'a well-constructed balance of oak, fruit, and grain',
-        'a palate that keeps giving throughout',
-        'a broad and satisfying complexity',
-        'a compelling interplay of sweetness, spice, and wood',
-        'a rich and rewarding drinking experience',
-        'a full mid-palate with real character',
-        'a textbook example of what this category can do',
-        'fruit, spice, and oak in genuine and satisfying harmony',
-        'a mid-palate that earns and keeps attention',
-      ],
-      finish: [
-        'a long and satisfying finish',
-        'a beautifully sustained close',
-        'a complex lingering fade that evolves',
-        'a finish that rewards patience — give it time',
-        'a warm and deeply rewarding exit',
-        'a finish that builds rather than fades',
-        'a long warm close with genuine complexity',
-        'a sustained and rewarding fade',
-        'a finish worth slowing down for',
-        'an extended and pleasantly complex close',
-        'a finish that leaves something to think about',
-        'a warm and lasting exit with real character',
-        'a finish that stays long after the glass is empty',
-        'a rewarding close that earns its length',
-        'a confident and satisfying exit',
-      ],
-      closers: [
-        'Highly recommended.',
-        'A bottle worth returning to.',
-        'A genuinely rewarding pour.',
-        'This one delivers.',
-        'A serious whiskey that earns its place.',
-        'Don\'t hesitate.',
-        'A bottle worth keeping stocked.',
-        'A reliable pour at a high level.',
-        'One of the better options in its class.',
-        'Buy it. You\'ll be glad you did.',
-        'A standout for the tier.',
-        'Earns and deserves its reputation.',
-      ],
-    },
-    excellent: {
-      openers: [
-        'A remarkable and significant find.',
-        'Among the very best in its class.',
-        'An exceptional whiskey by any serious measure.',
-        'Genuinely, meaningfully outstanding.',
-        'This is what the entire category aspires to be.',
-        'Unforgettable — one of those bottles.',
-        'One of the finest pours you are likely to encounter this year.',
-        'This is the one. The bottle you tell people about.',
-        'Exceptional quality that needs no qualification.',
-        'A bottle that raises the bar for everything around it.',
-        'Exceptional from the first nosing to the final sip.',
-        'The kind of whiskey that makes you want to call someone.',
-        'A serious, significant, extraordinary bottle.',
-        'There are very few things better than this.',
-        'Every element of this is working at the highest level.',
-        'This bottle is not a surprise. It is a revelation.',
-        'One of those pours where everything comes together.',
-        'The category at its very best — no qualifier needed.',
-        'An experience, not just a drink.',
-        'Exceptional in ways that only become clearer with the second glass.',
-        'This is what the good stuff is supposed to taste like.',
-        'A bottle that demands and rewards full attention.',
-        'Among the top tier by any standard.',
-        'An exceptional pour that speaks for itself.',
-        'One of the most impressive things to come across in this category.',
-        'A whiskey of genuine distinction.',
-        'The kind of bottle that changes a person\'s reference point.',
-      ],
-      nose:   [
-        'an extraordinary', 'a breathtaking', 'a profound and deeply complex',
-        'an awe-inspiring', 'a stunning and revelatory', 'a genuinely moving',
-        'an exceptional', 'a magnificent', 'an uncommonly beautiful',
-        'a remarkable and fully developed', 'a singularly impressive',
-        'a layered and breathtaking', 'an exceptional and deeply expressive',
-        'an outstanding', 'a profoundly satisfying', 'a genuinely rare',
-        'a near-perfect', 'an immaculately constructed',
-      ],
-      palate: [
-        'an unparalleled depth that justifies every dollar',
-        'a masterclass in balance and complexity',
-        'transcendent layering that keeps giving',
-        'unforgettable richness that sits with you',
-        'a once-in-many-bottles experience that changes the benchmark',
-        'everything working in perfect concert — nothing wasted, nothing missing',
-        'a depth of complexity that rewards every sip differently',
-        'a richness and balance that places this in rare company',
-        'an extraordinary mid-palate that feels almost architectural',
-        'a palate of exceptional quality at every level',
-        'complexity that unfolds deliberately and rewards patience',
-        'a palate that belongs in the conversation about the category\'s finest',
-        'a once-in-a-shelf-visit depth that stays with you',
-        'outstanding integration of fruit, wood, and heat',
-        'a palate that earns every superlative directed at it',
-        'a depth and balance that is genuinely exceptional',
-        'one of the finest mid-palates in its class',
-        'remarkable in ways that only become more apparent with time',
-      ],
-      finish: [
-        'an extraordinary and near-endless finish',
-        'a finish that evolves for long minutes after the sip',
-        'an exceptional close that lingers long after the glass is empty',
-        'a finish that pulls you back to the glass again and again',
-        'a sustained and deeply rewarding fade that earns genuine admiration',
-        'a finish of extraordinary length and quality',
-        'a close that develops and shifts for minutes afterward',
-        'a finish that makes every preceding sip worth it',
-        'an exceptional fade that gives and gives',
-        'a finish so good it reframes the entire tasting experience',
-        'a long and deeply satisfying close',
-        'a finish that demands a second pour simply to confirm it',
-        'a close of near-perfect length and character',
-        'a finish that raises the stakes for everything else on the shelf',
-      ],
-      closers: [
-        'An extraordinary bottle by any measure.',
-        'A collector\'s treasure.',
-        'This is the one to remember.',
-        'One of those rare pours that justifies the obsession.',
-        'Do not let this pass by.',
-        'An essential bottle.',
-        'One of the finest things available at this tier.',
-        'A bottle that earns the word exceptional.',
-        'The kind of pour that defines a year.',
-        'Buy it. Protect it. Share it carefully.',
-        'A whiskey that sets a new personal benchmark.',
-        'The serious whiskey drinker\'s serious whiskey.',
-      ],
-    },
-    perfect: {
-      openers: [
-        'A once-in-a-generation pour.',
-        'Transcendent. No other word applies.',
-        'There are genuinely no adequate words for this.',
-        'A whiskey that redefines what the spirit is capable of.',
-        'Perfection, or near enough that the difference is philosophical.',
-        'The kind of bottle people build entire cellars around the dream of finding.',
-        'This does not drink like a whiskey. It drinks like an argument that everything else needs to try harder.',
-        'You may not encounter this again. Act accordingly.',
-        'The summit. Nothing else comes this close.',
-        'The kind of bottle people describe years later with perfect recall.',
-        'There is before this pour and there is after it.',
-        'A whiskey that makes the entire category feel aspirational again.',
-        'This is why people collect. This is why patience matters. This is why.',
-        'An impossibly good whiskey.',
-        'A whiskey so complete it feels like a final statement.',
-        'Nothing in this category prepares you for this bottle.',
-        'The ceiling. Everything else is beneath it.',
-        'A pour that changes what you believe is possible from American whiskey.',
-        'There are no qualifications necessary and none possible.',
-        'The kind of bottle that ends the search — at least for a while.',
-        'A whiskey that does not negotiate. It simply is what it is, and what it is is perfect.',
-        'A singular experience that few drinkers will ever have.',
-        'This is what every distillery is trying to make.',
-        'Unrepeatable. Irreplaceable. Extraordinary.',
-      ],
-      nose:   [
-        'an impossibly perfect and singular', 'a once-in-a-lifetime',
-        'an unrepeatable and otherworldly', 'an utterly transcendent',
-        'a staggeringly beautiful', 'an absolutely flawless',
-        'a genuinely historic', 'a once-in-a-career',
-        'an incomprehensibly layered', 'a beyond-category',
-        'a peerless and singular', 'a truly and completely extraordinary',
-      ],
-      palate: [
-        'the very definition of what American whiskey can be at its absolute apex',
-        'something that exists entirely outside of normal frameworks of evaluation',
-        'a benchmark that other distilleries will spend decades attempting to approach',
-        'the absolute pinnacle of the craft — nothing wasted, nothing missing, everything extraordinary',
-        'a palate that redefines what the word complexity is allowed to mean',
-        'a depth and harmony so complete it feels like it was inevitable',
-        'a mid-palate that should be taught in schools and tasted in silence',
-        'a palate so perfect it makes everything else feel like practice',
-        'a drinking experience so complete it renders adjectives inadequate',
-        'the kind of palate that makes a person stop mid-sip and recalibrate their entire reference point',
-        'a convergence of quality so rare it borders on the miraculous',
-        'a palate of absolute and undeniable perfection',
-      ],
-      finish: [
-        'a finish measured not in seconds but in memory — it simply refuses to leave',
-        'the kind of finish that makes you reconsider everything that came before it in your whiskey life',
-        'a close so perfect and sustained that it feels like a genuine privilege to sit with',
-        'a finish you will describe to other people for years, and they will not quite believe you',
-        'a finish that seems to improve with every breath taken afterward',
-        'the kind of close that makes you hold the empty glass because setting it down feels wrong',
-        'a finish so sustained and so complex it constitutes its own separate experience',
-        'a close that other bottles gesture toward and never reach',
-        'a finish that still has something to say an hour later',
-        'a close that earns the word infinite without exaggeration',
-        'a finish that makes a strong argument for sitting still and doing nothing else for a long time',
-        'a close so extraordinary that finishing the glass feels both inevitable and like a loss',
-      ],
-      closers: [
-        'Acquire at any cost. Seriously.',
-        'One of the most important bottles you will ever have the occasion to open.',
-        'Do not share this with people who will not appreciate it.',
-        'A testament to what patience, craft, and a little luck can achieve.',
-        'If you find more of this, clear your schedule.',
-        'The most important bottle in the cellar, by definition.',
-        'Open it on a night worthy of it.',
-        'A bottle that earns and rewards every bit of reverence directed at it.',
-        'There is no better use for a glass.',
-        'The whiskey that other whiskeys are trying to be.',
-        'Document it. Remember it. Find another one.',
-        'If this is the best thing in your collection, your collection is exceptional.',
-        'The rarest kind of bottle — one that actually lives up to itself.',
-        'A whiskey worth arranging your evening around.',
-        'Nothing else needs to be said.',
+    high: {
+      positive: [
+        'luxurious', 'deep', 'velvety', 'rich', 'complex', 'layered',
+        'bold', 'elegant', 'refined', 'vibrant', 'lush', 'silky',
+        'powerful', 'extraordinary', 'profound', 'exceptional',
+        'immaculate', 'opulent', 'breathtaking', 'magnificent',
       ],
     },
   };
 
-  function getToneKey(rating) {
-    if (rating < 1.5) return 'terrible';
-    if (rating < 3.0) return 'poor';
-    if (rating < 5.0) return 'below';
-    if (rating < 6.5) return 'average';
-    if (rating < 8.0) return 'good';
-    if (rating < 9.25) return 'excellent';
-    return 'perfect';
-  }
-
-  // ── FRAME SYSTEM ─────────────────────────────────────────────
-  // frameKey is derived from rating quality × value sentiment.
-  // It drives HOW notes are expressed in sentences — separately from
-  // which flavor words are picked (that is still rating/rarity driven).
-  //
-  // Four frames:
-  //   'celebrate'  — good quality, good value: enthusiastic, earned praise
-  //   'forgiving'  — modest quality, good value: charitable, "for what it is"
-  //   'tempered'   — good quality, bad value: honest about quality, disappointed by price
-  //   'muted'      — modest quality, bad value: notes described as absent/flat/missing
-
-  function getFrameKey(toneKey, valueSentiment) {
-    const qualityGood = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
-    const qualityMid  = toneKey === 'average' || toneKey === 'below';
-    const qualityBad  = toneKey === 'terrible' || toneKey === 'poor';
-    // Very bad quality always gets muted/negative framing regardless of value
-    if (qualityBad) return 'muted';
-    if (valueSentiment === 'positive') return qualityGood ? 'celebrate' : 'forgiving';
-    if (valueSentiment === 'negative') return qualityGood ? 'tempered'  : 'muted';
-    // neutral value: good quality speaks for itself, mid quality gets honest framing
-    return qualityGood ? 'celebrate' : 'honest';
-  }
-
-  // FRAME phrase banks — used to wrap flavor notes in sentences
-  // Each has: nose_intro, palate_intro, finish_intro, note_wrapper (how a single note is contextualized)
-  const FRAME = {
-    celebrate: {
-      nose_intro: [
-        'The nose opens with', 'On the nose, there is', 'Right away the nose offers',
-        'The nose arrives with', 'Opening with', 'The nose leads confidently with',
-        'Immediately on the nose,', 'The nose presents', 'The nose announces itself with',
-        'On nosing, there is a clear', 'First impression from the nose is',
-        'The nose comes forward with', 'Step into the glass and the nose delivers',
-        'The nose is alive with', 'Right out of the glass, the nose brings',
-      ],
-      palate_intro: [
-        'The palate follows through with', 'On the palate,', 'The mid-palate delivers',
-        'In the glass,', 'The palate rewards with', 'The palate confirms what the nose promises —',
-        'On the palate, the delivery is', 'The mid-palate opens up with',
-        'The palate carries it forward beautifully with', 'The palate builds from there with',
-        'What follows on the palate is', 'The palate picks up and runs with',
-        'The drinking experience centers on', 'The palate steps up with',
-        'In the mouth, the palate delivers',
-      ],
-      finish_intro: [
-        'The finish is', 'It closes with', 'The close brings', 'The finish delivers',
-        'The finish rounds things out with', 'The exit is', 'Closing with',
-        'The finish wraps everything up with', 'The long close offers',
-        'The finish earns its length with', 'On the way out,',
-        'The finish opens into', 'Things wrap up beautifully with',
-        'Closing notes bring', 'The finish settles into',
-      ],
-      note_positive: [
-        '{note} — simple, but genuinely welcome here',
-        '{note}, which lands exactly as it should',
-        '{note} that earns its place without apology',
-        '{note}, present and doing its job well',
-        'a clean expression of {note}',
-        '{note} that is honest and satisfying',
-        '{note} that arrives and delivers fully',
-        '{note} that rewards the attention paid to it',
-        'a well-executed {note} that anchors the experience',
-        '{note} doing exactly what it is supposed to do',
-        '{note} — present, purposeful, and genuinely good',
-        'a confident {note} that belongs exactly where it is',
-        '{note}, precisely as it should be',
-        'a genuine and satisfying {note}',
-        '{note} that earns repeated sipping',
-        '{note} — the kind of note that justifies the pour',
-        'a beautifully integrated {note}',
-        'an honest and well-developed {note}',
-      ],
-    },
-    forgiving: {
-      nose_intro: [
-        'For what it is, the nose offers', 'The nose is simple but shows',
-        'Unpretentiously, the nose brings', 'The nose delivers a modest',
-        'Nothing complicated — just', 'The nose keeps things simple with',
-        'In a low-key way, the nose offers', 'The nose doesn\'t overreach — just',
-        'Appropriately modest, the nose presents', 'A simple but genuine nose with',
-        'The nose is what it is — honest and uncomplicated with',
-        'At this price, the nose delivers a genuine', 'The nose is direct:',
-        'Without pretense, the nose opens with', 'Simply and honestly, the nose shows',
-      ],
-      palate_intro: [
-        'The palate is straightforward with', 'Simply put, the palate offers',
-        'Honestly, the palate gives you', 'The palate keeps it basic —',
-        'There is nothing fancy here, just', 'The palate is what the price suggests:',
-        'Unpretentiously, the palate delivers', 'The palate is honest and simple with',
-        'Nothing more than expected, but genuinely,', 'The palate stays in its lane with',
-        'The palate does not overreach — just', 'In a simple and honest way, the palate shows',
-        'The palate delivers its modest promise of', 'For the money, the palate gives a genuine',
-        'A down-to-earth palate with',
-      ],
-      finish_intro: [
-        'The finish is brief but', 'It closes simply with', 'The finish is modest —',
-        'The close is short and', 'The finish wraps up simply with',
-        'The exit is brief and honest with', 'It doesn\'t linger, but closes with',
-        'The finish is appropriately short with', 'A clean and simple close with',
-        'The finish knows its limits — a brief', 'Modestly, it finishes with',
-        'The close is simple and honest:', 'It wraps up without fuss with',
-        'The finish, brief as it is, offers', 'Closes simply but genuinely with',
-      ],
-      note_positive: [
-        '{note} — simple, but welcomed at this price',
-        '{note} that doesn\'t try to be more than it is',
-        'a pleasant if uncomplicated {note}',
-        '{note}, which is exactly what you\'d hope for here',
-        '{note} — nothing more is needed',
-        'straightforward {note} that satisfies without demanding',
-        '{note} — honest, present, and appreciated',
-        'a modest but genuine {note}',
-        '{note} that punches above the price in a quiet way',
-        '{note} that is simple and entirely welcome',
-        'a no-nonsense {note} that does its job',
-        '{note} that earns more credit than the price would suggest',
-        'an unassuming but real {note}',
-        '{note} — exactly as expected and appreciated for it',
-        'a solid if simple {note} that belongs here',
-        '{note} that delivers more than it promises',
-        'a clean and genuine {note} at a fair price',
-        'a pleasant {note} that outperforms the asking price',
-      ],
-    },
-    tempered: {
-      nose_intro: [
-        'The nose, to its credit, offers', 'Technically, the nose presents',
-        'The nose shows genuine', 'There is real quality in the nose —',
-        'In the glass, the nose does offer', 'The nose, it must be said, is genuinely good with',
-        'Whatever the price problems, the nose delivers', 'To be fair, the nose is genuinely capable:',
-        'Putting the price aside for a moment, the nose brings',
-        'The nose — and this part earns its praise —', 'In isolation, the nose shows real quality with',
-        'The nose performs well, offering', 'On its own terms, the nose presents',
-        'The nose has no problems — it offers', 'To the nose\'s considerable credit,',
-      ],
-      palate_intro: [
-        'The palate is genuinely capable, delivering', 'To be fair, the palate offers',
-        'The whiskey itself delivers', 'In isolation, the palate shows',
-        'The quality is there on the palate —', 'The palate does its job genuinely well with',
-        'Setting aside the price, the palate gives', 'The spirit itself earns credit for',
-        'In the glass, the quality is undeniable —', 'Whatever the value case, the palate brings',
-        'The palate, to its credit, offers', 'On the palate at least,',
-        'The whiskey itself is doing everything right with', 'Honestly, the palate delivers genuine',
-        'The quality on the palate is hard to argue with —',
-      ],
-      finish_intro: [
-        'The finish is legitimately good —', 'The close, at least, delivers',
-        'The finish does its job —', 'To the spirit\'s credit, it finishes with',
-        'The finish earns real praise —', 'In terms of finish, this delivers genuine',
-        'The close is one area where this earns its price — a', 'The finish is not the problem — it offers',
-        'The exit is genuinely well-done with', 'The finish performs at a high level:',
-        'Whatever else is true, the finish offers', 'The close, which is legitimately impressive,',
-        'The finish is good — credit where it\'s due —', 'At the close, the quality shows:',
-        'The finish earns honest admiration with',
-      ],
-      note_positive: [
-        '{note} that is genuinely well-done, if not well-priced',
-        'a capable {note} that deserves acknowledgment',
-        '{note} — this part, at least, earns respect',
-        'real {note} that makes the price sting more, not less',
-        '{note} of legitimate quality',
-        '{note} — and there is no question the quality is there',
-        'a genuinely impressive {note} that the price doesn\'t reflect',
-        '{note} that earns credit even when the price doesn\'t',
-        'an undeniably good {note}',
-        '{note} — this is the part that makes the price so frustrating',
-        'real quality in the {note}',
-        '{note} that is better than the value proposition suggests',
-        'a well-executed {note} that deserves better pricing',
-        '{note} that delivers — it\'s the price that doesn\'t',
-        'a genuinely good {note} that makes the overall case harder to dismiss',
-        '{note} of real quality — the price is the only problem',
-        'a fine {note} that raises the stakes on the pricing argument',
-        '{note} that confirms the quality and sharpens the value frustration',
-      ],
-    },
-    muted: {
-      nose_intro: [
-        'What should be on the nose is mostly absent —',
-        'The nose promises', 'On paper, the nose should offer',
-        'There is a suggestion of', 'The nose gestures vaguely toward',
-        'The nose hints weakly at', 'What passes for a nose here is a thin gesture toward',
-        'In theory, the nose should present', 'The nose reaches for',
-        'A faint and unconvincing nose suggests', 'The nose barely registers',
-        'One might expect the nose to offer — but what actually appears is a pale shadow of',
-        'The nose is present in name only, showing',
-        'A reluctant nose offers little more than a suggestion of',
-        'Whatever the nose is reaching for, it only partly finds',
-      ],
-      palate_intro: [
-        'The palate falls well short of', 'What should be a palate of',
-        'The expected', 'There are traces of what might be',
-        'The palate hints at', 'What arrives on the palate is a flat version of',
-        'The palate reaches for but doesn\'t quite find',
-        'In place of a real palate, there is only a faint trace of',
-        'The palate offers a muted and unconvincing version of',
-        'What should open up on the palate is mostly absent —',
-        'The expected complexity fails to arrive, leaving only',
-        'A mid-palate that barely registers — just traces of',
-        'The palate promises and underdelivers with',
-        'Where depth should be, there is instead a flat suggestion of',
-        'The palate struggles to produce what should be',
-      ],
-      finish_intro: [
-        'The finish barely registers —', 'What passes for a finish here is',
-        'The close disappoints with', 'The finish, such as it is, offers',
-        'The finish fades quickly into', 'The close is thin and unconvincing —',
-        'What should be a finish is instead', 'The finish barely arrives before disappearing into',
-        'The exit is brief and forgettable:', 'The finish, to put it charitably, offers',
-        'A thin and unsatisfying finish brings', 'The close fails to arrive with anything better than',
-        'The finish gives up early with only', 'What little finish exists offers',
-        'The close underperforms, offering little more than',
-      ],
-      note_positive: [
-        '{note} that never fully arrives',
-        'a muted suggestion of {note} that doesn\'t follow through',
-        '{note} in theory, but flat in practice',
-        'the ghost of {note}',
-        '{note} promised but not delivered',
-        'traces of {note} that disappear before making an impression',
-        'a faint and unconvincing {note}',
-        '{note} that shows up briefly and contributes nothing',
-        'something that wants to be {note} but isn\'t quite',
-        'a pale and underdeveloped {note}',
-        '{note} at a fraction of the expected intensity',
-        'the idea of {note} without the reality',
-        'a thin and unsatisfying {note}',
-        '{note} so muted it barely qualifies',
-        'an absent {note} — present on the label, missing in the glass',
-        '{note} that flickers and fades before registering',
-        'a weak and forgettable {note}',
-        'a halfhearted {note} that disappoints on contact',
-      ],
-    },
-    honest: {
-      nose_intro: [
-        'The nose offers', 'On the nose,', 'The nose is', 'The nose brings',
-        'Opening with', 'The nose presents', 'On nosing,', 'The nose shows',
-        'The nose comes with', 'There is', 'First, the nose:',
-        'The nose opens on', 'The nose is characterized by',
-        'A nose of', 'On the nose, the primary note is',
-      ],
-      palate_intro: [
-        'On the palate,', 'The palate delivers', 'The mid-palate shows',
-        'In the glass,', 'The palate brings', 'The palate gives',
-        'The mid-palate offers', 'Palate-wise,', 'In the mouth,',
-        'The drinking experience brings', 'The palate is characterized by',
-        'The palate centers on', 'The mid-palate is defined by',
-        'On the palate, the main note is', 'What the palate delivers is',
-      ],
-      finish_intro: [
-        'The finish is', 'It closes with', 'The finish brings',
-        'The close offers', 'The exit is', 'Closing with',
-        'The finish wraps up with', 'On the way out,',
-        'The finish delivers', 'The close is', 'It finishes with',
-        'The exit brings', 'Finishing with', 'The close centers on',
-        'The finish comes down to',
-      ],
-      note_positive: [
-        '{note}',
-        'a recognizable {note}',
-        '{note} that does what it should',
-        'straightforward {note}',
-        'a clear {note}',
-        '{note}, present and accounted for',
-        'an honest {note}',
-        '{note} — nothing more, nothing less',
-        'a functional {note}',
-        '{note} as expected',
-        'a workmanlike {note}',
-        '{note} that delivers without fanfare',
-      ],
-    },
+  // ── OVERALL QUALITY SENTENCES ─────────────────────────────────
+  const QUALITY_SENTENCES = {
+    low: [
+      'Difficult to recommend.',
+      'Falls well short of the mark.',
+      'A bottle without a compelling reason to revisit.',
+      'Not a successful pour by any measure.',
+      'Struggles to justify a second glass.',
+      'A significant disappointment from start to finish.',
+      'Hard to find a reason to seek this out.',
+      'A bottle that raises more questions than it answers.',
+      'Does not deliver on the basics.',
+      'Among the less compelling options in its class.',
+    ],
+    mid: [
+      'A serviceable everyday pour.',
+      'Gets the job done without distinction.',
+      'Dependable if unremarkable.',
+      'Solid enough to keep around.',
+      'A competent bottle at its level.',
+      'An honest pour with no real surprises.',
+      'Nothing to seek out, nothing to avoid.',
+      'Does what it promises and stops there.',
+      'A reliable if unexciting choice.',
+      'A functional daily drinker.',
+      'Consistent and unpretentious.',
+      'Earns its place on the shelf without demanding attention.',
+    ],
+    high: [
+      'A genuinely impressive bottle.',
+      'Well worth seeking out.',
+      'A serious whiskey that earns every bit of praise.',
+      'Stands well above the median.',
+      'A bottle worth returning to.',
+      'Among the better things available at this tier.',
+      'Hard to put down once it is open.',
+      'A rewarding pour from start to finish.',
+      'One of the more compelling bottles in its class.',
+      'Delivers at a high level throughout.',
+      'An excellent representative of the category.',
+      'A pour that rewards the attention given to it.',
+      'This one earns the hype.',
+    ],
   };
 
-  // Map rarity + proof + rating to flavor descriptor tier
+  // ── DESCRIPTOR TIER MAPPING ───────────────────────────────────
   function getTier(rarity, proof, rating) {
     if (rating < 3.0) return 'flawed';
     if (rating >= 9.25) return 'transcendent';
@@ -2317,256 +1297,81 @@ window.DB = (function () {
     return 'exotic';
   }
 
-  const DETAIL_DEPTH = { common:1, uncommon:2, rare:2, epic:3, legendary:3 };
-
+  // ── GENERATE DESCRIPTION ──────────────────────────────────────
   function generateDescription(rarity, proof, processMod, ageMod, rating, msrp) {
-    // ── Step 1: resolve value first — it drives framing ──────────
-    const valueResult   = getValueComment(rating, rarity, msrp);
-    const valueSuffix   = valueResult.text ? ' ' + valueResult.text : '';
-    const isNegativeValue = valueResult.sentiment === 'negative';
+    const valueResult = getValueComment(rating, rarity, msrp);
+    const tier        = getRatingTier(rating);
+    const flavorTier  = getTier(rarity, proof, rating);
+    const nTier       = (proof >= 110 && flavorTier === 'mid') ? 'rich' : flavorTier;
 
-    // ── Step 2: derive structural keys ───────────────────────────
-    const flavorTier = getTier(rarity, proof, rating);
-    const depth      = DETAIL_DEPTH[rarity];
-    const toneKey    = getToneKey(rating);
-    const tone       = TONE[toneKey];
-    const frameKey   = getFrameKey(toneKey, valueResult.sentiment);
-    const frame      = FRAME[frameKey];
-
-    // Nose tier: allow a bump at high proof in mid tier
-    const nTier = (proof >= 110 && flavorTier === 'mid') ? 'rich' : flavorTier;
-
-    // ── Step 3: pick flavor words ─────────────────────────────────
-    const nose   = pick(NOSE[nTier]);
-    const palate = pick(PALATE[flavorTier]);
-    const finish = pick(FINISH[flavorTier]);
-    const body   = pick(BODY_WORDS[flavorTier] || BODY_WORDS.mid);
-
-    let palate2 = pick(PALATE[flavorTier]);
-    let att = 0;
-    while (palate2 === palate && att++ < 10) palate2 = pick(PALATE[flavorTier]);
-
-    let nose2 = pick(NOSE[nTier]);
-    att = 0;
-    while (nose2 === nose && att++ < 10) nose2 = pick(NOSE[nTier]);
-
-    // ── Step 4: build framed note sentences ──────────────────────
-    // For terrible/poor tones the TONE nose/palate/finish framings are used directly
-    // (they're already harsh enough). For everything else, FRAME drives the sentence.
-    const useToneFraming = toneKey === 'terrible' || toneKey === 'poor';
-
-    const noseIntro   = useToneFraming ? pick(tone.nose)   : pick(frame.nose_intro);
-    const palateIntro = useToneFraming ? pick(tone.palate) : pick(frame.palate_intro);
-    const finishIntro = useToneFraming ? pick(tone.finish) : pick(frame.finish_intro);
-
-    // Wrap individual notes through the frame's note_positive template
-    function wrapNote(n) {
-      if (useToneFraming) return n;
-      return pick(frame.note_positive).replace('{note}', n);
+    // How many descriptors to show: 1–4, weighted toward 2–3
+    function descriptorCount() {
+      const r = Math.random();
+      if (r < 0.10) return 1;
+      if (r < 0.45) return 2;
+      if (r < 0.85) return 3;
+      return 4;
     }
 
-    const noseWrapped   = wrapNote(nose);
-    const nose2Wrapped  = wrapNote(nose2);
-    const palateWrapped = wrapNote(palate);
-    const palate2Wrapped = wrapNote(palate2);
-
-    // ── Step 5: tone opener and closer ───────────────────────────
-    const opener = pick(tone.openers);
-    const closer = pick(tone.closers);
-
-    const good    = toneKey === 'good' || toneKey === 'excellent' || toneKey === 'perfect';
-    const bad     = toneKey === 'terrible' || toneKey === 'poor';
-    const mediocre = toneKey === 'below' || toneKey === 'average';
-
-    // ── Step 6: modifier notes ────────────────────────────────────
-    let modNote = '';
-    if (processMod) {
-      const k = processMod.key;
-      if (k === 'Single Barrel') {
-        modNote = good     ? 'Single barrel character shines through with real distinction here. '
-                : bad      ? 'The single barrel variance exposes flaws rather than flattering them. '
-                : frameKey === 'forgiving' ? pick([
-                    'Single barrel individuality comes through — modest, but genuinely its own. ',
-                    'This barrel has a character of its own, for better and for worse. ',
-                    'Single barrel variation is part of the charm here, even if the results are simple. ',
-                  ])
-                : frameKey === 'muted' ? pick([
-                    'Single barrel bottling does nothing to distinguish this one. ',
-                    'Whatever made this barrel individual, it doesn\'t show up as quality. ',
-                    'The single barrel variance is evident — unfortunately, not in a useful direction. ',
-                  ])
-                : frameKey === 'tempered' ? pick([
-                    'Single barrel character is present and real — just not at the right price. ',
-                    'The individual barrel character is genuinely good. The price is not. ',
-                  ])
-                : 'Single barrel character gives this a distinctive edge. ';
-      }
-      if (k === 'Small Batch') {
-        modNote = good     ? 'Small batch blending achieves an impressive and cohesive harmony. '
-                : bad      ? 'The small batch blend never finds its footing. '
-                : frameKey === 'forgiving' ? pick([
-                    'Small batch blending keeps things consistent and easy. ',
-                    'The blend is tidy and agreeable for the price. ',
-                  ])
-                : frameKey === 'muted' ? pick([
-                    'Small batch blending evens things out without improving them. ',
-                    'The blend is consistent, though consistently underwhelming. ',
-                    'Whatever the batching achieved, it didn\'t achieve enough. ',
-                  ])
-                : frameKey === 'tempered' ? pick([
-                    'The small batch harmony is real — the value case is not. ',
-                    'A well-blended small batch that costs more than it should. ',
-                  ])
-                : 'Small batch blending adds a layer of consistency. ';
-      }
-      if (k === 'Bottled-in-Bond') {
-        modNote = good     ? 'The bonded bottling lends this honest, well-structured authority. '
-                : bad      ? 'Even the bonded bottling standard cannot rescue the base distillate. '
-                : frameKey === 'forgiving' ? pick([
-                    'Bottled-in-bond standards provide a reliable foundation here. ',
-                    'The bonded credential means something, and it shows at this price. ',
-                  ])
-                : frameKey === 'muted' ? pick([
-                    'Bonded credentials on paper, middling results in the glass. ',
-                    'Meeting the bonded standard is the most interesting thing about this bottle. ',
-                    'The bonded process is respected; the base spirit did not return the favor. ',
-                  ])
-                : frameKey === 'tempered' ? pick([
-                    'Bonded integrity is present and real — the price just isn\'t justified by what surrounds it. ',
-                    'The bonded structure is legitimately good. The shelf price is not. ',
-                  ])
-                : 'Bottled-in-bond discipline is evident throughout. ';
-      }
-      if (k === 'Full Proof') {
-        modNote = good     ? 'Bottled at full barrel proof, this rewards with undiluted authority and honesty. '
-                : bad      ? 'The uncut proof amplifies every flaw rather than hiding them. '
-                : frameKey === 'forgiving' ? pick([
-                    'Full proof bottling adds honesty and a bit of extra heat for the price. ',
-                    'At barrel strength, you get everything this has to offer — it\'s a fair deal. ',
-                  ])
-                : frameKey === 'muted' ? pick([
-                    'Full proof bottling means nothing is hidden — including the shortcomings. ',
-                    'At barrel strength, there is nowhere to hide, and this has too much to hide. ',
-                    'The uncut proof reveals more problems than it solves. ',
-                  ])
-                : frameKey === 'tempered' ? pick([
-                    'At full proof, the quality is undeniable — the price is harder to forgive. ',
-                    'Full proof honesty reveals a genuinely good spirit asking too much for it. ',
-                  ])
-                : 'Bottled at full barrel proof — nothing held back. ';
-      }
-      if (k === 'Double Oaked') {
-        modNote = good     ? 'The double oaking has contributed remarkable structural depth and complexity. '
-                : bad      ? 'The second barrel has over-extracted badly, leaving bitterness in place of depth. '
-                : frameKey === 'forgiving' ? pick([
-                    'Double oaking adds a pleasant extra layer of oak for the money. ',
-                    'The second barrel brings a little more wood influence, and at this price, that\'s welcome. ',
-                  ])
-                : frameKey === 'muted' ? pick([
-                    'Double oaking doesn\'t seem to add much that the base spirit couldn\'t have done without. ',
-                    'A second barrel, though the added oak influence is underwhelming at best. ',
-                    'The double oak treatment is detectable but doesn\'t lift this meaningfully. ',
-                  ])
-                : frameKey === 'tempered' ? pick([
-                    'The double oak complexity is real and genuinely impressive — the price just isn\'t. ',
-                    'Second barrel depth is present and earned; second-tier pricing is not. ',
-                  ])
-                : 'A second barrel maturation doubles the oak influence throughout. ';
-      }
-      if (k === 'French Oaked') {
-        modNote = good     ? 'French oak finishing has introduced a quietly sophisticated, exotic elegance. '
-                : bad      ? 'The French oak influence feels mismatched and out of place here. '
-                : frameKey === 'forgiving' ? pick([
-                    'French oak finishing adds a subtle twist that makes this a bit more interesting for the price. ',
-                    'The French oak touch is a pleasant surprise at this price point. ',
-                  ])
-                : frameKey === 'muted' ? pick([
-                    'French oak finishing is listed on the label; finding it in the glass is another matter. ',
-                    'The French oak influence is subtle to the point of being nearly undetectable. ',
-                    'An interesting finishing choice that doesn\'t justify itself in the glass or on the price tag. ',
-                  ])
-                : frameKey === 'tempered' ? pick([
-                    'The French oak elegance is legitimately present — but legitimacy costs extra here. ',
-                    'A genuinely distinctive French oak character undermined by a price that asks too much. ',
-                  ])
-                : 'French oak finishing contributes a subtle and distinct elegance. ';
-      }
+    // Pick N unique items from an array
+    function pickN(arr, n) {
+      const shuffled = [...arr].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, Math.min(n, shuffled.length));
     }
 
-    // ── Step 7: age notes ─────────────────────────────────────────
-    let ageNote = '';
-    if (ageMod) {
-      const y = ageMod.years;
-      if (toneKey === 'perfect' || toneKey === 'excellent') {
-        ageNote = y >= 12
-          ? `${y} years of patient maturation have rewarded this spirit with extraordinary depth. `
-          : `${y} years has given this spirit a genuine and admirable polish. `;
-      } else if (toneKey === 'good') {
-        ageNote = y >= 12
-          ? `${y} years of careful aging have clearly paid off. `
-          : `${y} years of oak integration have rounded this out nicely. `;
-      } else if (bad) {
-        ageNote = y >= 12
-          ? `Despite ${y} years in barrel, time has not tamed its considerable rough edges. `
-          : `${y} years was not enough to bring this into proper shape. `;
-      } else if (frameKey === 'forgiving') {
-        ageNote = pick(y >= 12 ? [
-          `${y} years of aging that show in the glass — honestly more than expected at this price. `,
-          `${y} years of patience, and you can taste it. Simple, but earned. `,
-          `${y} years of maturation that genuinely contribute something at this price point. `,
-        ] : [
-          `${y} years of aging add a touch of character that punches above the price. `,
-          `${y} years in wood that does exactly what you'd hope for the money. `,
-        ]);
-      } else if (frameKey === 'muted') {
-        ageNote = pick(y >= 12 ? [
-          `${y} years of aging are largely invisible here. `,
-          `${y} years in barrel and the results are surprisingly modest. `,
-          `Time has been spent — ${y} years of it — without much to show for it in the glass. `,
-          `${y} years of maturation that neither elevates nor defines this spirit. `,
-        ] : [
-          `${y} years of aging doesn't seem to have done this any particular favors. `,
-          `${y} years in wood, though the oak influence is unremarkable at best. `,
-          `${y} years that mellowed things without adding much of interest. `,
-        ]);
-      } else if (frameKey === 'tempered') {
-        ageNote = pick(y >= 12 ? [
-          `${y} years of maturation that genuinely show — this is not where the value problem lies. `,
-          `The ${y} years are evident in the glass. The price tag is where the argument falls apart. `,
-        ] : [
-          `${y} years that contribute real character, even if the price overstates it overall. `,
-          `Oak integration from ${y} years of aging is one of the better things going on here. `,
-        ]);
-      } else {
-        ageNote = y >= 12
-          ? `${y} years of patience are evident in every sip. `
-          : `${y} years of oak integration have mellowed the spirit. `;
+    // Build a descriptor list for one section (nose or palate)
+    // Returns an array of display strings
+    function buildDescriptors(pool) {
+      const count = descriptorCount();
+      const base  = pickN(pool, count);
+
+      if (tier === 'low') {
+        // Always prepend a negative qualifier to at least one, sometimes more
+        const negs = QUALIFIERS.low.negative;
+        return base.map((d, i) => {
+          // First descriptor always gets a negative qualifier
+          // Additional ones get one ~50% of the time
+          if (i === 0 || Math.random() < 0.5) {
+            return pick(negs) + ' ' + d;
+          }
+          return d;
+        });
       }
+
+      if (tier === 'mid') {
+        // Apply qualifier to at most one descriptor, ~40% of the time
+        const useQual = Math.random() < 0.40;
+        const qualIdx = useQual ? Math.floor(Math.random() * base.length) : -1;
+        return base.map((d, i) => {
+          if (i !== qualIdx) return d;
+          // 30% chance of a negative qualifier, 70% positive
+          if (Math.random() < 0.30) return pick(QUALIFIERS.mid.negative) + ' ' + d;
+          return pick(QUALIFIERS.mid.positive) + ' ' + d;
+        });
+      }
+
+      // High tier: prepend positive qualifier to all descriptors
+      return base.map(d => pick(QUALIFIERS.high.positive) + ' ' + d);
     }
 
-    // ── Step 8: opener / closer — suppress on negative value ─────
-    const NEUTRAL_OPENERS_BAD_VALUE = [
-      'Decent enough in the glass.',
-      'The whiskey itself is drinkable.',
-      'Not without merit as a spirit.',
-      'There is something here, just not enough.',
-      'Competent at what it does.',
-      'Technically a functional pour.',
-    ];
-    const effectiveOpener = isNegativeValue ? pick(NEUTRAL_OPENERS_BAD_VALUE) : opener;
-    const effectiveCloser = isNegativeValue ? '' : closer + ' ';
+    const noseDescriptors   = buildDescriptors(NOSE[nTier]);
+    const palateDescriptors = buildDescriptors(PALATE[flavorTier]);
 
-    // ── Step 9: assemble by depth ─────────────────────────────────
-    const finishCap = finishIntro[0].toUpperCase() + finishIntro.slice(1);
+    // Format as comma-separated lists
+    const noseStr   = noseDescriptors.join(', ');
+    const palateStr = palateDescriptors.join(', ');
 
-    if (depth === 1) {
-      return `${effectiveOpener} A ${body} pour. ${noseIntro} ${noseWrapped}. ${finishCap} ${finish}.${valueSuffix}`;
-    }
-    if (depth === 2) {
-      return `${effectiveOpener} ${modNote}${ageNote}${noseIntro} ${noseWrapped}. ${palateIntro} ${palateWrapped}. ${finishCap} ${finish}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
-    }
-    // depth 3
-    return `${effectiveOpener} ${modNote}${ageNote}${noseIntro} ${noseWrapped} and ${nose2Wrapped}. ${palateIntro} ${palateWrapped} and ${palate2Wrapped}. ${finishCap} ${finish}. ${effectiveCloser}${valueSuffix}`.trimEnd().replace(/\s{2,}/g, ' ');
+    // Quality sentence
+    const qualitySentence = pick(QUALITY_SENTENCES[tier]);
+
+    // Value sentence (may be empty string for neutral)
+    const valueSentence = valueResult.text || '';
+
+    // Compose final string
+    const tagLine  = `NOSE: ${noseStr} · PALATE: ${palateStr}`;
+    const trailing = [qualitySentence, valueSentence].filter(Boolean).join(' ');
+
+    return `${tagLine}\n${trailing}`;
   }
 
   // ── STAR RATING GENERATOR (0–10 scale) ───────────────────────
